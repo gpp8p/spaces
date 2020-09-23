@@ -49,6 +49,7 @@
 //                debugger;
         switch(msg){
           case 'Edit':{
+            debugger;
             this.$router.push({
               name: 'edit',
               params: { layoutId: this.$store.getters.getCurrentLayoutId }
