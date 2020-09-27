@@ -1,36 +1,50 @@
 <template>
-    <div v-bind:style="gridParamDefinition" class="gridSection">
-        <generic-card
-                v-for="(instance, index) in cardInstances"
-                :key="index"
-                :cardType="instance.card_component"
-                :card-style="instance.card_parameters.style"
-                :card-id="instance.id"
-                :card-key="index"
-                :card-position="instance.card_position"
-                :gridCss="gridParamDefinition"
-                :cardProperties="instance.card_parameters.properties"
-                :displayStatus="displayStatus"
-                @storeValue="processClick"
-                @cardClick="cardClick"
-                @textEditor="textEditor"
-                @configurationHasBeenSaved="configurationHasBeenSaved"
-                @cardDataLoaded="cardDataLoaded"
-                @linkHelperRequested="linkHelperRequested"
-                ref="key"
-        ></generic-card>
-        <Dialog ref='conf' :newCard='newCardBeingAdded' @menuSelection="dialogMenuSelected"></Dialog>
-        <green-card-config-dialog ref="confDlg" @menuSelection="dialogMenuSelected"></green-card-config-dialog>
+    <span>
 
-    </div>
+             <div v-bind:style="gridParamDefinition" >
+                        <generic-card
+                                v-for="(instance, index) in cardInstances"
+                                :key="index"
+                                :cardType="instance.card_component"
+                                :card-style="instance.card_parameters.style"
+                                :card-id="instance.id"
+                                :card-key="index"
+                                :card-position="instance.card_position"
+                                :gridCss="gridParamDefinition"
+                                :cardProperties="instance.card_parameters.properties"
+                                :displayStatus="displayStatus"
+                                @storeValue="processClick"
+                                @cardClick="cardClick"
+                                @textEditor="textEditor"
+                                @configurationHasBeenSaved="configurationHasBeenSaved"
+                                @cardDataLoaded="cardDataLoaded"
+                                @linkHelperRequested="linkHelperRequested"
+                                ref="key"
+                        ></generic-card>
+
+              </div>
+
+
+        <Dialog v-if="this.dialogType>0"
+                :dialog-type="dialogType"
+                :key="dialogKey"
+                @dragStart="dragStart"
+                @moved="dialogMoved"
+                @configSelected = "configSelected"
+                v-bind:style='this.styleObject'
+        ></Dialog>
+
+    </span>
+
 </template>
 
 <script>
     import axios from "axios";
     import genericCard from '../components/genericCard.vue';
+    import Dialog from "../components/Dialog.vue";
     export default {
         name: "editLayout",
-        components:{genericCard},
+        components:{Dialog, genericCard},
         data(){
             return {
                 cardInstances: [],
@@ -40,9 +54,20 @@
                 unSelectedColor: 'rgb(219, 170, 110)',
                 layoutConfigurationValues: {},
                 LayoutPermissions:{},
+
+                dialogType:0,
+                DIALOG_CONFIGURE_GREEN_CARD:1,
+                DIALOG_CONFIGURE_TEXT_CARD:2,
+
                 displayStatus:true,
-                openDialog:false,
-                dialog: false,
+                dialogKey:0,
+                dragStartX:0,
+                dragStartY:0,
+                styleObject: {
+                    top: '-600px',
+                    left: '400px',
+                },
+
 
 
                 newCardBeingAdded:false,
@@ -75,7 +100,7 @@
         },
 
         mounted(){
-            debugger;
+//            debugger;
             this.reloadLayout(this.$route.params.layoutId);
             this.displayStatus=false;
             this.$eventHub.$emit('editStatusChanged',['openEdit',0]);
@@ -101,10 +126,48 @@
                     ";";
                 return gridCss;
             },
+            configSelected(msg){
+                switch(msg[0]){
+                    case 'cancel':{
+                        this.dialogType=0;
+                        break;
+                    }
+                }
+            },
+            dragStart(msg){
+                debugger;
+                this.dragStartX=msg[1];
+                this.dragStartY=msg[0];
+                console.log('dragStart-',this.dragStartX,this.dragStartY );
+            },
+            dialogMoved(msg){
+              console.log('dragEnd',msg);
+              var leftDelta = msg[1]-this.dragStartY;
+              var topDelta= msg[0]-this.dragStartX;
+              console.log('deltas:',topDelta, leftDelta);
+              var newTop = parseInt(this.styleObject.top)+topDelta;
+              var newLeft = parseInt(this.styleObject.left)+leftDelta;
+              console.log('new values', newTop, newLeft);
+
+              this.styleObject.top = newTop+'px';
+              this.styleObject.left = newLeft+'px';
+
+              console.log(topDelta, leftDelta);
+
+  //            this.styleObject.left = msg[1].toString()+'px';
+              console.log(msg);
+              this.dialogKey=this.dialogKey+1;
+
+            },
             cardClick(msg){
               console.log('cardClick', msg);
-              this.openDialog=true;
-              this.$refs.confDlg.oDialog();
+              switch(msg[0][2]){
+                  case 'greenComponent':{
+                      this.dialogType=this.DIALOG_CONFIGURE_GREEN_CARD;
+                      this.$emit("layoutChanged");
+                      break;
+                  }
+              }
             },
             reloadLayout: function (layoutId) {
 //                debugger;
@@ -405,5 +468,7 @@
 </script>
 
 <style scoped>
+
+
 
 </style>

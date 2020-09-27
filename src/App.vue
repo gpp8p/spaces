@@ -112,16 +112,17 @@
 </script>
 
 <style scoped>
+
+  .layoutScreen {
+    position: fixed;
+  }
   section {
 
-    padding: 0 0%;
-    display: table;
-    margin: 0;
-    height: 98vh;
+      padding: 0 0%;
+      display: table;
+      margin: 0;
 
-  }
-  .layoutScreen {
-    position: relative;
+
   }
   .content {
     margin-left: 2%;
@@ -133,13 +134,13 @@
     border-width: 2px;
     border-style: solid;
     border-color: #0a3aff;
-    padding-top: 16px;
+    padding-top: 8px;
     padding-left: 5px;
   }
   .navbar {
     margin-left: 2%;
     background-color: #ffcd90;
-    height:8vh;
+    height:7vh;
     width:97vw;
     border-radius: 4px;
     border-width: 2px;

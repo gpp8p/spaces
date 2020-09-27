@@ -1,0 +1,110 @@
+<template>
+    <div class="dialogComponent" ref="drg"  draggable="true"  @dragstart="handleDragStart"   @dragend="handleDragEnd" >
+        <div class="dialogComponentHeader">
+            <span class="headingText">Sample Dialog Component</span>
+        </div>
+        <br/>
+
+        <div class="dialogComponentBody">
+
+        </div>
+        <div class="dialogComponentFooter">
+            <a href="#" class="linkStyle" v-on:click="saveClicked" >Save</a>
+            <a href="#" class="linkStyle" v-on:click="cancelClicked" >Cancel</a>
+        </div>
+    </div>
+
+</template>
+
+<script>
+    export default {
+        name: "Dialog",
+        props:{
+            dialogType:{
+                type: Number,
+                required: true
+            }
+        },
+        methods: {
+            cancelClicked(){
+                this.$emit('configSelected',['cancel']);
+            },
+            saveClicked(){
+                //        debugger;
+                this.$emit('saveNewCard', [this.name, this.type]);
+            },
+            handleDragStart(evt){
+//                debugger;
+                this.$emit('dragStart',[evt.screenX, evt.screenY])
+            },
+
+            handleDragEnd(evt){
+                this.lastMouseX = evt.screenX;
+                this.lastMouseY = evt.screenY;
+                this.$emit('moved', [evt.screenY , evt.screenX]);
+            }
+        },
+
+
+        data(){
+            return {
+                styleObject: {
+                    top: '-600px',
+                    left: '400px'
+                },
+                lastMouseX:0,
+                lastMouseY:0
+
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    .dialogComponent {
+        height:250px;
+        width:500px;
+        position: relative;
+        background-color: #ab97ff;
+        border: 2px solid blue;
+        border-radius: 8px;
+        box-shadow: 10px 10px 5px grey;
+    }
+    .dialogComponentHeader {
+        height:10%;
+        background-color: #fff722;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        text-align: center;
+        color: blue;
+        font-family: Geneva;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: bold;
+    }
+    .headingText{
+        margin-top: 5px;
+    }
+    .dialogComponentBody {
+        height: 72%;
+        margin-left: 10px;
+        margin-right: 10px;
+        display: grid;
+        grid-template-columns: 30% 70%;
+        grid-template-rows: 15% 15% 15% 15%
+
+
+    }
+    .dialogComponentFooter {
+        height: 10%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .linkStyle{
+        font-family: Arial;
+        font-size: medium;
+        color: #0a3aff;
+        margin-left: 10%;
+        margin-right: 40%;
+    }
+</style>
