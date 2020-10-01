@@ -98,7 +98,7 @@
         color: #2c3e50;
     }
     .pickers{
-
+        margin-left: 10px;
     }
 
 </style>

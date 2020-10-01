@@ -1,6 +1,7 @@
 <template>
-        <span >
+        <span class="colorSpan">
             <input  id="input-color" type="color" class="input-color" @change="newColor" :value="val"/>
+            <span class="colorSpanLabel">Click to select </span>
         </span>
 </template>
 
@@ -79,6 +80,16 @@
         margin-right: 30px;
     }
     .colorSpan{
-        margin-left: 26px;
+        width: 200px;
+        display: grid;
+        grid-template-rows: 100%;
+        grid-template-columns: 25% 40%;
+        font-family: Helvetica;
+        font-size: smaller;
+    }
+    .colorSpanLabel {
+      width: 150Px;
+      margin-top: 10px;
+      margin-left: 10px;
     }
 </style>

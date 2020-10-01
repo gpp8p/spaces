@@ -1,6 +1,8 @@
 <template>
     <span class="borderPickerWrapper">
-      <o-checkbox @input="borderSelected" v-model="checked">{{borderLabel}}</o-checkbox>
+
+        <o-checkbox @input="borderSelected" v-model="checked">{{borderLabel}}</o-checkbox>
+
       <span v-if="checked" class="selectThick">
         <o-select placeholder="Select Thickness" size="small" rounded>
           <option value="thin">Thin</option>
@@ -83,15 +85,16 @@
     .borderPickerWrapper{
         display:grid;
         grid-template-rows: 100%;
-        grid-template-columns: 30% 25% 35%;
+        grid-template-columns: 20% 35% 35%;
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align: center;
+        text-align: left;
         color: #2c3e50;
     }
     .selectThick {
       margin-top: 5px;
+      margin-right: 5;
     }
     .pickers{
         margin-top: 8px;
