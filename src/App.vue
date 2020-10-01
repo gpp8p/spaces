@@ -14,9 +14,13 @@
 </template>
 
 <script>
+  import Vue from 'vue';
+  import Oruga from '@oruga-ui/oruga';
+  import '@oruga-ui/oruga/dist/oruga.css';
   import headerBar from "./components/headerBar.vue";
   import store from './store';
 
+  Vue.use(Oruga);
 
 
   //    import CContainer from "../components/containerExample.vue";

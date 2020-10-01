@@ -6,7 +6,7 @@
         <br/>
 
         <div class="dialogComponentBody">
-
+          <green-component-settings></green-component-settings>
         </div>
         <div class="dialogComponentFooter">
             <a href="#" class="linkStyle" v-on:click="saveClicked" >Save</a>
@@ -17,8 +17,10 @@
 </template>
 
 <script>
+    import greenComponentSettings from "../components/greenComponentSettings.vue"
     export default {
         name: "Dialog",
+        components :{greenComponentSettings},
         props:{
             dialogType:{
                 type: Number,
@@ -87,11 +89,12 @@
     }
     .dialogComponentBody {
         height: 72%;
+        width: 100%;
         margin-left: 10px;
         margin-right: 10px;
         display: grid;
-        grid-template-columns: 30% 70%;
-        grid-template-rows: 15% 15% 15% 15%
+        grid-template-columns: 100%;
+        grid-template-rows: 100%
 
 
     }
@@ -106,5 +109,12 @@
         color: #0a3aff;
         margin-left: 10%;
         margin-right: 40%;
+    }
+    .field{
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: #2c3e50;
     }
 </style>
