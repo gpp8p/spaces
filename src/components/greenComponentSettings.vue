@@ -13,8 +13,15 @@ import CardAppearenceSet from "@/components/CardAppearenceSet";
       return {
         checkbox: false,
         checkboxCustom: 'Yes',
-        isClicked: false
+        isClicked: false,
+        menuOptions: ['Appearence', 'Text', 'Save', 'Cancel' ]
       }
+    },
+    mounted(){
+      this.$emit("componentSettingsMounted",[this.menuOptions])
+    },
+    props:{
+
     },
     methods:{
       cbClicked(msg){

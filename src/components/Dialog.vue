@@ -6,21 +6,21 @@
         <br/>
 
         <div class="dialogComponentBody">
-          <green-component-settings></green-component-settings>
+          <green-component-settings @componentSettingsMounted="componentSettingsMounted"></green-component-settings>
         </div>
         <div class="dialogComponentFooter">
-            <a href="#" class="linkStyle" v-on:click="saveClicked" >Save</a>
-            <a href="#" class="linkStyle" v-on:click="cancelClicked" >Cancel</a>
+            <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
         </div>
     </div>
 
 </template>
 
 <script>
-    import greenComponentSettings from "../components/greenComponentSettings.vue"
+    import greenComponentSettings from "../components/greenComponentSettings.vue";
+    import menuOpt from "../components/menuOpt.vue";
     export default {
         name: "Dialog",
-        components :{greenComponentSettings},
+        components :{greenComponentSettings, menuOpt},
         props:{
             dialogType:{
                 type: Number,
@@ -39,11 +39,24 @@
 //                debugger;
                 this.$emit('dragStart',[evt.screenX, evt.screenY])
             },
+            menuOptSelected(msg){
+              console.log(msg);
+              switch(msg){
+                case 'Cancel':{
+                  this.$emit('configSelected',['cancel']);
+                  break;
+                }
+              }
+            },
 
             handleDragEnd(evt){
                 this.lastMouseX = evt.screenX;
                 this.lastMouseY = evt.screenY;
                 this.$emit('moved', [evt.screenY , evt.screenX]);
+            },
+            componentSettingsMounted(msg){
+              console.log(msg);
+              this.currentMenuOpts = msg[0];
             }
         },
 
@@ -55,7 +68,8 @@
                     left: '400px'
                 },
                 lastMouseX:0,
-                lastMouseY:0
+                lastMouseY:0,
+                currentMenuOpts:[]
 
             }
         }
