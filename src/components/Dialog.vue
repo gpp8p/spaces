@@ -6,7 +6,10 @@
         <br/>
 
         <div class="dialogComponentBody">
-          <green-component-settings @componentSettingsMounted="componentSettingsMounted"></green-component-settings>
+          <green-component-settings
+              @componentSettingsMounted="componentSettingsMounted"
+              :selectedMenuOption="currentSelectedMenuOption"
+          ></green-component-settings>
         </div>
         <div class="dialogComponentFooter">
             <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -41,6 +44,7 @@
             },
             menuOptSelected(msg){
               console.log(msg);
+              this.currentSelectedMenuOption = msg;
               switch(msg){
                 case 'Cancel':{
                   this.$emit('configSelected',['cancel']);
@@ -57,6 +61,7 @@
             componentSettingsMounted(msg){
               console.log(msg);
               this.currentMenuOpts = msg[0];
+              this.currentSelectedMenuOption = msg[1];
             }
         },
 
@@ -69,7 +74,8 @@
                 },
                 lastMouseX:0,
                 lastMouseY:0,
-                currentMenuOpts:[]
+                currentMenuOpts:[],
+                currentSelectedMenuOption:''
 
             }
         }

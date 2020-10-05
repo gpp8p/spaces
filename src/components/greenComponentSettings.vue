@@ -1,27 +1,37 @@
 <template>
   <span class="settings">
-    <card-appearence-set></card-appearence-set>
+    <span v-if="selectedMenuOption=='Appearence'">
+      <card-appearence-set ></card-appearence-set>
+    </span>
+    <span v-if="selectedMenuOption=='Text'">
+      <text-set ></text-set>
+    </span>
   </span>
 </template>
 
 <script>
 import CardAppearenceSet from "@/components/CardAppearenceSet";
+import TextSet from "@/components/TextSet";
   export default {
     name: "greenComponentSettings",
-    components: {CardAppearenceSet},
+    components: {CardAppearenceSet, TextSet},
     data() {
       return {
         checkbox: false,
         checkboxCustom: 'Yes',
         isClicked: false,
-        menuOptions: ['Appearence', 'Text', 'Save', 'Cancel' ]
+        menuOptions: ['Appearence', 'Text', 'Save', 'Cancel' ],
+        openMenuOption:'Appearence'
       }
     },
     mounted(){
-      this.$emit("componentSettingsMounted",[this.menuOptions])
+      this.$emit("componentSettingsMounted",[this.menuOptions,this.openMenuOption])
     },
     props:{
-
+      selectedMenuOption: {
+        type: String,
+        required: true
+      }
     },
     methods:{
       cbClicked(msg){
