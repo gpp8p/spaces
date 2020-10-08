@@ -48,6 +48,14 @@
               row:''
           }
         },
+        watch:{
+          currentValues: function(){
+            if(this.currentValues['backgroundTypeColor']=='checked'){
+              this.backgroundTypeSelection = this.COLOR_SELECTED;
+              this.val='color';
+            }
+          }
+        },
         mounted(){
 //            console.log(this.currentValues);
             if(this.currentValues.backgroundType=='color'){

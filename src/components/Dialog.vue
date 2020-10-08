@@ -9,6 +9,7 @@
           <green-component-settings
               @componentSettingsMounted="componentSettingsMounted"
               :selectedMenuOption="currentSelectedMenuOption"
+              :currentValues=currentValues
           ></green-component-settings>
         </div>
         <div class="dialogComponentFooter">
@@ -28,7 +29,11 @@
             dialogType:{
                 type: Number,
                 required: true
-            }
+            },
+            currentValues:{
+              type: Object,
+              required:true
+            },
         },
         methods: {
             cancelClicked(){

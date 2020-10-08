@@ -7,10 +7,10 @@
             <border-picker :currentValues="currentValues" :pType="borderColorType" @selectedValue="selectedValue"></border-picker>
       </span>
       <span>
-            <shadow-picker></shadow-picker>
+            <shadow-picker :currentValues="currentValues" :pType="shadowType"></shadow-picker>
       </span>
       <span>
-            <round-corner-picker></round-corner-picker>
+            <round-corner-picker :currentValues="currentValues" :pType="roundType"></round-corner-picker>
       </span>
 
     </span>

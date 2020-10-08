@@ -1,7 +1,7 @@
 <template>
   <span class="settings">
     <span v-if="selectedMenuOption=='Appearence'">
-      <card-appearence-set ></card-appearence-set>
+      <card-appearence-set :currentValues="currentValues"></card-appearence-set>
     </span>
     <span v-if="selectedMenuOption=='Text'">
       <text-set ></text-set>
@@ -31,7 +31,11 @@ import TextSet from "@/components/TextSet";
       selectedMenuOption: {
         type: String,
         required: true
-      }
+      },
+      currentValues:{
+        type: Object,
+        required:true
+      },
     },
     methods:{
       cbClicked(msg){

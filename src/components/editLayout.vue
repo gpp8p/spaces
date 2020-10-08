@@ -28,6 +28,7 @@
         <Dialog v-if="this.dialogType>0"
                 :dialog-type="dialogType"
                 :key="dialogKey"
+                :currentValues=this.cardCurrentConfigurationValues
                 @dragStart="dragStart"
                 @moved="dialogMoved"
                 @configSelected = "configSelected"
@@ -67,9 +68,10 @@
                     top: '-600px',
                     left: '400px',
                 },
+                cardDataFunction: null,
 
 
-
+                cardCurrentConfigurationValues:{},
                 newCardBeingAdded:false,
                 topLeftClicked: 0,
                 bottomRightClicked: 0,
@@ -159,10 +161,17 @@
               this.dialogKey=this.dialogKey+1;
 
             },
+            cardDataLoaded(msg){
+              console.log('cardDataLoaded',msg);
+              this.cardCurrentConfigurationValues = msg[1];
+            },
             cardClick(msg){
               console.log('cardClick', msg);
               switch(msg[0][2]){
                   case 'greenComponent':{
+                      debugger;
+                      this.cardDataFunction = msg[0][3];
+//                      this.cardCurrentConfigurationValues = msg[0][5];
                       this.dialogType=this.DIALOG_CONFIGURE_GREEN_CARD;
                       this.$emit("layoutChanged");
                       break;

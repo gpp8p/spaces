@@ -175,8 +175,8 @@ export default {
 
     configureClicked() {
 //      debugger;
-      this.styling={};
- //     this.loadCardConfiguration(this.cardId);
+        this.styling={};
+        this.loadCardConfiguration(this.cardId);
         this.dialog=true;
         this.testProp=true;
         this.tdialogMsg='message recieved'
