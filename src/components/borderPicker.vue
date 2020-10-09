@@ -4,7 +4,7 @@
         <o-checkbox @input="borderSelected" v-model="checked">{{borderLabel}}</o-checkbox>
 
       <span v-if="checked" class="selectThick">
-        <o-select placeholder="Select Thickness" size="small" rounded>
+        <o-select placeholder="Select Thickness" size="small" v-model="this.borderValue" rounded>
           <option value="thin">Thin</option>
           <option value="medium">Medium</option>
           <option value="thick">Thick</option>
@@ -76,7 +76,14 @@
                     this.$emit('selectedValue', ['borderSize', '']);
 
                 }
+            },
+          currentValues: function(){
+            if(this.currentValues['borderInclude']=='checked'){
+              this.checked = true;
+              this.borderValue = this.currentValues['borderSize']
+
             }
+          }
         }
     }
 </script>

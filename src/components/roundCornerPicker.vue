@@ -32,7 +32,16 @@
             roundClicked(){
                 this.$emit('selectedValue', [this.pType, this.round]);
             }
+        },
+      watch:{
+
+//                debugger;
+        currentValues: function(){
+          if(this.currentValues['roundIncluded']=='checked'){
+            this.round = true;
+          }
         }
+      }
     }
 </script>
 

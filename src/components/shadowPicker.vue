@@ -32,7 +32,16 @@
             shadowClicked(){
                 this.$emit('selectedValue', [this.pType, this.shadow]);
             }
+        },
+        watch:{
+
+//                debugger;
+        currentValues: function(){
+          if(this.currentValues['shadow']=='checked'){
+            this.shadow=true;
+          }
         }
+      }
     }
 </script>
 
