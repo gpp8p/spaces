@@ -1,11 +1,11 @@
 <template>
       <span>
-
+            <span :style="{fontFamily : focused_font}" class="labelStyle">Font to use: </span>
             <select v-model="focused_font" class="selectStyle" ref="fontSelect" @change="fontSelected()">
                 <option value="" disabled selected class="optionStyle">Font</option>
-                <option v-for="(font, index) in available_fonts" :key="index" v-bind:value="font" :selected="font==focused_font" v-bind:style="{fontFamily : font}" class="optionStyle" >{{ font }}</option>
+                <option v-for="(font, index) in this.available_fonts" :key="index" v-bind:value="font" :selected="font==focused_font" v-bind:style="{fontFamily : font}" class="optionStyle" >{{ font }}</option>
             </select>
-          <span :style="{fontFamily : focused_font}"> - Font to use</span>
+
         </span>
 
 </template>
@@ -15,21 +15,20 @@
 
   export default {
     name: "flexFontSelect",
-    props: {
-      configElement: {
+    props:{
+      currentValues: {
         type: Object,
         required: true
       },
-      currentValues:{
-        type: Object,
-        required: false
+      pType: {
+        type: String,
+        required: true
       }
-
     },
     data(){
-      return{
-        available_fonts: ['Arial', 'Times New Roman', 'Helvetica','Times','Courier New','Verdana','Courier','Arial Narrow','Candara','Geneva','Calibri','Optima','Cambria','Garamond','Perpetua','Monaco','Didot','Brush Script MT','Lucida Bright','Copperplate'],
-        focused_font:this.getCurrentValue(),
+      return {
+        available_fonts:['Arial', 'Times New Roman', 'Helvetica','Times','Courier New','Verdana','Courier','Arial Narrow','Candara','Geneva','Calibri','Optima','Cambria','Garamond','Perpetua','Monaco','Didot','Brush Script MT','Lucida Bright','Copperplate'],
+        focused_font:''
       }
     },
     watch:{
@@ -74,6 +73,10 @@
         background: #DBAA6E;
         color:blue;
         width:60px;
+    }
+    .labelStyle{
+      color: #0a3aff;
+      font-size: medium;
     }
 
 

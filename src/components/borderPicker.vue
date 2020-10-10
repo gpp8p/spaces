@@ -13,7 +13,7 @@
       <span v-if="checked" class="pickers">
           <color-picker
                   :currentValues="currentValues"
-                  :pType="pType"
+                  :pType="borderColorRef"
                   @selectedValue="selectedValue"
           >
           </color-picker>
@@ -49,6 +49,7 @@
                 borderLabel: "Border ?",
                 borderCheckboxRef:"border",
                 borderValueRef:"borderSize",
+                borderColorRef:"borderColor",
                 borderSizeOptions: ['thin','medium','thick'],
                 checked:false,
                 items: ['thin','medium','thick'],

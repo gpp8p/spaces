@@ -89,7 +89,7 @@
 
 <style scoped>
     .dialogComponent {
-        height:250px;
+        height:300px;
         width:500px;
         position: relative;
         background-color: #ab97ff;

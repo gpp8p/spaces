@@ -4,7 +4,7 @@
       <card-appearence-set :currentValues="currentValues"></card-appearence-set>
     </span>
     <span v-if="selectedMenuOption=='Text'">
-      <text-set ></text-set>
+      <text-set :currentValues="currentValues"></text-set>
     </span>
   </span>
 </template>
