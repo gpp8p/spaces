@@ -1,7 +1,7 @@
 <template>
-  <span>
+  <span class="labelPlusSelect">
     <span  class="labelStyle">{{label}} </span>
-    <select v-model="optSelected" class="selectStyle" @change="fontSelected()">
+    <select v-model="optSelected" ref="sel" class="selectStyle" @change="optionSelected()">
       <option value="" disabled selected class="optionStyle">Select</option>
       <option v-for="(opt, index) in this.options" :key="index" v-bind:value="opt" :selected="opt==optSelected" class="optionStyle">{{ opt }}</option>
     </select>
@@ -33,6 +33,27 @@ name: "selectPicker",
     return {
       optSelected:''
     }
+  },
+  mounted(){
+    this.optSelected = this.getCurrentValue();
+  },
+  methods:{
+    optionSelected(){
+      this.$emit('configSelected', [this.pType, this.$refs.sel.value]);
+    },
+
+    getCurrentValue(){
+//        debugger;
+      if(typeof(this.currentValues[this.pType])=='undefined'){
+        return '';
+      }else{
+        return this.currentValues[this.pType];
+//          var currentValuesEntriesParts = this.currentValues[this.configElement.element].split(":");
+//          return currentValuesEntriesParts[1].replace(';','');
+      }
+    }
+
+
   }
 }
 </script>
@@ -44,6 +65,7 @@ name: "selectPicker",
   font-weight: bold;
   font-size: 12px;
   margin-bottom: 3px;
+  width: 60%;
 }
 .optionStyle {
   background: #DBAA6E;
@@ -54,6 +76,10 @@ name: "selectPicker",
   font-family: Arial;
   font-size: medium;
   color: #0a3aff;
+}
+.labelPlusSelect {
+  display:grid;
+  grid-template-columns: 40% 50%;
 }
 
 </style>

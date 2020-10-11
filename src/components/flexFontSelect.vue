@@ -1,5 +1,5 @@
 <template>
-      <span>
+      <span class="labelPlusSelect">
             <span :style="{fontFamily : focused_font}" class="labelStyle">Font to use: </span>
             <select v-model="focused_font" class="selectStyle" ref="fontSelect" @change="fontSelected()">
                 <option value="" disabled selected class="optionStyle">Font</option>
@@ -31,24 +31,27 @@
         focused_font:''
       }
     },
+    mounted(){
+      this.focused_font = this.getCurrentValue();
+    },
     watch:{
       currentValues: function(){
 //          debugger;
-        this.val = this.getCurrentValue();
+        this.focused_font = this.getCurrentValue();
       }
     },
 // eslint-disable-next-line no-debugger
     methods:{
       fontSelected(){
 //        debugger;
-        this.$emit('configSelected', [this.configElement.element, this.$refs.fontSelect.value]);
+        this.$emit('configSelected', [this.pType, this.$refs.fontSelect.value]);
       },
       getCurrentValue(){
 //        debugger;
-        if(typeof(this.currentValues[this.configElement.element])=='undefined'){
+        if(typeof(this.currentValues['fontFamily'])=='undefined'){
           return '';
         }else{
-          return this.currentValues[this.configElement.element];
+          return this.currentValues['fontFamily'];
 //          var currentValuesEntriesParts = this.currentValues[this.configElement.element].split(":");
 //          return currentValuesEntriesParts[1].replace(';','');
         }
@@ -77,6 +80,10 @@
     .labelStyle{
       color: #0a3aff;
       font-size: medium;
+    }
+    .labelPlusSelect {
+      display:grid;
+      grid-template-columns: 40% 50%;
     }
 
 

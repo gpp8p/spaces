@@ -18,6 +18,13 @@ import colorPicker from "../components/colorPicker.vue";
 export default {
   name: "fontColorPicker",
   components: {colorPicker},
+  methods:{
+      selectedValue(msg){
+        console.log(msg);
+        debugger;
+        this.$emit('configSelected', msg);
+      }
+  },
   props:{
     currentValues: {
       type: Object,

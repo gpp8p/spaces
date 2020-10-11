@@ -48,15 +48,15 @@ export default {
 
       fontWeightOptions: ['normal', 'bold', 'bolder', 'lighter'],
       fontWeightLabel: 'Font Weight:',
-      weightReference: 'fontWeight',
+      fontWeightReference: 'fontWeight',
 
       fontStyleOptions:['normal', 'italic', 'oblique'],
       fontStyleLabel: 'Font Style:',
-      styleReference: 'fontStyle',
+      fontStyleReference: 'fontStyle',
 
       fontAlignOptions: ['left', 'center', 'right'],
       fontAlignReference: 'textAlign',
-      fontAlignLabel: 'Text Alignment:',
+      fontAlignLabel: 'Alignment:',
 
       colorReference: 'color'
     }
@@ -64,6 +64,7 @@ export default {
   methods:{
     configSelected(msg){
       console.log(msg);
+      this.$emit('configSelected', msg);
     }
   }
 

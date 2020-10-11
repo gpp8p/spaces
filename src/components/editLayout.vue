@@ -134,6 +134,14 @@
                         this.dialogType=0;
                         break;
                     }
+                    default:{
+                      console.log(msg);
+                      debugger;
+                      var cdElement = msg[0];
+                      var cData = msg[1];
+                      this.cardDataFunction(cData, cdElement);
+
+                    }
                 }
             },
             dragStart(msg){

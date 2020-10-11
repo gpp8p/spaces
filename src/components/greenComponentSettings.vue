@@ -1,10 +1,10 @@
 <template>
   <span class="settings">
     <span v-if="selectedMenuOption=='Appearence'">
-      <card-appearence-set :currentValues="currentValues"></card-appearence-set>
+      <card-appearence-set :currentValues="currentValues" @configSelected="configSelected"></card-appearence-set>
     </span>
     <span v-if="selectedMenuOption=='Text'">
-      <text-set :currentValues="currentValues"></text-set>
+      <text-set :currentValues="currentValues" @configSelected="configSelected"></text-set>
     </span>
   </span>
 </template>
@@ -40,6 +40,9 @@ import TextSet from "@/components/TextSet";
     methods:{
       cbClicked(msg){
         console.log('basic checkbox clicked', msg);
+      },
+      configSelected(msg){
+        this.$emit('configSelected', msg);
       }
     }
 

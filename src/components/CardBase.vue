@@ -5,7 +5,7 @@
     name: "CardBase",
     methods: {
       setCardData(cardData, cardDataElement) {
-//      debugger;
+      debugger;
         switch (cardDataElement) {
           case "saveConfiguration":
             this.saveCardConfiguration();
@@ -74,6 +74,7 @@
 //            this.$el.style.fontWeight=cardData;
             this.configurationCurrentValues['fontWeight']=cardData;
             this.styling.fontWeight= "font-weight:"+cardData+";";
+            this.$emit('cardPropertySet',[cardData, cardDataElement]);
             break;
           case "fontStyle":
 //            this.$el.style.fontStyle=cardData;

@@ -8,6 +8,7 @@
         <div class="dialogComponentBody">
           <green-component-settings
               @componentSettingsMounted="componentSettingsMounted"
+              @configSelected="configSelected"
               :selectedMenuOption="currentSelectedMenuOption"
               :currentValues=currentValues
           ></green-component-settings>
@@ -42,6 +43,9 @@
             saveClicked(){
                 //        debugger;
                 this.$emit('saveNewCard', [this.name, this.type]);
+            },
+            configSelected(msg){
+                this.$emit('configSelected', msg);
             },
             handleDragStart(evt){
 //                debugger;
