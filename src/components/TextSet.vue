@@ -4,16 +4,16 @@
       <flex-font-select :pType="this.fontFamilyReference" :currentValues="currentValues" @configSelected="configSelected"></flex-font-select>
     </span>
     <span class="sizeSet">
-      <size-picker :pType="fontSizeReference" :currentValues="currentValues" @configSelected="configSelected"></size-picker>
+      <select-picker :pType="fontSizeReference" :label="fontSizeLabel" :options="fontSizeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
     </span>
     <span class="weightSet">
-      <weight-picker :pType="weightReference" :currentValues="currentValues" @configSelected="configSelected"></weight-picker>
+      <select-picker :pType="fontWeightReference" :label="fontWeightLabel" :options="fontWeightOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
     </span>
     <span class="styleSet">
-      <style-picker :pType="styleReference" :currentValues="currentValues" @configSelected="configSelected"></style-picker>
+      <select-picker :pType="fontStyleReference" :label="fontStyleLabel" :options="fontStyleOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
     </span>
     <span class="alignSet">
-      <align-picker :pType="alignReference" :currentValues="currentValues" @configSelected="configSelected"></align-picker>
+      <select-picker :pType="fontAlignReference" :label="fontAlignLabel" :options="fontAlignOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
     </span>
     <span class="colorSet">
       <font-color-picker :pType="colorReference" :currentValues="currentValues" @configSelected="configSelected"></font-color-picker>
@@ -24,14 +24,15 @@
 
 <script>
 import flexFontSelect from "../components/flexFontSelect.vue";
-import sizePicker from "../components/sizePicker.vue";
-import weightPicker from "../components/weightPicker.vue";
-import stylePicker from "../components/stylePicker.vue";
-import alignPicker from "../components/alignPicker.vue";
+//import sizePicker from "../components/sizePicker.vue";
+//import weightPicker from "../components/weightPicker.vue";
+//import stylePicker from "../components/stylePicker.vue";
+//import alignPicker from "../components/alignPicker.vue";
 import fontColorPicker from "@/components/fontColorPicker";
+import selectPicker from "@/components/selectPicker";
 export default {
   name: "TextSet",
-  components: {flexFontSelect, sizePicker, weightPicker, stylePicker, alignPicker, fontColorPicker},
+  components: {flexFontSelect, fontColorPicker, selectPicker},
   props:{
     currentValues: {
       type: Object,
@@ -42,9 +43,21 @@ export default {
     return {
       fontFamilyReference:'fontFamily',
       fontSizeReference: 'fontSize',
+      fontSizeLabel: 'Font Size:',
+      fontSizeOptions: ['10pt', '12pt', '18pt', '24pt', '36pt', '48pt', '72pt'],
+
+      fontWeightOptions: ['normal', 'bold', 'bolder', 'lighter'],
+      fontWeightLabel: 'Font Weight:',
       weightReference: 'fontWeight',
+
+      fontStyleOptions:['normal', 'italic', 'oblique'],
+      fontStyleLabel: 'Font Style:',
       styleReference: 'fontStyle',
-      alignReference: 'textAlign',
+
+      fontAlignOptions: ['left', 'center', 'right'],
+      fontAlignReference: 'textAlign',
+      fontAlignLabel: 'Text Alignment:',
+
       colorReference: 'color'
     }
   },

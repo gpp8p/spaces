@@ -1,7 +1,7 @@
 <template>
   <span>
       <span class="labelStyle">Font Size: </span>
-       <o-select placeholder="Select Size" size="small" v-model="this.sizeValue" rounded>
+       <o-select  placeholder="Select Size" size="small" v-model="this.sizeValue" rounded>
           <option value="10pt">10pt</option>
           <option value="12pt">12pt</option>
           <option value="18pt">18pt</option>
@@ -40,6 +40,8 @@ export default {
 </script>
 
 <style scoped>
+
+
   .labelStyle{
     font-family: Arial;
     font-size: medium;
