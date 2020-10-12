@@ -1,16 +1,16 @@
 <template>
     <span class="cardAppearenceWrapper">
         <span class="backgroundPick">
-            <background-picker :currentValues="currentValues" :pType="backgroundColorType" @configSelected="configSelected"></background-picker>
+            <background-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="backgroundColorType" @configSelected="configSelected"></background-picker>
         </span>
       <span class="borderPick">
-            <border-picker :currentValues="currentValues" :pType="borderColorType" @configSelected="configSelected"></border-picker>
+            <border-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="borderColorType" @configSelected="configSelected"></border-picker>
       </span>
       <span>
-            <shadow-picker :currentValues="currentValues" :pType="shadowType" @configSelected="configSelected"></shadow-picker>
+            <shadow-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="shadowType" @configSelected="configSelected"></shadow-picker>
       </span>
       <span>
-            <round-corner-picker :currentValues="currentValues" :pType="roundType" @configSelected="configSelected"></round-corner-picker>
+            <round-corner-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="roundType" @configSelected="configSelected"></round-corner-picker>
       </span>
 
     </span>
@@ -28,7 +28,11 @@
             currentValues:{
                 type: Object,
                 required: false
-            }
+            },
+          dialogKey:{
+            type: Number,
+            required:true
+          }
         },
         data(){
           return {

@@ -23,6 +23,10 @@
       pType: {
         type: String,
         required: true
+      },
+      dialogKey:{
+        type: Number,
+        required:true
       }
     },
     data(){

@@ -11,6 +11,7 @@
               @configSelected="configSelected"
               :selectedMenuOption="currentSelectedMenuOption"
               :currentValues=currentValues
+              :dialogKey="dialogKey"
           ></green-component-settings>
         </div>
         <div class="dialogComponentFooter">
@@ -35,6 +36,10 @@
               type: Object,
               required:true
             },
+          dialogKey:{
+            type: Number,
+            required:true
+          }
         },
         methods: {
             cancelClicked(){

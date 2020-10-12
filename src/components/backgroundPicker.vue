@@ -35,6 +35,10 @@
           pType: {
               type: String,
               required: true
+          },
+          dialogKey:{
+            type: Number,
+            required:true
           }
         },
         data(){
@@ -54,21 +58,31 @@
               this.backgroundTypeSelection = this.COLOR_SELECTED;
               this.val='color';
             }
+          },
+          dialogKey: function(){
+            this.refreshCurrentValues();
           }
         },
         mounted(){
 //            console.log(this.currentValues);
-            if(this.currentValues.backgroundType=='color'){
-                this.row='color_selected';
-                this.backgroundTypeSelection = this.COLOR_SELECTED;
-            }else if(this.currentValues.backgroundType=='image'){
-                this.backgroundTypeSelection = this.IMAGE_SELECTED;
-                this.row='image_selected';
-            }else{
-                this.row='';
-            }
+          this.refreshCurrentValues();
         },
         methods:{
+            refreshCurrentValues(){
+              console.log('refreshCurrentValues called');
+//              debugger;
+              if(this.currentValues.backgroundTypeColor=='checked'){
+                this.row='color_selected';
+                this.backgroundTypeSelection = this.COLOR_SELECTED;
+                this.val='color';
+              }else if(this.currentValues.backgroundType=='image'){
+                this.backgroundTypeSelection = this.IMAGE_SELECTED;
+                this.row='image_selected';
+                this.val="image";
+              }else{
+                this.row='';
+              }
+            },
             colorSelected(){
                 console.log('color has been selected');
                 this.backgroundTypeSelection = this.COLOR_SELECTED;

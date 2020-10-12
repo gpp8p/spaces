@@ -120,6 +120,7 @@
               delete this.styling.boxShadow;
               delete this.styling.shadow;
               this.configurationCurrentValues['shadowSize']="";
+              this.configurationCurrentValues['shadow']="";
             }
             this.$emit('cardPropertySet',[cardData, cardDataElement]);
             break;

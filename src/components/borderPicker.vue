@@ -32,14 +32,13 @@
                 type: Object,
                 required: true
            },
+          dialogKey:{
+            type: Number,
+            required:true
+          }
         },
         mounted(){
-            if(this.currentValues.border=='checked'){
-                this.checkbox=true;
-            }
-            if(typeof(this.currentValues.borderSize)!='undefined'){
-                this.borderValue=this.currentValues.borderSize;
-            }
+          this.refreshCurrentValues();
         },
         data(){
             return{
@@ -56,6 +55,16 @@
             }
         },
         methods:{
+
+            refreshCurrentValues(){
+//              debugger;
+              if(this.currentValues.borderInclude=='checked'){
+                this.checked=true;
+              }
+              if(typeof(this.currentValues.borderSize)!='undefined'){
+                this.borderValue=this.currentValues.borderSize;
+              }
+            },
             borderSelectedChanged(){
               if(this.checked){
                 this.$emit('configSelected', ['border', 'activated']);
@@ -89,6 +98,9 @@
               this.borderValue = this.currentValues['borderSize']
 
             }
+          },
+          dialogKey: function(){
+              this.refreshCurrentValues();
           }
         }
     }

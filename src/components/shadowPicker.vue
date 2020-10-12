@@ -16,6 +16,10 @@
                 type: Object,
                 required: true
             },
+          dialogKey:{
+            type: Number,
+            required:true
+          }
         },
         data(){
             return {
@@ -24,9 +28,7 @@
             }
         },
         mounted(){
-            if(this.currentValues.shadow=='checked'){
-                this.shadow=true;
-            }
+          this.refreshCurrentValues();
         },
         methods:{
             shadowClicked(){
@@ -34,6 +36,12 @@
                 this.$emit('configSelected', [this.pType, 'activated']);
               }else{
                 this.$emit('configSelected', [this.pType, '']);
+              }
+            },
+            refreshCurrentValues(){
+//              debugger;
+              if(this.currentValues.shadow=='checked'){
+                this.shadow=true;
               }
             }
         },
@@ -44,6 +52,9 @@
           if(this.currentValues['shadow']=='checked'){
             this.shadow=true;
           }
+        },
+        dialogKey: function(){
+            this.refreshCurrentValues();
         }
       }
     }

@@ -38,6 +38,10 @@ export default {
       type: Object,
       required: true
     },
+    dialogKey:{
+      type: Number,
+      required:true
+    }
   },
   data(){
     return {

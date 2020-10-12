@@ -29,6 +29,7 @@
                 :dialog-type="dialogType"
                 :key="dialogKey"
                 :currentValues=this.cardCurrentConfigurationValues
+                :dialogKey = "this.dialogKey"
                 @dragStart="dragStart"
                 @moved="dialogMoved"
                 @configSelected = "configSelected"
@@ -145,7 +146,7 @@
                 }
             },
             dragStart(msg){
-                debugger;
+//                debugger;
                 this.dragStartX=msg[1];
                 this.dragStartY=msg[0];
                 console.log('dragStart-',this.dragStartX,this.dragStartY );

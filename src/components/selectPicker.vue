@@ -27,6 +27,10 @@ name: "selectPicker",
     options: {
       type: Array,
       required: true
+    },
+    dialogKey:{
+      type: Number,
+      required:true
     }
   },
   data(){
@@ -37,7 +41,22 @@ name: "selectPicker",
   mounted(){
     this.optSelected = this.getCurrentValue();
   },
+  watch:{
+
+    currentValues: function(){
+      this.getCurrentValues();
+    },
+
+//                debugger;
+    dialogKey: function(){
+      this.refreshCurrentValues();
+    }
+  },
   methods:{
+
+    refreshCurrentValues(){
+      this.optSelected = this.getCurrentValue();
+    },
     optionSelected(){
       this.$emit('configSelected', [this.pType, this.$refs.sel.value]);
     },
