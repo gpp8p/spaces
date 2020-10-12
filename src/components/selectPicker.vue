@@ -79,7 +79,8 @@ name: "selectPicker",
 }
 .labelPlusSelect {
   display:grid;
-  grid-template-columns: 40% 50%;
+  margin-top: 3px;
+  grid-template-columns: 20% 80%;
 }
 
 </style>

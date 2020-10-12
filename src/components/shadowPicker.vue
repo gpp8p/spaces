@@ -1,6 +1,6 @@
 <template>
 <span class="shadowPickerWrapper">
-  <o-checkbox @input="cbClicked" v-model="shadow">{{shadowLabel}}</o-checkbox>
+  <o-checkbox @input="shadowClicked" v-model="shadow">{{shadowLabel}}</o-checkbox>
 </span>
 </template>
 
@@ -30,7 +30,11 @@
         },
         methods:{
             shadowClicked(){
-                this.$emit('selectedValue', [this.pType, this.shadow]);
+              if(this.shadow){
+                this.$emit('configSelected', [this.pType, 'activated']);
+              }else{
+                this.$emit('configSelected', [this.pType, '']);
+              }
             }
         },
         watch:{

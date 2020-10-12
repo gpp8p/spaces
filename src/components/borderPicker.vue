@@ -1,14 +1,10 @@
 <template>
     <span class="borderPickerWrapper">
 
-        <o-checkbox @input="borderSelected" v-model="checked">{{borderLabel}}</o-checkbox>
+        <o-checkbox @input="borderSelectedChanged" v-model="checked">{{borderLabel}}</o-checkbox>
 
       <span v-if="checked" class="selectThick">
-        <o-select placeholder="Select Thickness" size="small" v-model="this.borderValue" rounded>
-          <option value="thin">Thin</option>
-          <option value="medium">Medium</option>
-          <option value="thick">Thick</option>
-        </o-select>
+        <select-picker :pType="borderValueRef" :label="borderSizeLabel" :options="borderSizeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
       </span>
       <span v-if="checked" class="pickers">
           <color-picker
@@ -23,9 +19,10 @@
 
 <script>
     import colorPicker from "../components/colorPicker.vue";
+    import selectPicker from "@/components/selectPicker";
     export default {
         name: "borderPicker",
-        components:{colorPicker},
+        components:{colorPicker, selectPicker},
         props:{
           pType:{
               type: String,
@@ -48,6 +45,7 @@
             return{
                 borderLabel: "Border ?",
                 borderCheckboxRef:"border",
+                borderSizeLabel: "",
                 borderValueRef:"borderSize",
                 borderColorRef:"borderColor",
                 borderSizeOptions: ['thin','medium','thick'],
@@ -58,14 +56,21 @@
             }
         },
         methods:{
-            valueSelected(msg){
+            borderSelectedChanged(){
+              if(this.checked){
+                this.$emit('configSelected', ['border', 'activated']);
+              }else{
+                this.$emit('configSelected', ['border', '']);
+              }
+            },
+            configSelected(msg){
                 console.log('Border value selected:', msg);
-                this.$emit('selectedValue', ['border', true]);
-                this.$emit('selectedValue', ['borderSize', msg]);
+//                this.$emit('selectedValue', ['border', true]);
+                this.$emit('configSelected', ['borderSize', msg[1]]);
             },
 
             selectedValue(msg){
-                this.$emit('selectedValue', ['borderColor', msg[1]]);
+                this.$emit('configSelected', ['borderColor', msg[1]]);
             }
         },
         watch:{
@@ -93,7 +98,7 @@
     .borderPickerWrapper{
         display:grid;
         grid-template-rows: 100%;
-        grid-template-columns: 20% 35% 35%;
+        grid-template-columns: 20% 40% 35%;
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -102,7 +107,6 @@
     }
     .selectThick {
       margin-top: 5px;
-      margin-right: 5;
     }
     .pickers{
         margin-top: 8px;

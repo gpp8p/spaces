@@ -30,7 +30,11 @@
         },
         methods:{
             roundClicked(){
-                this.$emit('selectedValue', [this.pType, this.round]);
+              if(this.round){
+                this.$emit('configSelected', [this.pType, 'activated']);
+              }else{
+                this.$emit('configSelected', [this.pType, '']);
+              }
             }
         },
       watch:{
