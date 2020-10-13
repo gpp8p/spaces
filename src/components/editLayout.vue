@@ -133,11 +133,17 @@
                 switch(msg[0]){
                     case 'cancel':{
                         this.dialogType=0;
+                        this.cardCurrentConfigurationValues={};
                         break;
+                    }
+                    case 'save':{
+                      this.dialogType=0;
+                      this.cardDataFunction("", "saveConfiguration");
+                      break;
                     }
                     default:{
                       console.log(msg);
-                      debugger;
+  //                    debugger;
                       var cdElement = msg[0];
                       var cData = msg[1];
                       this.cardDataFunction(cData, cdElement);

@@ -8,6 +8,7 @@
       debugger;
         switch (cardDataElement) {
           case "saveConfiguration":
+            debugger;
             this.saveCardConfiguration();
             break;
           case "saveCardContent":
@@ -158,7 +159,7 @@
             break;
           case "borderColor":
             this.configurationCurrentValues['borderColor']=cardData;
-            var borderColorSet = this.configurationCurrentValues['borderSize']+" solid "+this.configurationCurrentValues['borderColor'];
+            var borderColorSet = this.configurationCurrentValues['borderSize']+" solid "+this.configurationCurrentValues['borderColor']+";";
 //            this.$el.style.borderColor = cardData;
             this.styling.borderColor="border-color:"+cardData+";";
             this.styling.border = "border:"+borderColorSet+";";

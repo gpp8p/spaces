@@ -47,7 +47,7 @@
             },
             saveClicked(){
                 //        debugger;
-                this.$emit('saveNewCard', [this.name, this.type]);
+                this.$emit('configSelected', ['save']);
             },
             configSelected(msg){
                 this.$emit('configSelected', msg);
@@ -62,6 +62,10 @@
               switch(msg){
                 case 'Cancel':{
                   this.$emit('configSelected',['cancel']);
+                  break;
+                }
+                case 'Save':{
+                  this.$emit('configSelected',['save']);
                   break;
                 }
               }
