@@ -4,11 +4,11 @@
         <o-checkbox @input="borderSelectedChanged" v-model="checked">{{borderLabel}}</o-checkbox>
 
       <span v-if="checked" class="selectThick">
-        <select-picker :pType="borderValueRef" :label="borderSizeLabel" :options="borderSizeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
+        <select-picker :pType="borderValueRef" :label="borderSizeLabel" :options="borderSizeOptions" :currentValues="currentBorderValues" @configSelected="configSelected"></select-picker>
       </span>
       <span v-if="checked" class="pickers">
           <color-picker
-                  :currentValues="currentValues"
+                  :currentValues="currentBorderValues"
                   :pType="borderColorRef"
                   @selectedValue="selectedValue"
           >
@@ -49,17 +49,27 @@
                 borderColorRef:"borderColor",
                 borderSizeOptions: ['thin','medium','thick'],
                 checked:false,
+                borderSizeValue:'',
+                borderColorValue:'',
                 items: ['thin','medium','thick'],
                 borderValue:'',
-                borderSelected:false
+                borderSelected:false,
+                currentBorderValues: {}
+
             }
         },
         methods:{
 
             refreshCurrentValues(){
-//              debugger;
+              debugger;
               if(this.currentValues.borderInclude=='checked'){
                 this.checked=true;
+                var unpackedBorderValues = this.currentValues.border.split(' ');
+                this.currentBorderValues.borderSize = unpackedBorderValues[0];
+                this.currentBorderValues.borderColor = unpackedBorderValues[2];
+                this.currentValues.borderColor = unpackedBorderValues[2];
+                this.currentValues.borderSize = unpackedBorderValues[0];
+                this.currentBorderValues.borderColor = this.currentBorderValues.borderColor.replace(';', '');
               }
               if(typeof(this.currentValues.borderSize)!='undefined'){
                 this.borderValue=this.currentValues.borderSize;
@@ -75,10 +85,12 @@
             configSelected(msg){
                 console.log('Border value selected:', msg);
 //                this.$emit('selectedValue', ['border', true]);
+                this.currentValues.borderSize = msg[1];
                 this.$emit('configSelected', ['borderSize', msg[1]]);
             },
 
             selectedValue(msg){
+                this.currentValues.borderColor = msg[1];
                 this.$emit('configSelected', ['borderColor', msg[1]]);
             }
         },
@@ -95,10 +107,12 @@
           currentValues: function(){
             if(this.currentValues['borderInclude']=='checked'){
               this.checked = true;
-              this.borderValue = this.currentValues['borderSize']
+              this.borderValue = this.currentValues['borderSize'];
+              this.refreshCurrentValues();
 
             }
           },
+
           dialogKey: function(){
               this.refreshCurrentValues();
           }

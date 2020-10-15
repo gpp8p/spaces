@@ -48,6 +48,7 @@
             }
             break;
           case "border":
+            debugger;
             if(cardData=='activated'){
               this.$el.style.border="thin solid #0000FF";
             }else{

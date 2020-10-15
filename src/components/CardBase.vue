@@ -159,7 +159,7 @@
             break;
           case "borderColor":
             this.configurationCurrentValues['borderColor']=cardData;
-            var borderColorSet = this.configurationCurrentValues['borderSize']+" solid "+this.configurationCurrentValues['borderColor']+";";
+            var borderColorSet = this.configurationCurrentValues['borderSize']+" solid "+this.configurationCurrentValues['borderColor'];
 //            this.$el.style.borderColor = cardData;
             this.styling.borderColor="border-color:"+cardData+";";
             this.styling.border = "border:"+borderColorSet+";";
@@ -183,7 +183,7 @@
         }
       },
       loadCardConfiguration(cardId){
-        debugger;
+ //       debugger;
         axios
           .get("http://localhost:8000/getCardDataById?cardId=" + cardId+"&&XDEBUG_SESSION_START=15122")
           .then(response => {
