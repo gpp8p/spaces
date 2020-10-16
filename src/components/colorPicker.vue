@@ -16,6 +16,10 @@
             pType:{
                 type:String,
                 required: true
+            },
+            setColorVal:{
+                type: String,
+                required:false
             }
 
         },
@@ -27,9 +31,14 @@
         },
         watch:{
             currentValues: function(){
-                debugger;
-                this.val = this.getCurrentValue();
+ //               debugger;
+              this.val = this.getCurrentValue();
             }
+        },
+        mounted(){
+          if(this.setColorVal.length>1){
+            this.val=this.setColorVal;
+          }
         },
 
         methods:{

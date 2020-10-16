@@ -31,6 +31,10 @@ name: "selectPicker",
     dialogKey:{
       type: Number,
       required:true
+    },
+    setValue:{
+      type: String,
+      required: false
     }
   },
   data(){
@@ -39,9 +43,15 @@ name: "selectPicker",
     }
   },
   mounted(){
-    this.optSelected = this.getCurrentValue();
+    if(this.setValue.length>0){
+      this.optSelected=this.setValue;
+    }else{
+      this.optSelected = this.getCurrentValue();
+    }
+
   },
   watch:{
+
 
     currentValues: function(){
       this.getCurrentValues();

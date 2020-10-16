@@ -4,12 +4,13 @@
         <o-checkbox @input="borderSelectedChanged" v-model="checked">{{borderLabel}}</o-checkbox>
 
       <span v-if="checked" class="selectThick">
-        <select-picker :pType="borderValueRef" :label="borderSizeLabel" :options="borderSizeOptions" :currentValues="currentBorderValues" @configSelected="configSelected"></select-picker>
+        <select-picker :pType="borderValueRef" :label="borderSizeLabel" :setValue="this.setValReference" :options="borderSizeOptions" :currentValues="currentBorderValues" @configSelected="configSelected"></select-picker>
       </span>
       <span v-if="checked" class="pickers">
           <color-picker
                   :currentValues="currentBorderValues"
                   :pType="borderColorRef"
+                  :setColorVal="this.setColorValReference"
                   @selectedValue="selectedValue"
           >
           </color-picker>
@@ -52,6 +53,8 @@
                 borderSizeValue:'',
                 borderColorValue:'',
                 items: ['thin','medium','thick'],
+                setValReference:'',
+                setColorValReference:'',
                 borderValue:'',
                 borderSelected:false,
                 currentBorderValues: {}
@@ -76,7 +79,10 @@
               }
             },
             borderSelectedChanged(){
+
               if(this.checked){
+                this.setValReference = 'thin';
+                this.setColorValReference="#0000FF";
                 this.$emit('configSelected', ['border', 'activated']);
               }else{
                 this.$emit('configSelected', ['border', '']);
