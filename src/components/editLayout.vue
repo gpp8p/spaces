@@ -60,6 +60,7 @@
                 dialogType:0,
                 DIALOG_CONFIGURE_GREEN_CARD:1,
                 DIALOG_CONFIGURE_TEXT_CARD:2,
+                DIALOG_CREATE_CARD:3,
 
                 displayStatus:true,
                 dialogKey:0,
@@ -362,13 +363,13 @@
 //            this.cardInstances.forEach(this.fillInCell);
                             this.fillSelectedCells(this.cardInstances,this.topLeftCol,this.topLeftRow,this.bottomRightCol,this.bottomRightRow, '#66bb6a');
                             this.$emit('layoutMessage', ['bottomRight', this.bottomRightRow,this.bottomRightCol ]);
-//                            this.openDialog=true;
-                            this.$refs.conf.oDialog();
+                            this.dialogType=this.DIALOG_CREATE_CARD;
                         }else{
                             this.$emit('layoutMessage', ['error', 'You must click and to the right',0 ]);
                         }
                         break;
                     case this.BOTTOMRIGHTCLICKED:
+                        console.log('status is WAITINGFORNAME');
                         this.cstatus = this.WAITINGFORNAME;
                         break;
                     case this.WAITINGFORNAME:

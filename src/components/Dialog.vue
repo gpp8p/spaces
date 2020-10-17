@@ -7,12 +7,21 @@
 
         <div class="dialogComponentBody">
           <green-component-settings
+              v-if = "dialogType==this.DIALOG_CONFIGURE_GREEN_CARD"
               @componentSettingsMounted="componentSettingsMounted"
               @configSelected="configSelected"
               :selectedMenuOption="currentSelectedMenuOption"
               :currentValues=currentValues
               :dialogKey="dialogKey"
           ></green-component-settings>
+          <new-card-create
+              v-if = "dialogType==this.DIALOG_CREATE_CARD"
+              :currentValues=currentValues
+              :dialogKey="dialogKey"
+              :selectedMenuOption="currentSelectedMenuOption"
+              @componentSettingsMounted="componentSettingsMounted"
+              @configSelected="configSelected"
+          ></new-card-create>
         </div>
         <div class="dialogComponentFooter">
             <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -24,9 +33,10 @@
 <script>
     import greenComponentSettings from "../components/greenComponentSettings.vue";
     import menuOpt from "../components/menuOpt.vue";
+    import newCardCreate from "../components/newCardCreate.vue";
     export default {
         name: "Dialog",
-        components :{greenComponentSettings, menuOpt},
+        components :{greenComponentSettings, menuOpt, newCardCreate},
         props:{
             dialogType:{
                 type: Number,
@@ -93,7 +103,12 @@
                 lastMouseX:0,
                 lastMouseY:0,
                 currentMenuOpts:[],
-                currentSelectedMenuOption:''
+                currentSelectedMenuOption:'',
+
+                DIALOG_CONFIGURE_GREEN_CARD:1,
+                DIALOG_CONFIGURE_TEXT_CARD:2,
+                DIALOG_CREATE_CARD:3,
+
 
             }
         }
