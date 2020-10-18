@@ -142,6 +142,14 @@
                       this.cardDataFunction("", "saveConfiguration");
                       break;
                     }
+                    case 'Create New Card':{
+                      var currentLayoutId = this.$store.getters.getCurrentLayoutId;
+                      console.log(msg);
+                      console.log(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
+//                        debugger;
+//                      this.insertCard(currentLayoutId, msg[2], msg[1], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
+                      break;
+                    }
                     default:{
                       console.log(msg);
   //                    debugger;
@@ -429,6 +437,7 @@
                     break;
                 }
             },
+/*
             dialogMenuSelected(msg){
                switch(msg[0]){
                    case 'Cancel':
@@ -444,10 +453,11 @@
                         var currentLayoutId = this.$store.getters.getCurrentLayoutId;
                         console.log(currentLayoutId, msg[2], msg[1], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
 //                        debugger;
-                        this.insertCard(currentLayoutId, msg[2], msg[1], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
+//                        this.insertCard(currentLayoutId, msg[2], msg[1], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
                        break;
                }
             },
+ */
             insertCard(layoutId, title, cardType, tlrow, tlcol, brrow, brcol){
 //                debugger;
                 axios.post('http://localhost:8000/saveCardOnly?XDEBUG_SESSION_START=12016', {

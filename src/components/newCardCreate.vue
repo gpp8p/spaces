@@ -6,7 +6,7 @@
         <input v-model="cardName" size="30"/>
       </span>
       <span>
-        <select-picker :pType="cardPtypeReference" :label="cardTypeLabel" :options="cardTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
+        <select-picker :pType="cardPtypeReference" :dialogKey="this.dKey" :label="cardTypeLabel" :options="cardTypeOptions" :currentValues="currentValues" @configSelected="configSelected"></select-picker>
       </span>
 
     </span>
@@ -26,9 +26,11 @@
         menuOptions: ['Create New Card', 'Cancel' ],
         openMenuOption:'Create New Card',
         cardName:'',
+        cardType:'',
         cardTypeLabel: 'Card Type:',
         cardPtypeReference: 'cardType',
-        cardTypeOptions: ['Headline', 'RichText']
+        cardTypeOptions: ['Headline', 'RichText'],
+        dKey:0
       }
     },
     mounted(){
@@ -50,7 +52,15 @@
     },
     methods:{
       configSelected(msg){
-        this.$emit('configSelected', msg);
+        console.log(msg);
+          this.cardType=msg[1];
+//        this.$emit('configSelected', msg);
+      },
+      getCardTitle(){
+        return this.cardName;
+      },
+      getCardType(){
+        return this.cardType;
       }
     }
 

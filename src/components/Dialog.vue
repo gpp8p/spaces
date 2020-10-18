@@ -15,6 +15,7 @@
               :dialogKey="dialogKey"
           ></green-component-settings>
           <new-card-create
+              ref="newCardDialog"
               v-if = "dialogType==this.DIALOG_CREATE_CARD"
               :currentValues=currentValues
               :dialogKey="dialogKey"
@@ -76,6 +77,14 @@
                 }
                 case 'Save':{
                   this.$emit('configSelected',['save']);
+                  break;
+                }
+
+                case 'Create New Card':{
+                  debugger;
+                  var newCardTitle = this.$refs.newCardDialog.getCardTitle();
+                  var newCardType = this.$refs.newCardDialog.getCardType()
+                  this.$emit('configSelected', ['Create New Card', newCardTitle, newCardType]);
                   break;
                 }
               }
