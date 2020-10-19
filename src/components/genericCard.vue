@@ -1,6 +1,6 @@
 <template >
 <span v-bind:style='cardStyle' v-on:click="processClick" id=cardId>
-        <green-component  v-if="cardType=='greenComponent'" class="genericCardStyle"
+        <green-component  v-if="cardType=='greenComponent' || cardType=='Headline'" class="genericCardStyle"
                           :card-style=cardStyle
                           :card-id=cardId
                           :card-key=cardKey

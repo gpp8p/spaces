@@ -143,12 +143,18 @@
                       break;
                     }
                     case 'Create New Card':{
+                      debugger;
                       var currentLayoutId = this.$store.getters.getCurrentLayoutId;
                       console.log(msg);
                       console.log(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
-//                        debugger;
-//                      this.insertCard(currentLayoutId, msg[2], msg[1], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
+                      if(msg[1].length==0 | msg[2].length==0){
+                        this.$emit('layoutMessage', ['error', 'You must include both a card name and a card type',0 ]);
+                      }else{
+                        this.$emit('layoutMessage', ['clear', '',0 ]);
+                      }
+                      this.insertCard(currentLayoutId, msg[2], msg[1], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
                       break;
+
                     }
                     default:{
                       console.log(msg);
@@ -476,6 +482,7 @@
                         params: { layoutId: this.$store.getters.getCurrentLayoutId }
                     })
                 }).catch(function(error) {
+                    this.$emit('layoutMessage', ['error', 'There was an error saving this card',0 ]);
                     console.log(error);
                 });
             },

@@ -18,15 +18,15 @@
     export default {
         name: "headerBar",
         props:{
+          message:{
+            type: String,
+            required: true
+          }
         },
         data(){
           return {
             menuItems: [],
             selectedMenuItem:-1,
-            message:'',
-//            menuItemsView: ['Info', 'Comments','Test'],
-//            menuItemsAuthor: ['Edit','Delete', 'Publish', 'Comments','Test'],
-//            menuItemsAdmin: ['Edit','Delete', 'Publish', 'Create', 'Child Pages', 'Comments','Test'],
             nextLayout:0,
             topPerm:0,
             VIEW_PERM:1,

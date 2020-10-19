@@ -5,7 +5,7 @@
               <header-bar :message="message" @tabSelected="tabSelected" @login="login" @logError="logError"></header-bar>
           </section>
           <section class="content">
-              <router-view @layoutChanged="testEmit"></router-view>
+              <router-view @layoutMessage="showLayoutMessage" @layoutChanged="testEmit"></router-view>
           </section>
 
         </span>
@@ -91,6 +91,10 @@
             break;
           }
         }
+      },
+      showLayoutMessage(msg){
+        console.log(msg);
+        this.message=msg[1];
       },
       login(msg){
         console.log(msg[0]);
