@@ -5,7 +5,7 @@
               <header-bar :message="message" @tabSelected="tabSelected" @login="login" @logError="logError"></header-bar>
           </section>
           <section class="content">
-              <router-view @layoutMessage="showLayoutMessage" @layoutChanged="testEmit"></router-view>
+              <router-view @layoutMessage="showLayoutMessage" @tabSelected="tabSelected" @layoutChanged="testEmit"></router-view>
           </section>
 
         </span>
@@ -50,7 +50,7 @@
     },
     methods: {
       tabSelected(msg){
-//                debugger;
+                debugger;
         switch(msg){
           case 'Edit':{
             debugger;
@@ -74,6 +74,11 @@
               name: 'displayLayout',
               params: { layoutId: this.$store.getters.getCurrentLayoutId }
             })
+            break;
+          }
+          case 'cancel':{
+            debugger;
+            this.$eventHub.$emit('editStatusChanged', ['openEdit',0]);
             break;
           }
           case 'Table':{

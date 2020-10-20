@@ -135,6 +135,7 @@
                     case 'cancel':{
                         this.dialogType=0;
                         this.cardCurrentConfigurationValues={};
+                        this.$emit('tabSelected', msg[0]);
                         break;
                     }
                     case 'save':{
@@ -152,7 +153,8 @@
                       }else{
                         this.$emit('layoutMessage', ['clear', '',0 ]);
                       }
-                      this.insertCard(currentLayoutId, msg[2], msg[1], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
+                      console.log(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
+                      this.insertCard(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
                       break;
 
                     }
@@ -376,7 +378,7 @@
                             this.scolor = this.selectedColor;
 //            this.cardInstances.forEach(this.fillInCell);
                             this.fillSelectedCells(this.cardInstances,this.topLeftCol,this.topLeftRow,this.bottomRightCol,this.bottomRightRow, '#66bb6a');
-                            this.$emit('layoutMessage', ['bottomRight', this.bottomRightRow,this.bottomRightCol ]);
+ //                           this.$emit('layoutMessage', ['bottomRight', this.bottomRightRow,this.bottomRightCol ]);
                             this.dialogType=this.DIALOG_CREATE_CARD;
                         }else{
                             this.$emit('layoutMessage', ['error', 'You must click and to the right',0 ]);
@@ -431,7 +433,7 @@
 //      console.log('done');
             },
             editStatusChanged(msg){
-//                console.log(msg);
+                console.log('editStatusChange',msg);
                 switch(msg[0]){
                     case 'newCard':
                         switch(msg[1]){
@@ -441,6 +443,9 @@
                                 break;
                         }
                     break;
+                    case 'openEdit':
+                      this.cancelLayoutEdit();
+                      break;
                 }
             },
 /*
@@ -465,7 +470,7 @@
             },
  */
             insertCard(layoutId, title, cardType, tlrow, tlcol, brrow, brcol){
-//                debugger;
+                debugger;
                 axios.post('http://localhost:8000/saveCardOnly?XDEBUG_SESSION_START=12016', {
                     layoutId: layoutId,
                     cardTitle: title,
