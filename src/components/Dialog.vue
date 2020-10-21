@@ -15,14 +15,18 @@
               :dialogKey="dialogKey"
           ></green-component-settings>
           <new-card-create
-              ref="newCardDialog"
               v-if = "dialogType==this.DIALOG_CREATE_CARD"
+              ref="newCardDialog"
               :currentValues=currentValues
               :dialogKey="dialogKey"
               :selectedMenuOption="currentSelectedMenuOption"
               @componentSettingsMounted="componentSettingsMounted"
               @configSelected="configSelected"
           ></new-card-create>
+          <new-layout
+              v-if = "dialogType==this.DIALOG_NEW_LAYOUT"
+              @componentSettingsMounted="componentSettingsMounted"
+          ></new-layout>
         </div>
         <div class="dialogComponentFooter">
             <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -35,9 +39,10 @@
     import greenComponentSettings from "../components/greenComponentSettings.vue";
     import menuOpt from "../components/menuOpt.vue";
     import newCardCreate from "../components/newCardCreate.vue";
+    import newLayout from "../components/newLayout.vue";
     export default {
         name: "Dialog",
-        components :{greenComponentSettings, menuOpt, newCardCreate},
+        components :{greenComponentSettings, menuOpt, newCardCreate, newLayout},
         props:{
             dialogType:{
                 type: Number,
@@ -117,6 +122,7 @@
                 DIALOG_CONFIGURE_GREEN_CARD:1,
                 DIALOG_CONFIGURE_TEXT_CARD:2,
                 DIALOG_CREATE_CARD:3,
+                DIALOG_NEW_LAYOUT:4
 
 
             }

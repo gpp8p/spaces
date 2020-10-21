@@ -50,7 +50,7 @@
     },
     methods: {
       tabSelected(msg){
-                debugger;
+//                debugger;
         switch(msg){
           case 'Edit':{
             debugger;
@@ -62,6 +62,11 @@
 
             this.openDialog=false;
             this.$router.push('edit');
+            break;
+          }
+          case 'Create':{
+            debugger;
+            this.$eventHub.$emit('editStatusChanged', ['newLayout',0]);
             break;
           }
           case 'New Card':{

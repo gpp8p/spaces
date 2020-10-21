@@ -19,6 +19,16 @@
                 @linkHelperRequested="linkHelperRequested"
                 ref="key"
         ></generic-card>
+      <Dialog v-if="this.dialogType>0"
+              :dialog-type="dialogType"
+              :key="dialogKey"
+              :currentValues=this.currentValues
+              :dialogKey = "this.dialogKey"
+              @dragStart="dragStart"
+              @moved="dialogMoved"
+              @configSelected = "configSelected"
+              v-bind:style='this.styleObject'
+      ></Dialog>
     </div>
 </template>
 
@@ -27,9 +37,10 @@
     import store from "../store";
 //    import testCard from "../components/testCard.vue"
     import genericCard from '../components/genericCard.vue';
+    import Dialog from "../components/Dialog.vue";
     export default {
         name: "displayLayout",
-        components:{genericCard},
+        components:{genericCard, Dialog},
         mounted(){
 //          debugger;
           console.log('displayLayout mounted',this.$route.params.layoutId);
@@ -49,13 +60,35 @@
             }
             this.reloadLayoutForDisplay(this.$route.params.layoutId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId);
         },
+      created() {
+        this.$eventHub.$on('editStatusChanged', this.editStatusChanged);
+      },
+      beforeDestroy(){
+        this.$eventHub.$off('editStatusChanged');
+      },
         data(){
           return {
               layoutId:this.$route.params.layoutId,
               cardInstances: [],
               gridParamDefinition: "",
               LayoutPermissions:{},
-              displayStatus: true
+              displayStatus: true,
+
+              dialogType:0,
+              DIALOG_CONFIGURE_GREEN_CARD:1,
+              DIALOG_CONFIGURE_TEXT_CARD:2,
+              DIALOG_CREATE_CARD:3,
+              DIALOG_NEW_LAYOUT:4,
+
+              currentValues:{},
+              dialogKey:0,
+              dragStartX:0,
+              dragStartY:0,
+              styleObject: {
+                top: '200px',
+                left: '400px',
+              },
+
           }
         },
         methods: {
@@ -82,7 +115,44 @@
             cardDataLoaded(msg){
                 this.$emit('cardDataLoaded',msg);
             },
+            editStatusChanged(msg){
+              console.log('displayLayout:',msg);
+              this.dialogType = this.DIALOG_NEW_LAYOUT;
+            },
+          dragStart(msg){
+//                debugger;
+            this.dragStartX=msg[1];
+            this.dragStartY=msg[0];
+            console.log('dragStart-',this.dragStartX,this.dragStartY );
+          },
+          dialogMoved(msg){
+            console.log('dragEnd',msg);
+            var leftDelta = msg[1]-this.dragStartY;
+            var topDelta= msg[0]-this.dragStartX;
+            console.log('deltas:',topDelta, leftDelta);
+            var newTop = parseInt(this.styleObject.top)+topDelta;
+            var newLeft = parseInt(this.styleObject.left)+leftDelta;
+            console.log('new values', newTop, newLeft);
 
+            this.styleObject.top = newTop+'px';
+            this.styleObject.left = newLeft+'px';
+
+            console.log(topDelta, leftDelta);
+
+            //            this.styleObject.left = msg[1].toString()+'px';
+            console.log(msg);
+            this.dialogKey=this.dialogKey+1;
+
+          },
+
+          configSelected(msg) {
+            switch (msg[0]) {
+              case 'cancel': {
+                this.dialogType = 0;
+                break;
+              }
+            }
+          },
 
 
 
