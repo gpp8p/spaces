@@ -5,7 +5,7 @@
               <header-bar :message="message" @tabSelected="tabSelected" @login="login" @logError="logError" @viewStatusChangeFunction="viewStatusChange"></header-bar>
           </section>
           <section class="content">
-              <router-view @layoutMessage="showLayoutMessage" @tabSelected="tabSelected" @layoutChanged="testEmit" @viewStatusChangeFunction="viewStatusChange"></router-view>
+              <router-view @layoutMessage="showLayoutMessage" @tabSelected="tabSelected" @configSelected="viewStatusChange" @layoutChanged="testEmit" @viewStatusChangeFunction="viewStatusChange"></router-view>
           </section>
 
         </span>
@@ -69,12 +69,13 @@
           }
           case 'Create':{
             debugger;
+            this.displayViewStatusChangeFunction(['newLayout',0]);
             this.$eventHub.$emit('editStatusChanged', ['newLayout',0]);
             break;
           }
           case 'New Card':{
             this.headerBarViewStatusChangeFunction(['New Card', 0]);
-            this.editViewStatusChangeFunction();
+            this.editViewStatusChangeFunction(['New Card', 0]);
             this.displayViewStatusChangeFunction();
             this.$eventHub.$emit('editStatusChanged', ['newCard',0]);
             break;
@@ -88,7 +89,8 @@
             break;
           }
           case 'cancel':{
-            debugger;
+//            debugger;
+            this.headerBarViewStatusChangeFunction(['Cancel New Card', 0]);
             this.$eventHub.$emit('editStatusChanged', ['openEdit',0]);
             break;
           }
@@ -121,6 +123,10 @@
           }
           case 'displayLayout':{
             this.displayViewStatusChangeFunction=msg[1];
+            break;
+          }
+          case 'layoutSaved':{
+            console.log('app recieved layoutSaved', msg);
             break;
           }
         }

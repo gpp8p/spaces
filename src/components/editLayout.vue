@@ -131,8 +131,15 @@
                     ";";
                 return gridCss;
             },
-            viewStatusChangeFunction(){
+            viewStatusChangeFunction(args){
               console.log('editLayout recieved a view status change');
+              switch(args[0]){
+                case 'New Card':{
+                  this.newCardBeingAdded = true;
+                  this.cstatus=this.WAITINGFORCLICK;
+                  break;
+                }
+              }
             },
             configSelected(msg){
                 switch(msg[0]){
@@ -140,6 +147,7 @@
                         this.dialogType=0;
                         this.cardCurrentConfigurationValues={};
                         this.$emit('tabSelected', msg[0]);
+                        this.cancelLayoutEdit();
                         break;
                     }
                     case 'save':{

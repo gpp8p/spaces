@@ -101,6 +101,17 @@
             },
             viewStatusChange(args){
               console.log('view status change called in headerBar:', args);
+              switch(args[0]){
+                case 'New Card':{
+                  this.message = "Please identify top right corner of card by clicking on an empty tile";
+                  break;
+                }
+                case 'Cancel New Card':{
+                  this.message='';
+                  break;
+                }
+              }
+
             },
             editStatusChanged(msg){
                 debugger;

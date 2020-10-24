@@ -120,8 +120,14 @@
               console.log('displayLayout:',msg);
               this.dialogType = this.DIALOG_NEW_LAYOUT;
             },
-          displayLayoutViewStatusChange(){
+          displayLayoutViewStatusChange(args){
             console.log('displayLayout recieved a view Status change');
+            switch(args[0]){
+              case 'newLayout':{
+                this.dialogType = this.DIALOG_NEW_LAYOUT;
+                break;
+              }
+            }
           },
           dragStart(msg){
 //                debugger;
@@ -154,6 +160,9 @@
               case 'cancel': {
                 this.dialogType = 0;
                 break;
+              }
+              default: {
+                this.$emit('configSelected',msg);
               }
             }
           },

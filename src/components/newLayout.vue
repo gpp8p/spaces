@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "newLayout",
   mounted(){
@@ -62,6 +63,29 @@ export default {
       menuOptions: ['Create New Layout', 'Cancel' ],
       openMenuOption: 'Create New Layout'
     }
+  },
+  methods:{
+    saveClicked(){
+//        debugger;
+      axios.post('http://localhost:8000/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
+        name: this.layoutName,
+        description: this.layoutDescription,
+        height: this.layoutRows,
+        width: this.layoutColumns,
+        backgroundColor: this.val,
+        userId: this.$store.getters.getLoggedInUserId,
+        user: this.$store.getters.getLoggedInUser,
+        orgId: this.$store.getters.getOrgId
+      }).then(response=>
+      {
+//            debugger;
+        this.layoutId=response.data;
+        this.$emit('layoutSaved', [this.layoutId, this.layoutRows, this.layoutColumns, this.layoutDescription, this.layoutName, this.val]);
+//                this.$refs.editGrid.createBlankLayout(msg[2],msg[3],msg[1],msg[0]);
+      }).catch(function(error) {
+        console.log(error);
+      });
+    },
   }
 }
 </script>

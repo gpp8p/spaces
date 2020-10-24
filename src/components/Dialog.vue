@@ -26,6 +26,7 @@
           <new-layout
               v-if = "dialogType==this.DIALOG_NEW_LAYOUT"
               @componentSettingsMounted="componentSettingsMounted"
+              @layoutSaved="layoutSaved"
           ></new-layout>
         </div>
         <div class="dialogComponentFooter">
@@ -71,6 +72,10 @@
             handleDragStart(evt){
 //                debugger;
                 this.$emit('dragStart',[evt.screenX, evt.screenY])
+            },
+            layoutSaved(msg){
+                console.log('layoutSaved', msg);
+              this.$emit('configSelected', ['layoutSaved',msg]);
             },
             menuOptSelected(msg){
               console.log(msg);
