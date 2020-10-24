@@ -15,6 +15,7 @@
     import menuComponent from "../components/menuComponent.vue";
     import loginComponent  from "./loginComponent";
     import contextArea from "../components/contextArea.vue";
+//    import menuItem from "@/components/menuItem";
     export default {
         name: "headerBar",
         props:{
@@ -50,18 +51,38 @@
               CARDBEINGCONFIGED:8,
           }
         },
+        mounted(){
+          this.$emit('viewStatusChangeFunction', ['headerBar',this.viewStatusChange]);
+        },
         created() {
+            console.log('event hub set up in headerBar');
             this.$eventHub.$on('layoutChanged', this.layoutChanged);
             this.$eventHub.$on('editStatusChanged', this.editStatusChanged);
         },
         beforeDestroy(){
+            console.log('event hub turned off in headerBar');
             this.$eventHub.$off('layoutChanged');
             this.$eventHub.$off('editStatusChanged');
         },
         components: {menuComponent, loginComponent, contextArea},
         methods:{
             tabSelected(msg){
-                this.$emit('tabSelected', msg[0]);
+//                debugger;
+
+                switch(msg[0]){
+                  case 'Edit':{
+                    this.viewContext=this.VIEW_EDITING;
+                    this.menuItems = this.getMenuItems();
+                    break;
+                  }
+                  case 'Cancel Edit':{
+                    this.viewContext=this.VIEW_VIEWING;
+                    this.menuItems = this.getMenuItems();
+                    break;
+                  }
+                }
+
+              this.$emit('tabSelected', msg[0]);
             },
             login(msg){
 //                debugger;
@@ -75,11 +96,19 @@
             logError(msg){
                 this.$emit('logError', msg);
             },
+            testEvtHub(){
+              console.log('Event hub caught it');
+            },
+            viewStatusChange(args){
+              console.log('view status change called in headerBar:', args);
+            },
             editStatusChanged(msg){
-//                debugger;
-                console.log(msg);
+                debugger;
+                console.log('edit status called',msg);
                 switch(msg[0]){
+
                     case 'openEdit':{
+                        debugger;
                         this.viewContext=this.VIEW_EDITING;
                         break;
                     }
@@ -88,6 +117,7 @@
                             this.viewContext=this.VIEW_VIEWING;
                         break;
                     }
+
                     case 'newCard':
                         switch(msg[1]){
                             case this.WAITINGFORCLICK:
@@ -102,7 +132,7 @@
                 this.menuItems=this.getMenuItems();
             },
             getMenuItems(){
-//                debugger;
+                debugger;
                 if(this.viewContext==this.VIEW_VIEWING){
                     if(this.topPerm==this.VIEW_PERM){
                         return ['Info', 'Comments','Test'];

@@ -2,10 +2,10 @@
 
         <span class="layoutScreen">
           <section class="navbar">
-              <header-bar :message="message" @tabSelected="tabSelected" @login="login" @logError="logError"></header-bar>
+              <header-bar :message="message" @tabSelected="tabSelected" @login="login" @logError="logError" @viewStatusChangeFunction="viewStatusChange"></header-bar>
           </section>
           <section class="content">
-              <router-view @layoutMessage="showLayoutMessage" @tabSelected="tabSelected" @layoutChanged="testEmit"></router-view>
+              <router-view @layoutMessage="showLayoutMessage" @tabSelected="tabSelected" @layoutChanged="testEmit" @viewStatusChangeFunction="viewStatusChange"></router-view>
           </section>
 
         </span>
@@ -45,15 +45,18 @@
     data(){
       return {
         openDialog: false,
-        message: ''
+        message: '',
+        headerBarViewStatusChangeFunction:null,
+        editViewStatusChangeFunction:null,
+        displayViewStatusChangeFunction:null,
       }
     },
     methods: {
       tabSelected(msg){
-//                debugger;
+ //               debugger;
         switch(msg){
           case 'Edit':{
-            debugger;
+            this.$eventHub.$emit('editStatusChanged', ['openEdit',0]);
             this.$router.push({
               name: 'edit',
               params: { layoutId: this.$store.getters.getCurrentLayoutId }
@@ -70,6 +73,9 @@
             break;
           }
           case 'New Card':{
+            this.headerBarViewStatusChangeFunction(['New Card', 0]);
+            this.editViewStatusChangeFunction();
+            this.displayViewStatusChangeFunction();
             this.$eventHub.$emit('editStatusChanged', ['newCard',0]);
             break;
           }
@@ -98,6 +104,23 @@
           }
           case 'Dialog':{
             this.openDialog = true;
+            break;
+          }
+        }
+      },
+      viewStatusChange(msg){
+        debugger;
+        switch(msg[0]){
+          case 'headerBar':{
+            this.headerBarViewStatusChangeFunction=msg[1];
+            break;
+          }
+          case 'editLayout':{
+            this.editViewStatusChangeFunction=msg[1];
+            break;
+          }
+          case 'displayLayout':{
+            this.displayViewStatusChangeFunction=msg[1];
             break;
           }
         }

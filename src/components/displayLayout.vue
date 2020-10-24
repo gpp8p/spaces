@@ -44,6 +44,7 @@
         mounted(){
 //          debugger;
           console.log('displayLayout mounted',this.$route.params.layoutId);
+            this.$emit('viewStatusChangeFunction',['displayLayout', this.displayLayoutViewStatusChange])
 //          debugger;
             var thisLayoutIdStack;
             var thisStringLayoutIdStack = sessionStorage.getItem('layoutIdStack');
@@ -119,6 +120,9 @@
               console.log('displayLayout:',msg);
               this.dialogType = this.DIALOG_NEW_LAYOUT;
             },
+          displayLayoutViewStatusChange(){
+            console.log('displayLayout recieved a view Status change');
+          },
           dragStart(msg){
 //                debugger;
             this.dragStartX=msg[1];

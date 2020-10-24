@@ -107,6 +107,7 @@
 //            debugger;
             this.reloadLayout(this.$route.params.layoutId);
             this.displayStatus=false;
+            this.$emit('viewStatusChangeFunction',['editLayout', this.viewStatusChangeFunction]);
             this.$eventHub.$emit('editStatusChanged',['openEdit',0]);
         },
         methods: {
@@ -129,6 +130,9 @@
                     gridWidthCss +
                     ";";
                 return gridCss;
+            },
+            viewStatusChangeFunction(){
+              console.log('editLayout recieved a view status change');
             },
             configSelected(msg){
                 switch(msg[0]){
