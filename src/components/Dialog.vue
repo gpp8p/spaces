@@ -24,9 +24,10 @@
               @configSelected="configSelected"
           ></new-card-create>
           <new-layout
+              ref="newl"
               v-if = "dialogType==this.DIALOG_NEW_LAYOUT"
               @componentSettingsMounted="componentSettingsMounted"
-              @layoutSaved="layoutSaved"
+              @layoutData="layoutSave"
           ></new-layout>
         </div>
         <div class="dialogComponentFooter">
@@ -40,7 +41,8 @@
     import greenComponentSettings from "../components/greenComponentSettings.vue";
     import menuOpt from "../components/menuOpt.vue";
     import newCardCreate from "../components/newCardCreate.vue";
-    import newLayout from "../components/newLayout.vue";
+//    import newLayout from "../components/newLayout.vue";
+    import newLayout from "../components/createLayout.vue";
     export default {
         name: "Dialog",
         components :{greenComponentSettings, menuOpt, newCardCreate, newLayout},
@@ -73,9 +75,8 @@
 //                debugger;
                 this.$emit('dragStart',[evt.screenX, evt.screenY])
             },
-            layoutSaved(msg){
-                console.log('layoutSaved', msg);
-              this.$emit('configSelected', ['layoutSaved',msg]);
+            layoutSave(msg){
+              console.log(msg);
             },
             menuOptSelected(msg){
               console.log(msg);
@@ -87,6 +88,11 @@
                 }
                 case 'Save':{
                   this.$emit('configSelected',['save']);
+                  break;
+                }
+                case 'Save Layout':{
+                  this.$emit('configSelected',['cancel']);
+                  this.$refs.newl.getEnteredData();
                   break;
                 }
 

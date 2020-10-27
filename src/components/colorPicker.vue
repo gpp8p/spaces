@@ -1,6 +1,6 @@
 <template>
         <span class="colorSpan">
-            <input  id="input-color" type="color" class="input-color" @change="newColor" :value="val"/>
+            <input   type="color" @change="newColor" :value="val"/>
             <span class="colorSpanLabel">Click to select </span>
         </span>
 </template>
