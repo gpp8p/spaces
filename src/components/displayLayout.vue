@@ -161,6 +161,11 @@
                 this.dialogType = 0;
                 break;
               }
+              case 'layoutSaved':{
+                this.dialogType = 0;
+                this.$emit('configSelected',msg);
+                break;
+              }
               default: {
                 this.$emit('configSelected',msg);
               }

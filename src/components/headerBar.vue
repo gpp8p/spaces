@@ -114,12 +114,12 @@
 
             },
             editStatusChanged(msg){
-                debugger;
+ //               debugger;
                 console.log('edit status called',msg);
                 switch(msg[0]){
 
                     case 'openEdit':{
-                        debugger;
+//                        debugger;
                         this.viewContext=this.VIEW_EDITING;
                         break;
                     }
@@ -143,7 +143,7 @@
                 this.menuItems=this.getMenuItems();
             },
             getMenuItems(){
-                debugger;
+//                debugger;
                 if(this.viewContext==this.VIEW_VIEWING){
                     if(this.topPerm==this.VIEW_PERM){
                         return ['Info', 'Comments','Test'];

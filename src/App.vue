@@ -63,12 +63,12 @@
             })
 
 
-            this.openDialog=false;
-            this.$router.push('edit');
+//            this.openDialog=false;
+//            this.$router.push('edit');
             break;
           }
           case 'Create':{
-            debugger;
+//            debugger;
             this.displayViewStatusChangeFunction(['newLayout',0]);
             this.$eventHub.$emit('editStatusChanged', ['newLayout',0]);
             break;
@@ -111,7 +111,7 @@
         }
       },
       viewStatusChange(msg){
-        debugger;
+//        debugger;
         switch(msg[0]){
           case 'headerBar':{
             this.headerBarViewStatusChangeFunction=msg[1];
@@ -126,7 +126,17 @@
             break;
           }
           case 'layoutSaved':{
+//            debugger;
+            store.commit('setCurrentLayoutId', msg[1]);
+
             console.log('app recieved layoutSaved', msg);
+            this.$eventHub.$emit('editStatusChanged', ['openEdit',0]);
+            this.$router.push({
+              name: 'edit',
+              params: { layoutId: this.$store.getters.getCurrentLayoutId }
+            })
+
+
             break;
           }
         }

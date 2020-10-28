@@ -76,13 +76,9 @@
                 this.$emit('dragStart',[evt.screenX, evt.screenY])
             },
             layoutData(msg){
-              debugger;
-              console.log(msg);
-              this.$emit('configSelected',['cancel']);
-              this.$router.push({
-                name: 'displayLayout',
-                params: { layoutId: msg[0] }
-              });
+ //             debugger;
+              console.log('layoutData',msg);
+              this.$emit('configSelected',['layoutSaved', msg[0]]);
             },
             menuOptSelected(msg){
               console.log(msg);
@@ -103,7 +99,7 @@
                 }
 
                 case 'Create New Card':{
-                  debugger;
+//                  debugger;
                   var newCardTitle = this.$refs.newCardDialog.getCardTitle();
                   var newCardType = this.$refs.newCardDialog.getCardType()
                   this.$emit('configSelected', ['Create New Card', newCardTitle, newCardType]);

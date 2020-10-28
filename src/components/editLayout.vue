@@ -156,7 +156,7 @@
                       break;
                     }
                     case 'Create New Card':{
-                      debugger;
+//                      debugger;
                       var currentLayoutId = this.$store.getters.getCurrentLayoutId;
                       console.log(msg);
                       console.log(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
@@ -213,7 +213,7 @@
               console.log('cardClick', msg);
               switch(msg[0][2]){
                   case 'greenComponent':{
-                      debugger;
+//                      debugger;
                       this.cardDataFunction = msg[0][3];
 //                      this.cardCurrentConfigurationValues = msg[0][5];
                       this.dialogType=this.DIALOG_CONFIGURE_GREEN_CARD;
@@ -482,7 +482,7 @@
             },
  */
             insertCard(layoutId, title, cardType, tlrow, tlcol, brrow, brcol){
-                debugger;
+//                debugger;
                 axios.post('http://localhost:8000/saveCardOnly?XDEBUG_SESSION_START=12016', {
                     layoutId: layoutId,
                     cardTitle: title,
