@@ -27,7 +27,7 @@
               ref="newl"
               v-if = "dialogType==this.DIALOG_NEW_LAYOUT"
               @componentSettingsMounted="componentSettingsMounted"
-              @layoutData="layoutSave"
+              @layoutData="layoutData"
           ></new-layout>
         </div>
         <div class="dialogComponentFooter">
@@ -75,8 +75,14 @@
 //                debugger;
                 this.$emit('dragStart',[evt.screenX, evt.screenY])
             },
-            layoutSave(msg){
+            layoutData(msg){
+              debugger;
               console.log(msg);
+              this.$emit('configSelected',['cancel']);
+              this.$router.push({
+                name: 'displayLayout',
+                params: { layoutId: msg[0] }
+              });
             },
             menuOptSelected(msg){
               console.log(msg);
@@ -91,7 +97,7 @@
                   break;
                 }
                 case 'Save Layout':{
-                  this.$emit('configSelected',['cancel']);
+
                   this.$refs.newl.getEnteredData();
                   break;
                 }
