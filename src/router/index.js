@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import displayLayout from "../components/displayLayout.vue"
 import editLayout from "../components/editLayout.vue";
 import errorPage from "../components/errorPage.vue"
+import MySpaces from "@/components/MySpaces";
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ Vue.use(VueRouter)
       name: 'edit',
       component: editLayout
 
+    },
+    {
+      path: '/MySpaces',
+      name: 'MySpaces',
+      component: MySpaces
     },
     {
       path: '/displayLayout/edit/:layoutId',

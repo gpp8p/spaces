@@ -17,6 +17,8 @@
   import Vue from 'vue';
   import Oruga from '@oruga-ui/oruga';
   import '@oruga-ui/oruga/dist/oruga.css';
+  import '@oruga-ui/oruga/dist/oruga-vars.css'
+  import '@mdi/font/css/materialdesignicons.css'
   import headerBar from "./components/headerBar.vue";
   import store from './store';
 
@@ -94,6 +96,13 @@
             this.$eventHub.$emit('editStatusChanged', ['openEdit',0]);
             break;
           }
+          case 'My Spaces':{
+            this.$router.push({
+              name: 'MySpaces',
+              params: {}
+            })
+            break;
+          }
           case 'Table':{
             this.openDialog=false;
             this.$router.push('table');
@@ -169,6 +178,16 @@
 </script>
 
 <style>
+
+:root {
+  --oruga-table-color: blue;
+  --oruga-table-background-color: #dbddb0;
+  --oruga-color-primary: green;
+  --oruga-color-danger: red;
+  --oruga-table-row-active-background-color:green;
+  --oruga-table-hoverable-background-color:red;
+  --oruga-table-row-active-color:red;
+}
 
   .layoutScreen {
     position: fixed;
