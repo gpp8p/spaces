@@ -5,7 +5,7 @@
               <header-bar :message="message" @tabSelected="tabSelected" @login="login" @logError="logError" @viewStatusChangeFunction="viewStatusChange"></header-bar>
           </section>
           <section class="content">
-              <router-view @layoutMessage="showLayoutMessage" @tabSelected="tabSelected" @configSelected="viewStatusChange" @layoutChanged="testEmit" @viewStatusChangeFunction="viewStatusChange"></router-view>
+              <router-view @layoutMessage="showLayoutMessage" @tabSelected="tabSelected" @configSelected="viewStatusChange" @layoutSelected="layoutSelected" @viewStatusChangeFunction="viewStatusChange"></router-view>
           </section>
 
         </span>
@@ -170,6 +170,13 @@
         });
 
       },
+      layoutSelected(msg){
+        console.log('layoutSelected',msg);
+        this.$router.push({
+          name: 'displayLayout',
+          params: {layoutId: msg}
+        })
+      },
       testEmit(msg){
         console.log('router view caught:', msg);
       }
@@ -181,7 +188,7 @@
 
 :root {
   --oruga-table-color: blue;
-  --oruga-table-background-color: #dbddb0;
+  --oruga-table-background-color: #dbddd0;
   --oruga-color-primary: green;
   --oruga-color-danger: red;
   --oruga-table-row-active-background-color:green;
