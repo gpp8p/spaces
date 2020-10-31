@@ -76,7 +76,7 @@
                         this.$emit('newLayout', [this.$route.params.layoutId]);
                     }
                 }
-
+                axios.defaults.headers.common['Authorization'] = `Bearer ${this.credentials.bearerToken}`;
                 store.commit('setBearerToken', this.credentials.bearerToken);
                 store.commit('setLoggedInUserId', this.credentials.loggedInUserId);
                 store.commit('setLoggedInUser', this.credentials.loggedInUser);
@@ -147,6 +147,8 @@
                         this.credentials.loggedInUser = response.data.userName;
                         this.credentials.loggedInUserId = response.data.userId;
                         this.credentials.is_admin = response.data.is_admin;
+//                        console.log('access token',response.data.access_token);
+                        axios.defaults.headers.common['Authorization'] = `Bearer ${this.credentials.bearerToken}`;
 
                         sessionStorage.setItem('bearerToken', this.credentials.bearerToken);
                         sessionStorage.setItem('loggedInUser', this.credentials.loggedInUser);
