@@ -15,7 +15,7 @@
                 <color-picker :currentValues="currentValues" :pType="pType" @selectedValue="configSelected"></color-picker>
             </span>
             <span v-if="this.backgroundTypeSelection==this.IMAGE_SELECTED" class="imageSelectorStyle">
-                <file-upload :fileRole="this.fileRole" @configSelected="configSelected"></file-upload>
+                <file-upload :fileRole="this.fileRole" @selectedValue="configSelected"></file-upload>
             </span>
         </span>
     </span>

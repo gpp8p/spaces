@@ -6,12 +6,13 @@
     name: "GenericCardBase",
     methods:{
       setCardData(cardData, cardDataElement) {
-        debugger;
+//        debugger;
         switch (cardDataElement) {
           case "backgroundColor":
             this.$el.style.backgroundColor=cardData;
             break
           case "backgroundImage":
+            debugger;
             this.$el.style.backgroundImage=cardData;
             this.$el.style.backgroundSize="100% 100%";
             break;
@@ -48,7 +49,7 @@
             }
             break;
           case "border":
-            debugger;
+//            debugger;
             if(cardData=='activated'){
               this.$el.style.border="thin solid #0000FF";
             }else{

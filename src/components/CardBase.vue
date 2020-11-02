@@ -44,6 +44,7 @@
             this.styling.backgroundColor="background-color:"+cardData+";";
             break
           case "backgroundImage":
+            debugger;
             var backGroundImageReference = "url(http://localhost:8000/storage/"+cardData+")";
 //            var backGroundImageReference = "url('" + cardData + "')";
 //            this.$el.style.backgroundImage = backGroundImageReference;

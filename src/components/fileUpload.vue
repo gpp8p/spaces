@@ -2,7 +2,9 @@
     <span class="uploadWrapperStyle">
         <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
         <span v-if="uploadStatus">
-            <v-btn small color="primary" @click="submitFile">Save ?</v-btn>
+            <o-button size="small"  @click="submitFile">
+              Upload
+            </o-button>
         </span>
         <span v-if="!uploadStatus">
             File Uploaded Successfully!
