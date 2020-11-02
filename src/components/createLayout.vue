@@ -86,7 +86,7 @@ name: "createLayout",
         description: this.layoutDescription,
         height: this.layoutRows,
         width: this.layoutColumns,
-        backgroundColor: this.val,
+        backgroundColor: this.updatedColor,
         userId: this.$store.getters.getLoggedInUserId,
         user: this.$store.getters.getLoggedInUser,
         orgId: this.$store.getters.getOrgId
