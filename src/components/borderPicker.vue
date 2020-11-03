@@ -64,7 +64,7 @@
         methods:{
 
             refreshCurrentValues(){
-              debugger;
+//              debugger;
               if(this.currentValues.borderInclude=='checked'){
                 this.checked=true;
                 var unpackedBorderValues = this.currentValues.border.split(' ');

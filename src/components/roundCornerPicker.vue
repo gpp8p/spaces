@@ -39,7 +39,7 @@
               }
             },
             refreshCurrentValues(){
-              debugger;
+//              debugger;
               if(this.currentValues.roundIncluded=='checked'){
                 this.round=true;
               }

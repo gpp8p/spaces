@@ -54,10 +54,7 @@
         },
         watch:{
           currentValues: function(){
-            if(this.currentValues['backgroundTypeColor']=='checked'){
-              this.backgroundTypeSelection = this.COLOR_SELECTED;
-              this.val='color';
-            }
+            this.refreshCurrentValues();
           },
           dialogKey: function(){
             this.refreshCurrentValues();
@@ -69,18 +66,21 @@
         },
         methods:{
             refreshCurrentValues(){
-              console.log('refreshCurrentValues called');
-//              debugger;
-              if(this.currentValues.backgroundTypeColor=='checked'){
-                this.row='color_selected';
+              debugger;
+              console.log('currentValues updated in backgroundPicker');
+              var typeColor = (this.currentValues['backgroundTypeColor']=='checked' ? true: false);
+              console.log('typeColor-',typeColor);
+              var typeImage = (this.currentValues['backgroundType']=='checked' ? true: false);
+              console.log('typeImage', typeImage);
+              var backgroundImage = this.currentValues['backgroundImage'];
+              var backgroundImageDefined = typeof(backgroundImage)=='string' ? true: false;
+              console.log('backgroundImageDefined', backgroundImageDefined);
+              if(backgroundImageDefined && typeImage){
+                this.backgroundTypeSelection = this.IMAGE_SELECTED;
+                this.val='image';
+              }else{
                 this.backgroundTypeSelection = this.COLOR_SELECTED;
                 this.val='color';
-              }else if(this.currentValues.backgroundType=='image'){
-                this.backgroundTypeSelection = this.IMAGE_SELECTED;
-                this.row='image_selected';
-                this.val="image";
-              }else{
-                this.row='';
               }
             },
             colorSelected(){

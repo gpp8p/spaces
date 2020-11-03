@@ -172,7 +172,7 @@
                     }
                     default:{
                       console.log('configSelected in editLayout- default-',msg);
-                      debugger;
+//                      debugger;
                       var cdElement = msg[0];
                       var cData = msg[1];
                       this.cardDataFunction(cData, cdElement);
