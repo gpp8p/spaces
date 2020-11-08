@@ -1,7 +1,12 @@
 <template>
     <div class="dialogComponent" ref="drg"  draggable="true"  @dragstart="handleDragStart"   @dragend="handleDragEnd" >
-        <div class="dialogComponentHeader">
-            <span class="headingText">Sample Dialog Component</span>
+        <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_TITLE">
+            <span class="headingText">{{this.titleMsg}}</span>
+        </div>
+        <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_RUSURE">
+            <span>
+              <are-you-sure :msg="sureMsg"></are-you-sure>
+            </span>
         </div>
         <br/>
 
@@ -43,9 +48,10 @@
     import newCardCreate from "../components/newCardCreate.vue";
 //    import newLayout from "../components/newLayout.vue";
     import newLayout from "../components/createLayout.vue";
+    import AreYouSure from "../components/AreYouSure.vue";
     export default {
         name: "Dialog",
-        components :{greenComponentSettings, menuOpt, newCardCreate, newLayout},
+        components :{greenComponentSettings, menuOpt, newCardCreate, newLayout, AreYouSure},
         props:{
             dialogType:{
                 type: Number,
@@ -135,7 +141,16 @@
                 DIALOG_CONFIGURE_GREEN_CARD:1,
                 DIALOG_CONFIGURE_TEXT_CARD:2,
                 DIALOG_CREATE_CARD:3,
-                DIALOG_NEW_LAYOUT:4
+                DIALOG_NEW_LAYOUT:4,
+                titleMsg:'Headline Card',
+
+                sureMsg:'Unsaved data will be lost if you cancel',
+
+                DIALOG_TITLE:0,
+                DIALOG_RUSURE:1,
+                dialogContext:0,
+
+
 
 
             }

@@ -37,6 +37,7 @@
             handleFileUpload(){
                 console.log('handleFileUpload called');
                 this.file = this.$refs.file.files[0];
+                this.submitFile();
             },
             submitFile(){
                 let formData = new FormData();

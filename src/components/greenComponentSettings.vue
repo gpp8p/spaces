@@ -41,6 +41,11 @@ import TextSet from "@/components/TextSet";
         required:true
       }
     },
+    watch:{
+      selectedMenuOption: function(){
+        this.openMenuOption = this.selectedMenuOption;
+      }
+    },
     methods:{
       cbClicked(msg){
         console.log('basic checkbox clicked', msg);
