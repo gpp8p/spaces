@@ -1,6 +1,6 @@
 <template>
   <span>
-    Are you sure: {{msg}} ?
+    {{msg}} ?
       <o-button size="small" @click="yesClick">
         Yes
       </o-button>
@@ -24,12 +24,13 @@ export default {
       this.$emit('rusureClick',true);
     },
     noClick(){
-      this.$emit('ruSureClick', false);
+      this.$emit('rusureClick', false);
     }
   }
 }
 </script>
 
 <style scoped>
+
 
 </style>

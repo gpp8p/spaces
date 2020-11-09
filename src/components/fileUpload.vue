@@ -1,11 +1,7 @@
 <template>
     <span class="uploadWrapperStyle">
         <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-        <span v-if="uploadStatus">
-            <o-button size="small"  @click="submitFile">
-              Upload
-            </o-button>
-        </span>
+
         <span v-if="!uploadStatus">
             File Uploaded Successfully!
         </span>

@@ -1,13 +1,13 @@
 <template>
     <div class="dialogComponent" ref="drg"  draggable="true"  @dragstart="handleDragStart"   @dragend="handleDragEnd" >
-        <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_TITLE">
-            <span class="headingText">{{this.titleMsg}}</span>
-        </div>
-        <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_RUSURE">
-            <span>
-              <are-you-sure :msg="sureMsg"></are-you-sure>
+      <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_TITLE">
+        <span class="headingText">{{this.titleMsg}}</span>
+      </div>
+      <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_RUSURE">
+            <span class="sure">
+              <are-you-sure :msg="sureMsg" @rusureClick="rusure"></are-you-sure>
             </span>
-        </div>
+      </div>
         <br/>
 
         <div class="dialogComponentBody">
@@ -75,6 +75,7 @@
                 this.$emit('configSelected', ['save']);
             },
             configSelected(msg){
+                this.dialogDataChanged = true;
                 this.$emit('configSelected', msg);
             },
             handleDragStart(evt){
@@ -88,32 +89,55 @@
             },
             menuOptSelected(msg){
               console.log(msg);
-              this.currentSelectedMenuOption = msg;
               switch(msg){
                 case 'Cancel':{
-                  this.$emit('configSelected',['cancel']);
+                  if(this.dialogDataChanged){
+                    this.freezeEvent('configSelected',['cancel']);
+                    this.sureMsg = 'Unsaved changes - are you sure you want to cancel ?';
+                    this.dialogContext=this.DIALOG_RUSURE
+                  }else{
+                    this.currentSelectedMenuOption = msg;
+                    this.$emit('configSelected',['cancel']);
+                  }
                   break;
                 }
                 case 'Save':{
+                  this.currentSelectedMenuOption = msg;
                   this.$emit('configSelected',['save']);
                   break;
                 }
                 case 'Save Layout':{
-
+                  this.currentSelectedMenuOption = msg;
                   this.$refs.newl.getEnteredData();
                   break;
                 }
 
                 case 'Create New Card':{
 //                  debugger;
+                  this.currentSelectedMenuOption = msg;
                   var newCardTitle = this.$refs.newCardDialog.getCardTitle();
                   var newCardType = this.$refs.newCardDialog.getCardType()
                   this.$emit('configSelected', ['Create New Card', newCardTitle, newCardType]);
                   break;
                 }
+                default:{
+                  this.currentSelectedMenuOption = msg;
+                  break;
+                }
               }
             },
-
+            rusure(msg){
+              debugger;
+              if(msg){
+                this.sureMsg = '';
+                this.dialogContext=this.DIALOG_TITLE;
+                this.releaseFrozenEvent();
+              }else{
+                this.sureMsg = '';
+                this.dialogContext=this.DIALOG_TITLE;
+                this.freezeEvent('',[]);
+              }
+            },
             handleDragEnd(evt){
                 this.lastMouseX = evt.screenX;
                 this.lastMouseY = evt.screenY;
@@ -123,6 +147,13 @@
               console.log(msg);
               this.currentMenuOpts = msg[0];
               this.currentSelectedMenuOption = msg[1];
+            },
+            freezeEvent(eventType, eventArgs){
+                this.frozenEvent.eventType = eventType;
+                this.frozenEvent.eventArgs = eventArgs;
+            },
+            releaseFrozenEvent(){
+              this.$emit(this.frozenEvent.eventType, this.frozenEvent.eventArgs);
             }
         },
 
@@ -144,11 +175,18 @@
                 DIALOG_NEW_LAYOUT:4,
                 titleMsg:'Headline Card',
 
-                sureMsg:'Unsaved data will be lost if you cancel',
+                sureMsg:'',
 
                 DIALOG_TITLE:0,
                 DIALOG_RUSURE:1,
                 dialogContext:0,
+
+                frozenEvent:{
+                  eventType:'',
+                  eventArgs:[]
+                },
+                dialogDataChanged: false
+
 
 
 
@@ -179,6 +217,7 @@
         font-size: 12px;
         font-style: normal;
         font-weight: bold;
+        padding-top: 5px;
     }
     .headingText{
         margin-top: 5px;
@@ -212,5 +251,8 @@
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
       color: #2c3e50;
+    }
+    .sure {
+      margin-top: 5px;
     }
 </style>
