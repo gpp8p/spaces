@@ -30,15 +30,15 @@
         props:{
           currentValues: {
               type: Object,
-              required: true
+              required: false
           },
           pType: {
               type: String,
-              required: true
+              required: false
           },
           dialogKey:{
             type: Number,
-            required:true
+            required:false
           }
         },
         data(){
@@ -94,7 +94,8 @@
                 this.$emit('configSelected', ['backgroundType',this.backgroundTypeSelection] );
             },
             configSelected(msg){
-                this.$emit('configSelected', msg);
+                console.log('bgpick - color:', msg);
+                this.$emit('configSelected', ['selectedColor',msg[1]]);
             },
             getCurrentValue(){
                 //debugger;
@@ -112,7 +113,7 @@
     .backgroundPickerWrapper{
         display:grid;
         grid-template-rows: 100%;
-        grid-template-columns: 15% 15% 60%;
+        grid-template-columns: 20% 20% 60%;
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;

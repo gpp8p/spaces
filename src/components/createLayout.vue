@@ -37,9 +37,9 @@
           <span>
             Background Color:
           </span>
-          <span  class="colorSpan">
-            <input  type="color" @change="newColor" :value="val"/>
-          </span>
+       <span class="backgroundPick">
+          <background-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="backgroundColorType" @configSelected="configSelected"></background-picker>
+      </span>
      </span>
   </span>
 
@@ -47,9 +47,11 @@
 
 <script>
 import axios from "axios";
+import backgroundPicker from "@/components/backgroundPicker";
 
 export default {
 name: "createLayout",
+  components: {backgroundPicker},
   mounted(){
     this.$emit("componentSettingsMounted",[this.menuOptions,this.openMenuOption])
   },
@@ -63,6 +65,11 @@ name: "createLayout",
       val:'#dbddb0',
       updatedColor:'#dbddb0',
 
+      backgroundImageFile:'',
+      backgrountType:0,
+      BACKGROUND_IMAGE:2,
+      BACKGROUND_COLOR:1,
+
       menuOptions: ['Save Layout', 'Cancel' ],
       openMenuOption: 'Save Layout'
     }
@@ -70,6 +77,23 @@ name: "createLayout",
   methods:{
     getEnteredData(){
       this.saveClicked();
+
+    },
+    configSelected(msg){
+      switch(msg[0]){
+        case 'backgroundType':{
+          this.backgroundType = msg[1];
+          break;
+        }
+        case 'backgroundImage':{
+          this.backgroundImageFile = msg[1];
+          break;
+        }
+        case 'selectedColor':{
+          this.updatedColor = msg[1];
+          break;
+        }
+      }
 
     },
     newColor(evt){
