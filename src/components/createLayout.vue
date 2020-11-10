@@ -66,9 +66,10 @@ name: "createLayout",
       updatedColor:'#dbddb0',
 
       backgroundImageFile:'',
-      backgrountType:0,
-      BACKGROUND_IMAGE:2,
-      BACKGROUND_COLOR:1,
+      backgroundType:'',
+      NOTHING_SELECTED:0,
+      COLOR_SELECTED:1,
+      IMAGE_SELECTED:2,
 
       menuOptions: ['Save Layout', 'Cancel' ],
       openMenuOption: 'Save Layout'
@@ -80,16 +81,23 @@ name: "createLayout",
 
     },
     configSelected(msg){
+      debugger;
       switch(msg[0]){
-        case 'backgroundType':{
-          this.backgroundType = msg[1];
+        case "backgroundType":{
+          if(msg[1]==this.COLOR_SELECTED){
+            this.backgroundType="C";
+          }else if(msg[1]==this.IMAGE_SELECTED){
+            this.backgroundType="I";
+          } else {
+            this.backgroundType='';
+          }
           break;
         }
-        case 'backgroundImage':{
+        case "backgroundImage":{
           this.backgroundImageFile = msg[1];
           break;
         }
-        case 'selectedColor':{
+        case "selectedColor":{
           this.updatedColor = msg[1];
           break;
         }
@@ -111,6 +119,8 @@ name: "createLayout",
         height: this.layoutRows,
         width: this.layoutColumns,
         backgroundColor: this.updatedColor,
+        backgroundType: this.backgroundType,
+        backgroundImage: this.backgroundImageFile,
         userId: this.$store.getters.getLoggedInUserId,
         user: this.$store.getters.getLoggedInUser,
         orgId: this.$store.getters.getOrgId
