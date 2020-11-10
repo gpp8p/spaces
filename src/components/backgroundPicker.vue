@@ -15,7 +15,7 @@
                 <color-picker :currentValues="currentValues" :pType="pType" @selectedValue="configSelected"></color-picker>
             </span>
             <span v-if="this.backgroundTypeSelection==this.IMAGE_SELECTED" class="imageSelectorStyle">
-                <file-upload :fileRole="this.fileRole" @selectedValue="configSelected"></file-upload>
+                <file-upload :fileRole="this.fileRole" @selectedValue="fileSelected"></file-upload>
             </span>
         </span>
     </span>
@@ -86,7 +86,7 @@
             colorSelected(){
                 console.log('color has been selected');
                 this.backgroundTypeSelection = this.COLOR_SELECTED;
-                this.$emit('configSelected', ['backgroundType',this.backgroundTypeSelection] );
+                this.$emit('configSelected', ['backgroundTypeColor',this.backgroundTypeSelection] );
             },
             imageSelected(){
                 console.log('image has been selected');
@@ -95,7 +95,11 @@
             },
             configSelected(msg){
                 console.log('bgpick - color:', msg);
-                this.$emit('configSelected', ['selectedColor',msg[1]]);
+                this.$emit('configSelected', ['backgroundColor',msg[1]]);
+            },
+            fileSelected(msg){
+              console.log('bgpick - file:', msg);
+              this.$emit('configSelected', ['backgroundImage',msg[1]]);
             },
             getCurrentValue(){
                 //debugger;

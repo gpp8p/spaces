@@ -84,6 +84,7 @@ name: "createLayout",
       debugger;
       switch(msg[0]){
         case "backgroundType":{
+/*
           if(msg[1]==this.COLOR_SELECTED){
             this.backgroundType="C";
           }else if(msg[1]==this.IMAGE_SELECTED){
@@ -91,13 +92,19 @@ name: "createLayout",
           } else {
             this.backgroundType='';
           }
+ */
+          this.backgroundType="I";
+          break;
+        }
+        case "backgroundTypeColor":{
+          this.backgroundType="C";
           break;
         }
         case "backgroundImage":{
           this.backgroundImageFile = msg[1];
           break;
         }
-        case "selectedColor":{
+        case "backgroundColor":{
           this.updatedColor = msg[1];
           break;
         }
