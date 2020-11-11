@@ -93,7 +93,7 @@
           }
         },
         methods: {
-            layoutGridParameters(height, width, backgroundColor) {
+            layoutGridParameters(height, width, backgroundColor, backgroundImageUrl, backgroundType) {
                 var heightSize = (95 / height).toFixed(2);
                 var widthSize = (98 / width).toFixed(2);
                 var gridHeightCss = "grid-template-rows: ";
@@ -105,13 +105,25 @@
                 for (x = 0; x < width; x++) {
                     gridWidthCss = gridWidthCss + widthSize + "% ";
                 }
-                var gridCss =
-                    "display: grid; grid-gap: 3px; background-color: "+backgroundColor+"; height: 90vh; color: #ffcd90; " +
-                    gridHeightCss +
-                    ";" +
-                    gridWidthCss +
-                    ";";
+                var gridCss;
+                if(backgroundType=='C'){
+                  gridCss =
+                      "display: grid; grid-gap: 3px; background-color: "+backgroundColor+"; height: 90vh; color: #ffcd90; " +
+                      gridHeightCss +
+                      ";" +
+                      gridWidthCss +
+                      ";";
+                }else{
+                    var backgroundUrl = "http://localhost:8000/storage/"+backgroundImageUrl;
+                    gridCss =
+                      "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); height: 90vh; color: #ffcd90; " +
+                      gridHeightCss +
+                      ";" +
+                      gridWidthCss +
+                      ";";
+                }
                 return gridCss;
+
             },
             cardDataLoaded(msg){
                 this.$emit('cardDataLoaded',msg);
@@ -189,12 +201,15 @@
                     }
                 }).then(response => {
                     // JSON responses are automatically parsed.
- //                   debugger;
+//                    debugger;
+                    console.log('getLayout-',response);
                     this.cardInstances = response.data.cards;
                     this.gridParamDefinition = this.layoutGridParameters(
                         response.data.layout.height,
                         response.data.layout.width,
-                        response.data.layout.backgroundColor
+                        response.data.layout.backgroundColor,
+                        response.data.layout.backGroundImageUrl,
+                        response.data.layout.backgroundType,
                     );
                     this.LayoutPermissions = response.data.perms;
                     if(this.canView(this.LayoutPermissions)){
