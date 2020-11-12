@@ -1,7 +1,7 @@
 <template>
     <span class="cardAppearenceWrapper">
         <span class="backgroundPick">
-            <background-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="backgroundColorType" @configSelected="configSelected"></background-picker>
+            <background-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="backgroundColorType" :noTransparent=false @configSelected="configSelected"></background-picker>
         </span>
       <span class="borderPick">
             <border-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="borderColorType" @configSelected="configSelected"></border-picker>

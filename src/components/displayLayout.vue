@@ -116,7 +116,7 @@
                 }else{
                     var backgroundUrl = "http://localhost:8000/storage/"+backgroundImageUrl;
                     gridCss =
-                      "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); height: 90vh; color: #ffcd90; " +
+                      "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size: cover; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
                       gridHeightCss +
                       ";" +
                       gridWidthCss +

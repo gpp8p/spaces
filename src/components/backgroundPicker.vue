@@ -9,8 +9,13 @@
           <o-radio v-model="val" name="imageType" @input="imageSelected" native-value="image">
             Image
           </o-radio>
-        </span>
-        <span v-if="this.backgroundTypeSelection > 0" class="pickers">
+      </span>
+     <span v-if="this.showTransparent">
+          <o-radio v-model="val" name="imageType" @input="transparentSelected" native-value="transparent">
+            Transparent
+          </o-radio>
+      </span>
+      <span v-if="this.backgroundTypeSelection==this.COLOR_SELECTED || this.backgroundTypeSelection==this.IMAGE_SELECTED" class="pickers">
             <span v-if="this.backgroundTypeSelection==this.COLOR_SELECTED">
                 <color-picker :currentValues="currentValues" :pType="pType" @selectedValue="configSelected"></color-picker>
             </span>
@@ -39,6 +44,10 @@
           dialogKey:{
             type: Number,
             required:false
+          },
+          noTransparent:{
+            type:Boolean,
+            required:false
           }
         },
         data(){
@@ -47,9 +56,11 @@
               NOTHING_SELECTED:0,
               COLOR_SELECTED:1,
               IMAGE_SELECTED:2,
+              TRANSPARENT_SELECTED:3,
               val: '',
               fileRole:"backgroundImage",
-              row:''
+              row:'',
+              showTransparent:true,
           }
         },
         watch:{
@@ -63,6 +74,9 @@
         mounted(){
 //            console.log(this.currentValues);
           this.refreshCurrentValues();
+          if(this.noTransparent==true){
+            this.showTransparent=false;
+          }
         },
         methods:{
             refreshCurrentValues(){
@@ -93,6 +107,12 @@
                 this.backgroundTypeSelection = this.IMAGE_SELECTED;
                 this.$emit('configSelected', ['backgroundType',this.backgroundTypeSelection] );
             },
+            transparentSelected(){
+              console.log('transparent has been selected');
+              this.backgroundTypeSelection = this.TRANSPARENT_SELECTED;
+              this.$emit('configSelected', ['backgroundTypeTransparent',this.backgroundTypeSelection] );
+              this.$emit('configSelected', ['backgroundColor','transparent']);
+            },
             configSelected(msg){
                 console.log('bgpick - color:', msg);
                 this.$emit('configSelected', ['backgroundColor',msg[1]]);
@@ -108,7 +128,7 @@
                 }else{
                     return this.currentValues[this.pType];
                 }
-            }
+            },
         }
     }
 </script>

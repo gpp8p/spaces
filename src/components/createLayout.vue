@@ -38,7 +38,7 @@
             Background Color:
           </span>
        <span class="backgroundPick">
-          <background-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="backgroundColorType" @configSelected="configSelected"></background-picker>
+          <background-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="backgroundColorType" :noTransparent=true @configSelected="configSelected"></background-picker>
       </span>
      </span>
   </span>
