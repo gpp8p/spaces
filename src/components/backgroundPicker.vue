@@ -137,7 +137,7 @@
     .backgroundPickerWrapper{
         display:grid;
         grid-template-rows: 100%;
-        grid-template-columns: 20% 20% 60%;
+        grid-template-columns: 15% 15% 15% 55%;
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
