@@ -1,7 +1,11 @@
 <template>
     <span class="cardAppearenceWrapper">
         <span class="backgroundPick">
-            <background-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="backgroundColorType" :noTransparent=false @configSelected="configSelected"></background-picker>
+            <span class="backgroundTypeLabel">Background Type:</span>
+            <span>
+              <background-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="backgroundColorType" :noTransparent=false @configSelected="configSelected"></background-picker>
+            </span>
+
         </span>
       <span class="borderPick">
             <border-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="borderColorType" @configSelected="configSelected"></border-picker>
@@ -71,6 +75,12 @@
 }
 .roundCornerPick{
 
+}
+.backgroundTypeLabel {
+  font-family: Arial;
+  font-size: 17px;
+  padding: 1px;
+  color: #0a3aff;
 }
 
 </style>

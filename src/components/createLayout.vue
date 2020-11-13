@@ -35,7 +35,7 @@
      </span>
      <span class="labelPlusInput">
           <span>
-            Background Color:
+            Background:
           </span>
        <span class="backgroundPick">
           <background-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="backgroundColorType" :noTransparent=true @configSelected="configSelected"></background-picker>

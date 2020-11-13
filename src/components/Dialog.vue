@@ -66,6 +66,9 @@
             required:true
           }
         },
+        mounted(){
+          this.getTitle();
+        },
         methods: {
             cancelClicked(){
                 this.$emit('configSelected',['cancel']);
@@ -154,6 +157,22 @@
             },
             releaseFrozenEvent(){
               this.$emit(this.frozenEvent.eventType, this.frozenEvent.eventArgs);
+            },
+            getTitle(){
+              switch(this.dialogType){
+                case this.DIALOG_NEW_LAYOUT:{
+                  this.titleMsg = "New Layout";
+                  break;
+                }
+                case this.DIALOG_CREATE_CARD:{
+                  this.titlezMsg = "New Card";
+                  break;
+                }
+                case this.DIALOG_CONFIGURE_GREEN_CARD:{
+                  this.titleMsg = "Headline Card";
+                  break;
+                }
+              }
             }
         },
 
@@ -199,7 +218,7 @@
 <style scoped>
     .dialogComponent {
         height:300px;
-        width:500px;
+        width:650px;
         position: relative;
         background-color: #ab97ff;
         border: 2px solid blue;
@@ -224,7 +243,7 @@
     }
     .dialogComponentBody {
         height: 72%;
-        width: 100%;
+        width: 90%;
         margin-left: 10px;
         margin-right: 10px;
         display: grid;

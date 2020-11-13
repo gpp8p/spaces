@@ -1,19 +1,22 @@
 <template>
     <span class="backgroundPickerWrapper">
-      <span>
+      <span class="radioItem">
           <o-radio v-model="val" name="imageType" @input="colorSelected" native-value="color">
-            Color
+          Color
           </o-radio>
+
         </span>
-      <span>
+      <span class="radioItem">
           <o-radio v-model="val" name="imageType" @input="imageSelected" native-value="image">
-            Image
+          Image
           </o-radio>
+
       </span>
-     <span v-if="this.showTransparent">
-          <o-radio v-model="val" name="imageType" @input="transparentSelected" native-value="transparent">
-            Transparent
+     <span class="radioItem">
+          <o-radio v-if="!noTransparent" v-model="val" name="imageType" @input="transparentSelected" native-value="transparent">
+          Transparent
           </o-radio>
+
       </span>
       <span v-if="this.backgroundTypeSelection==this.COLOR_SELECTED || this.backgroundTypeSelection==this.IMAGE_SELECTED" class="pickers">
             <span v-if="this.backgroundTypeSelection==this.COLOR_SELECTED">
@@ -137,7 +140,7 @@
     .backgroundPickerWrapper{
         display:grid;
         grid-template-rows: 100%;
-        grid-template-columns: 15% 15% 15% 55%;
+        grid-template-columns: 20% 20% 20% 40%;
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -146,6 +149,9 @@
     }
     .pickers{
         margin-left: 10px;
+    }
+    .radioItem {
+      margin-right: 10px;
     }
 
 </style>
