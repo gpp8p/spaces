@@ -80,6 +80,7 @@
               DIALOG_CONFIGURE_TEXT_CARD:2,
               DIALOG_CREATE_CARD:3,
               DIALOG_NEW_LAYOUT:4,
+              DIALOG_PERMS:5,
 
               currentValues:{},
               dialogKey:0,
@@ -137,6 +138,10 @@
             switch(args[0]){
               case 'newLayout':{
                 this.dialogType = this.DIALOG_NEW_LAYOUT;
+                break;
+              }
+              case 'access':{
+                this.dialogType = this.DIALOG_PERMS;
                 break;
               }
             }

@@ -150,7 +150,7 @@
                     }else if(this.topPerm==this.AUTHOR_PERM){
                         return ['Edit','Delete', 'Publish', 'Comments','Test'];
                     }else if((this.topPerm==this.ADMIN_PERM)){
-                        return ['Edit','Delete', 'Publish', 'Create', 'My Spaces', 'Comments','Test'];
+                        return ['Edit','Delete', 'Publish', 'Create', 'Access','My Spaces', 'Comments','Test'];
                     }
                 }else if(this.viewContext==this.VIEW_EDITING){
                     return ['New Card', 'Save', 'Cancel Edit'];

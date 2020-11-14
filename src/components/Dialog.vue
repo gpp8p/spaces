@@ -34,6 +34,9 @@
               @componentSettingsMounted="componentSettingsMounted"
               @layoutData="layoutData"
           ></new-layout>
+          <PermList v-if="dialogType==this.DIALOG_PERMS"
+                    @componentSettingsMounted="componentSettingsMounted"
+          ></PermList>
         </div>
         <div class="dialogComponentFooter">
             <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -49,9 +52,10 @@
 //    import newLayout from "../components/newLayout.vue";
     import newLayout from "../components/createLayout.vue";
     import AreYouSure from "../components/AreYouSure.vue";
+    import PermList from "../components/PermList.vue"
     export default {
         name: "Dialog",
-        components :{greenComponentSettings, menuOpt, newCardCreate, newLayout, AreYouSure},
+        components :{greenComponentSettings, menuOpt, newCardCreate, newLayout, AreYouSure, PermList},
         props:{
             dialogType:{
                 type: Number,
@@ -102,6 +106,11 @@
                     this.currentSelectedMenuOption = msg;
                     this.$emit('configSelected',['cancel']);
                   }
+                  break;
+                }
+                case 'Done':{
+                  this.currentSelectedMenuOption = msg;
+                  this.$emit('configSelected',['cancel']);
                   break;
                 }
                 case 'Save':{
@@ -172,6 +181,10 @@
                   this.titleMsg = "Headline Card";
                   break;
                 }
+                case this.DIALOG_PERMS:{
+                  this.titleMsg = "Who Can Access This Space";
+                  break;
+                }
               }
             }
         },
@@ -192,6 +205,7 @@
                 DIALOG_CONFIGURE_TEXT_CARD:2,
                 DIALOG_CREATE_CARD:3,
                 DIALOG_NEW_LAYOUT:4,
+                DIALOG_PERMS:5,
                 titleMsg:'Headline Card',
 
                 sureMsg:'',

@@ -69,6 +69,10 @@
 //            this.$router.push('edit');
             break;
           }
+          case 'Access':{
+            this.displayViewStatusChangeFunction(['access',0]);
+            break;
+          }
           case 'Create':{
 //            debugger;
             this.displayViewStatusChangeFunction(['newLayout',0]);
