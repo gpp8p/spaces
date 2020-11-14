@@ -1,10 +1,32 @@
 <template>
-  <span>Perm List</span>
+    <span class="permListContainer">
+     <span v-if="this.view==this.PERMS" >
+        <perm-list-header></perm-list-header>
+        <perm-list-line v-for="(perm, index) in currentPerms "
+                        :key="index"
+                        :groupId="perm.id"
+                        :layoutId="layoutId"
+                        :groupDescription="perm.description"
+                        :viewValue="perm.view"
+                        :authorValue="perm.author"
+                        :adminValue="perm.admin"
+                        :opt1Value="perm.opt1"
+                        :opt2Value="perm.opt2"
+                        :opt3Value="perm.opt3"
+                        :selectedId="selectedGroupId"
+                        @groupClicked="groupClicked"></perm-list-line>
+
+        </span>
+      </span>
 </template>
 
 <script>
+import axios from "axios";
+import PermListLine from "./permListLine.vue";
+import PermListHeader from "./permListHeader.vue";
 export default {
 name: "PermList",
+  components: {PermListLine, PermListHeader},
   props:{
     selectedMenuOption: {
       type: String,
@@ -20,11 +42,31 @@ name: "PermList",
       this.openMenuOption = this.selectedMenuOption;
     }
   },
-  Data(){
+  data(){
     return {
       currentMenu: [],
       currentMenuActiveOption:'',
       openMenuOption:'',
+
+      PERMS:0,
+      GROUP_INFO:1,
+      NEW_GROUP:2,
+      FIND_MEMBER:3,
+      ADD_NEW_MEMBER:4,
+      ADD_USER_TO_GROUP:5,
+      ORGANIZATION_GROUPS:6,
+
+      NEW_USER:1,
+      SELECT_USER:0,
+
+      currentPerms: [],
+      groupMembers: [],
+      OrganizationGroups: [],
+      adminUserSelect:0,
+      allUserRefresh:0,
+      selectedGroupId:0,
+      view:0,
+      layoutId:''
 
 
     }
@@ -33,7 +75,32 @@ name: "PermList",
     debugger;
     this.currentMenu = ['Add Group', 'Done'];
     this.currentMenuActiveOption = 'Done';
-    this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption])
+    this.layoutId = this.$store.getters.getCurrentLayoutId;
+    this.reloadLayoutPerms();
+    this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
+  },
+  methods:{
+    reloadLayoutPerms(){
+      axios.get('http://localhost:8000/api/shan/layoutPerms?XDEBUG_SESSION_START=14668', {
+        params:{
+          orgId:this.$store.getters.getOrgId,
+          userId:this.$store.getters.getLoggedInUserId,
+          layoutId:this.layoutId
+        }
+      })
+          .then(response => {
+// eslint-disable-next-line no-debugger
+            // JSON responses are automatically parsed.
+                               debugger;
+            this.currentPerms = response.data;
+            console.log(this.currentPerms);
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('viewableLayouts failed');
+          });
+    },
+
   }
 
 }
