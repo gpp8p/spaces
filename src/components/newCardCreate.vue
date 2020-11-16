@@ -50,6 +50,11 @@
         required:true
       }
     },
+    watch:{
+      selectedMenuOption: function(){
+        console.log('newCardCreate selectedMenuOption watcher triggered');
+      }
+    },
     methods:{
       configSelected(msg){
         console.log(msg);

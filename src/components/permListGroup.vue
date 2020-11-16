@@ -65,6 +65,7 @@
         font-size: medium;
         font-family: Arial;
         align-items: left;
+        color: black
     }
     .lline:hover {
         background-color: burlywood;

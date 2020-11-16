@@ -17,6 +17,17 @@
                         @groupClicked="groupClicked"></perm-list-line>
 
         </span>
+        <span v-if="this.view==this.GROUP_INFO">
+            <group-member-header></group-member-header>
+            <group-member-line v-for="(member, index) in  groupMembers"
+                               :key="index"
+                               :name="member.name"
+                               :email="member.email"
+                               :id="member.id"
+                               @memberSelected="memberSelected"
+
+            ></group-member-line>
+        </span>
       </span>
 </template>
 
@@ -24,9 +35,12 @@
 import axios from "axios";
 import PermListLine from "./permListLine.vue";
 import PermListHeader from "./permListHeader.vue";
+import GroupMemberLine from "./GroupMemberLine.vue";
+import GroupMemberHeader from "./GroupMemberHeader";
+
 export default {
 name: "PermList",
-  components: {PermListLine, PermListHeader},
+  components: {PermListLine, PermListHeader, GroupMemberLine, GroupMemberHeader},
   props:{
     selectedMenuOption: {
       type: String,
@@ -39,7 +53,20 @@ name: "PermList",
   },
   watch:{
     selectedMenuOption: function(){
+      console.log('permList selectedMenuOption watcher triggered');
       this.openMenuOption = this.selectedMenuOption;
+      switch(this.selectedMenuOption){
+        case 'Back':{
+          this.currentMenu = this.topMenu;
+          this.currentMenuActiveOption = 'Done';
+          this.layoutId = this.$store.getters.getCurrentLayoutId;
+          this.reloadLayoutPerms();
+          this.view=this.PERMS;
+          this.$emit('setTitle', 'Who Can Access This Space');
+          this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
+          break;
+        }
+      }
     }
   },
   data(){
@@ -66,19 +93,26 @@ name: "PermList",
       allUserRefresh:0,
       selectedGroupId:0,
       view:0,
-      layoutId:''
+      layoutId:'',
+      isGroupAdmin:false,
+
+      topMenu: ['Add Group', 'Done'],
+      adminGroupMenu: ['Add','Delete','Back','Done'],
+      groupMenu:['Back', 'Done']
 
 
     }
   },
   mounted(){
     debugger;
-    this.currentMenu = ['Add Group', 'Done'];
+    this.currentMenu = this.topMenu;
     this.currentMenuActiveOption = 'Done';
     this.layoutId = this.$store.getters.getCurrentLayoutId;
     this.reloadLayoutPerms();
+    this.$emit('setTitle', 'Who Can Access This Space');
     this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
   },
+
   methods:{
     reloadLayoutPerms(){
       axios.get('http://localhost:8000/api/shan/layoutPerms?XDEBUG_SESSION_START=14668', {
@@ -100,6 +134,44 @@ name: "PermList",
             console.log('viewableLayouts failed');
           });
     },
+
+    getGroupMembers(groupId){
+//              debugger;
+      axios.get('http://localhost:8000/api/shan/groupMembers?XDEBUG_SESSION_START=14668', {
+        params:{
+          groupId: groupId
+        }
+      })
+          .then(response => {
+// eslint-disable-next-line no-debugger
+            // JSON responses are automatically parsed.
+//                      debugger;
+            console.log('getGroupMembers', response.data);
+            this.groupMembers=response.data.members;
+            this.isGroupAdmin = response.data.groupAdmin;
+            this.$emit('setTitle', 'Group Membership:'+response.data.groupDescription);
+            this.view=this.GROUP_INFO;
+            if(this.isGroupAdmin){
+              this.currentMenu = this.adminGroupMenu;
+              this.currentMenuActiveOption = 'Done';
+              this.$emit("componentSettingsMounted",[this.adminGroupMenu,'Done']);
+            }else{
+              this.currentMenu = this.groupMenu;
+              this.currentMenuActiveOption = 'Done';
+              this.$emit("componentSettingsMounted",[this.groupMenu,'Done']);
+            }
+
+
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('groupMembers failed');
+          });
+    },
+    groupClicked(msg){
+      console.log('groupClicked',msg);
+      this.getGroupMembers(msg[0][0]);
+    }
 
   }
 

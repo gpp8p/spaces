@@ -36,6 +36,8 @@
           ></new-layout>
           <PermList v-if="dialogType==this.DIALOG_PERMS"
                     @componentSettingsMounted="componentSettingsMounted"
+                    @setTitle="setTitle"
+                    :selectedMenuOption="currentSelectedMenuOption"
           ></PermList>
         </div>
         <div class="dialogComponentFooter">
@@ -174,7 +176,7 @@
                   break;
                 }
                 case this.DIALOG_CREATE_CARD:{
-                  this.titlezMsg = "New Card";
+                  this.titleMsg = "New Card";
                   break;
                 }
                 case this.DIALOG_CONFIGURE_GREEN_CARD:{
@@ -182,10 +184,13 @@
                   break;
                 }
                 case this.DIALOG_PERMS:{
-                  this.titleMsg = "Who Can Access This Space";
+//                  this.titleMsg = "Who Can Access This Space";
                   break;
                 }
               }
+            },
+            setTitle(msg){
+              this.titleMsg = msg;
             }
         },
 
@@ -269,7 +274,7 @@
     .dialogComponentFooter {
         height: 10%;
         margin-left: 10px;
-        margin-right: 10px;
+        margin-right: 5px;
     }
     .linkStyle{
         font-family: Arial;
