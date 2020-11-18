@@ -28,19 +28,33 @@
 
             ></group-member-line>
         </span>
+        <span v-if="this.view==this.GROUP_LIST">
+          <group-list-header></group-list-header>
+          <group-list-line v-for="(group, index) in  groups"
+                           :key="index"
+                           :groupId="group.id"
+                           :groupDescription="group.description"
+                           @groupClicked="groupSelected"
+          ></group-list-line>
+        </span>
       </span>
 </template>
 
 <script>
 import axios from "axios";
+//import store from "../store";
 import PermListLine from "./permListLine.vue";
 import PermListHeader from "./permListHeader.vue";
 import GroupMemberLine from "./GroupMemberLine.vue";
 import GroupMemberHeader from "./GroupMemberHeader";
+import groupListHeader from "./groupListHeader.vue";
+import groupListLine from "./groupListLine.vue";
+import GroupListHeader from "@/components/groupListHeader";
+import GroupListLine from "@/components/groupListLine";
 
 export default {
 name: "PermList",
-  components: {PermListLine, PermListHeader, GroupMemberLine, GroupMemberHeader},
+  components: {GroupListLine, GroupListHeader, PermListLine, PermListHeader, GroupMemberLine, GroupMemberHeader, groupListHeader, groupListLine},
   props:{
     selectedMenuOption: {
       type: String,
@@ -66,6 +80,11 @@ name: "PermList",
           this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
           break;
         }
+        case "Add Group":{
+          debugger;
+          this.getOrgGroups(this.orgId, this.layoutId);
+          break;
+        }
       }
     }
   },
@@ -82,12 +101,14 @@ name: "PermList",
       ADD_NEW_MEMBER:4,
       ADD_USER_TO_GROUP:5,
       ORGANIZATION_GROUPS:6,
+      GROUP_LIST:7,
 
       NEW_USER:1,
       SELECT_USER:0,
 
       currentPerms: [],
       groupMembers: [],
+      groups:[],
       OrganizationGroups: [],
       adminUserSelect:0,
       allUserRefresh:0,
@@ -95,6 +116,7 @@ name: "PermList",
       view:0,
       layoutId:'',
       isGroupAdmin:false,
+      orgId: this.$store.getters.getOrgId,
 
       topMenu: ['Add Group', 'Done'],
       adminGroupMenu: ['Add','Delete','Back','Done'],
@@ -132,6 +154,31 @@ name: "PermList",
           .catch(e => {
             this.errors.push(e);
             console.log('viewableLayouts failed');
+          });
+    },
+
+    getOrgGroups(orgId, layoutId){
+      debugger;
+      axios.get('http://localhost:8000/api/shan/orgGroups?XDEBUG_SESSION_START=14668', {
+        params:{
+          orgId: orgId,
+          layoutId:layoutId
+        }
+      })
+          .then(response => {
+// eslint-disable-next-line no-debugger
+            // JSON responses are automatically parsed.
+//            debugger;
+            console.log(response);
+            this.groups=response.data;
+            this.view=this.GROUP_LIST;
+
+
+
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('groupMembers failed');
           });
     },
 

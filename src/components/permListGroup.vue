@@ -24,7 +24,7 @@
             },
             currentlySelectedGroupId:{
                 type: Number,
-                required: true
+                required: false
             },
             displayAsRow:{
                 type: Boolean,
