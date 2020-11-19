@@ -218,6 +218,27 @@ name: "PermList",
     groupClicked(msg){
       console.log('groupClicked',msg);
       this.getGroupMembers(msg[0][0]);
+    },
+
+    groupSelected(msg){
+      console.log(msg);
+      axios.post('http://localhost:8000/api/shan/addAccess?XDEBUG_SESSION_START=15022', {
+        orgId:this.$store.getters.getOrgId,
+        layoutId:this.layoutId,
+        groupId:msg
+      }).then(response=>
+      {
+        if(response=='ok'){
+          this.reloadLayoutPerms();
+          this.$emit('setTitle', 'Who Can Access This Space');
+          this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
+          this.view=this.PERMS;
+        }
+      })
+      .catch(e => {
+        this.errors.push(e);
+        console.log('addAccess failed');
+      });
     }
 
   }

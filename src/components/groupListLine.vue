@@ -22,6 +22,12 @@ name: "groupListLine",
       type: String,
       required: true
     }
+  },
+  methods:{
+    groupClicked(msg){
+      console.log('group clicked', msg);
+      this.$emit('groupClicked', msg[0]);
+    }
   }
 }
 </script>
