@@ -39,6 +39,17 @@
                            @groupClicked="groupSelected"
           ></group-list-line>
         </span>
+        <span v-if="this.view==this.ORG_MEMBERS">
+            <group-member-header></group-member-header>
+            <group-member-line v-for="(member, index) in  orgMembers"
+                               :key="index"
+                               :name="member.name"
+                               :email="member.email"
+                               :id="member.id"
+                               @memberSelected="orgMemberSelected"
+
+            ></group-member-line>
+        </span>
       </span>
 </template>
 
@@ -87,6 +98,10 @@ name: "PermList",
           this.getOrgGroups(this.orgId, this.layoutId);
           break;
         }
+        case "Add Member":{
+          this.getOrgMembers();
+          break;
+        }
         case "Remove Group":{
           this.setDeleteActive();
           break;
@@ -112,12 +127,14 @@ name: "PermList",
       ADD_USER_TO_GROUP:5,
       ORGANIZATION_GROUPS:6,
       GROUP_LIST:7,
+      ORG_MEMBERS:8,
 
       NEW_USER:1,
       SELECT_USER:0,
 
       currentPerms: [],
       groupMembers: [],
+      orgMembers:[],
       groups:[],
       OrganizationGroups: [],
       adminUserSelect:0,
@@ -132,7 +149,7 @@ name: "PermList",
 
       topMenu: ['Add Group', 'Remove Group','Done'],
       topMenuB: ['Add Group', 'Clear Remove','Done'],
-      adminGroupMenu: ['Add','Delete','Back','Done'],
+      adminGroupMenu: ['Add Member','Delete','Back','Done'],
       groupMenu:['Back', 'Done']
 
 
@@ -164,8 +181,27 @@ name: "PermList",
       this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
     },
     deleteClicked(msg){
-      console.log('deleteClicked-',msg);
+      console.log('deleteClicked-',msg, 'layout-', this.layoutId);
       this.clearDeleteActive();
+      axios.post('http://localhost:8000/api/shan/removePerm?XDEBUG_SESSION_START=15022', {
+        params:{
+          layoutId:this.layoutId,
+          groupId:msg
+        }
+      }).then(response=>
+      {
+        debugger;
+        if(response.data=='ok'){
+          this.reloadLayoutPerms();
+          this.$emit('setTitle', 'Who Can Access This Space');
+          this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
+          this.view=this.PERMS;
+        }
+      })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('addAccess failed');
+          });
     },
     reloadLayoutPerms(){
       axios.get('http://localhost:8000/api/shan/layoutPerms?XDEBUG_SESSION_START=14668', {
@@ -187,7 +223,28 @@ name: "PermList",
             console.log('viewableLayouts failed');
           });
     },
+    getOrgMembers(){
+      axios.get('http://localhost:8000/api/shan/orgUsers?XDEBUG_SESSION_START=14668', {
+        params:{
+          orgId: this.$store.getters.getOrgId
+        }
+      })
+          .then(response => {
+// eslint-disable-next-line no-debugger
+            // JSON responses are automatically parsed.
+            debugger;
+            console.log(response);
+            this.orgMembers=response.data;
+            this.view=this.ORG_MEMBERS;
 
+
+
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('orgMembers failed');
+          });
+    },
     getOrgGroups(orgId, layoutId){
       debugger;
       axios.get('http://localhost:8000/api/shan/orgGroups?XDEBUG_SESSION_START=14668', {
