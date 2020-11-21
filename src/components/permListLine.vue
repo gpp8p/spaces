@@ -1,5 +1,8 @@
 <template>
-    <span class="plline">
+    <span :class="deleteActive ? 'pllineDelete' :'plline' ">
+        <span v-if="deleteActive">
+          <input type="radio" name="deleteGroup" @click="deleteClicked"/>
+        </span>
         <perm-list-group :groupId="groupId" :currentlySelectedGroupId="selectedId" :groupDescription="groupDescription" :displayAsRow="false" @groupClicked="groupClicked"></perm-list-group>
         <perm-list-perm :perm-type="this.VIEW_TYPE" :permValue="viewValue" @permChanged="permChanged"></perm-list-perm>
         <perm-list-perm :perm-type="this.AUTHOR_TYPE" :permValue="authorValue" @permChanged="permChanged"></perm-list-perm>
@@ -54,6 +57,10 @@
           selectedId:{
               type: Number,
               required: true
+          },
+          deleteActive:{
+              type: Boolean,
+              required: true
           }
         },
         components: {permListPerm, permListGroup},
@@ -68,6 +75,9 @@
             }
         },
         methods: {
+            deleteClicked(){
+              this.$emit('deleteClicked', this.groupId);
+            },
             permChanged(msg){
                 console.log(msg);
                 debugger;
@@ -105,8 +115,14 @@
         grid-template-columns: 50% 13% 13% 13% 13%;
         font-size: medium;
         font-family: Arial;
+    }
 
-
+    .pllineDelete {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 10% 40% 13% 13% 13% 13%;
+      font-size: medium;
+      font-family: Arial;
     }
 
 </style>

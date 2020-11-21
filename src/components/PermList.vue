@@ -1,7 +1,7 @@
 <template>
     <span class="permListContainer">
      <span v-if="this.view==this.PERMS" >
-        <perm-list-header></perm-list-header>
+        <perm-list-header :deleteActive="deleteActive"></perm-list-header>
         <perm-list-line v-for="(perm, index) in currentPerms "
                         :key="index"
                         :groupId="perm.id"
@@ -14,6 +14,8 @@
                         :opt2Value="perm.opt2"
                         :opt3Value="perm.opt3"
                         :selectedId="selectedGroupId"
+                        :deleteActive="deleteActive"
+                        @deleteClicked="deleteClicked"
                         @groupClicked="groupClicked"></perm-list-line>
 
         </span>
@@ -85,6 +87,14 @@ name: "PermList",
           this.getOrgGroups(this.orgId, this.layoutId);
           break;
         }
+        case "Remove Group":{
+          this.setDeleteActive();
+          break;
+        }
+        case "Clear Remove":{
+          this.clearDeleteActive();
+          break;
+        }
       }
     }
   },
@@ -118,7 +128,10 @@ name: "PermList",
       isGroupAdmin:false,
       orgId: this.$store.getters.getOrgId,
 
-      topMenu: ['Add Group', 'Done'],
+      deleteActive: false,
+
+      topMenu: ['Add Group', 'Remove Group','Done'],
+      topMenuB: ['Add Group', 'Clear Remove','Done'],
       adminGroupMenu: ['Add','Delete','Back','Done'],
       groupMenu:['Back', 'Done']
 
@@ -136,6 +149,24 @@ name: "PermList",
   },
 
   methods:{
+    setDeleteActive(){
+      this.deleteActive=true;
+      this.currentMenu = this.topMenuB;
+      this.currentMenuActiveOption = 'Done';
+      this.$emit('setTitle', 'Remove A Group From This List ?');
+      this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
+    },
+    clearDeleteActive(){
+      this.deleteActive=false;
+      this.currentMenu = this.topMenu;
+      this.$emit('setTitle', 'Who Can Access This Space');
+      this.currentMenuActiveOption = 'Done';
+      this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
+    },
+    deleteClicked(msg){
+      console.log('deleteClicked-',msg);
+      this.clearDeleteActive();
+    },
     reloadLayoutPerms(){
       axios.get('http://localhost:8000/api/shan/layoutPerms?XDEBUG_SESSION_START=14668', {
         params:{
@@ -220,15 +251,21 @@ name: "PermList",
       this.getGroupMembers(msg[0][0]);
     },
 
-    groupSelected(msg){
+    groupSelected(msg) {
       console.log(msg);
+
+
+
       axios.post('http://localhost:8000/api/shan/addAccess?XDEBUG_SESSION_START=15022', {
-        orgId:this.$store.getters.getOrgId,
-        layoutId:this.layoutId,
-        groupId:msg
+        params:{
+          orgId:this.$store.getters.getOrgId,
+          layoutId:this.layoutId,
+          groupId:msg
+        }
       }).then(response=>
       {
-        if(response=='ok'){
+        debugger;
+        if(response.data=='ok'){
           this.reloadLayoutPerms();
           this.$emit('setTitle', 'Who Can Access This Space');
           this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
@@ -241,7 +278,7 @@ name: "PermList",
       });
     }
 
-    
+
   }
 
 }
