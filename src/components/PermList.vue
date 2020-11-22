@@ -224,9 +224,10 @@ name: "PermList",
           });
     },
     getOrgMembers(){
-      axios.get('http://localhost:8000/api/shan/orgUsers?XDEBUG_SESSION_START=14668', {
+      axios.get('http://localhost:8000/api/shan/availableOrgUsers?XDEBUG_SESSION_START=14668', {
         params:{
-          orgId: this.$store.getters.getOrgId
+          orgId: this.$store.getters.getOrgId,
+          groupId: this.selectedGroupId
         }
       })
           .then(response => {
@@ -235,6 +236,7 @@ name: "PermList",
             debugger;
             console.log(response);
             this.orgMembers=response.data;
+            this.$emit('setTitle', 'Select User to Add');
             this.view=this.ORG_MEMBERS;
 
 
@@ -272,6 +274,7 @@ name: "PermList",
 
     getGroupMembers(groupId){
 //              debugger;
+      this.selectedGroupId = groupId;
       axios.get('http://localhost:8000/api/shan/groupMembers?XDEBUG_SESSION_START=14668', {
         params:{
           groupId: groupId
