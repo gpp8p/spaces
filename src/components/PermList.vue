@@ -310,7 +310,27 @@ name: "PermList",
       console.log('groupClicked',msg);
       this.getGroupMembers(msg[0][0]);
     },
+    orgMemberSelected(msg){
+      console.log(msg);
+      axios.post('http://localhost:8000/api/shan/addUserToGroup?XDEBUG_SESSION_START=15022', {
+        params:{
+          groupId: this.selectedGroupId,
+          selectedUserId: msg
+        }
+      }).then(response=>
+      {
+        debugger;
+        if(response.data=='ok'){
+          this.getGroupMembers(this.selectedGroupId);
+        }
+      })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('addAccess failed');
+          });
 
+
+    },
     groupSelected(msg) {
       console.log(msg);
 
