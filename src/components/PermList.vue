@@ -26,6 +26,8 @@
                                :name="member.name"
                                :email="member.email"
                                :id="member.id"
+                               :deleteActive="deleteActive"
+                               @deleteClicked="deleteClicked"
                                @memberSelected="memberSelected"
 
             ></group-member-line>
@@ -46,6 +48,8 @@
                                :name="member.name"
                                :email="member.email"
                                :id="member.id"
+                               :deleteActive="deleteActive"
+                               @deleteMemberClicked="deleteClicked"
                                @memberSelected="orgMemberSelected"
 
             ></group-member-line>
@@ -102,12 +106,26 @@ name: "PermList",
           this.getOrgMembers();
           break;
         }
+        case "Remove":{
+          console.log('Remove-', this.view);
+          this.setDeleteMemberActive();
+          break;
+        }
         case "Remove Group":{
           this.setDeleteActive();
           break;
         }
         case "Clear Remove":{
-          this.clearDeleteActive();
+          console.log('clear remove-', this.view);
+//          debugger;
+          switch(this.view){
+            case 0:
+              this.clearDeleteActive();
+              break;
+            case 1:
+              this.clearDeleteActiveMembers();
+              break;
+          }
           break;
         }
       }
@@ -146,10 +164,11 @@ name: "PermList",
       orgId: this.$store.getters.getOrgId,
 
       deleteActive: false,
+      currentGroupDescription:'',
 
       topMenu: ['Add Group', 'Remove Group','Done'],
       topMenuB: ['Add Group', 'Clear Remove','Done'],
-      adminGroupMenu: ['Add Member','Delete','Back','Done'],
+      adminGroupMenu: ['Add Member','Remove','Back','Done'],
       groupMenu:['Back', 'Done']
 
 
@@ -158,6 +177,7 @@ name: "PermList",
   mounted(){
     debugger;
     this.currentMenu = this.topMenu;
+    console.log('currentMenu set to topmenu - mounted');
     this.currentMenuActiveOption = 'Done';
     this.layoutId = this.$store.getters.getCurrentLayoutId;
     this.reloadLayoutPerms();
@@ -173,12 +193,28 @@ name: "PermList",
       this.$emit('setTitle', 'Remove A Group From This List ?');
       this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
     },
+    setDeleteMemberActive(){
+      this.deleteActive=true;
+      this.currentMenu = this.topMenuB;
+      this.currentMenuActiveOption = 'Done';
+      this.$emit('setTitle', 'Remove A Member from this Group ?');
+      this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
+    },
     clearDeleteActive(){
       this.deleteActive=false;
       this.currentMenu = this.topMenu;
+      console.log('currentMenu set to topmenu - clearDeleteActive');
       this.$emit('setTitle', 'Who Can Access This Space');
       this.currentMenuActiveOption = 'Done';
       this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
+    },
+    clearDeleteActiveMembers(){
+      debugger;
+      this.deleteActive=false;
+      this.currentMenu = this.adminGroupMenu;
+      this.$emit('setTitle', 'Group Membership:'+this.currentGroupDescription);
+      this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
+
     },
     deleteClicked(msg){
       console.log('deleteClicked-',msg, 'layout-', this.layoutId);
@@ -233,7 +269,7 @@ name: "PermList",
           .then(response => {
 // eslint-disable-next-line no-debugger
             // JSON responses are automatically parsed.
-            debugger;
+//            debugger;
             console.log(response);
             this.orgMembers=response.data;
             this.$emit('setTitle', 'Select User to Add');
@@ -287,7 +323,8 @@ name: "PermList",
             console.log('getGroupMembers', response.data);
             this.groupMembers=response.data.members;
             this.isGroupAdmin = response.data.groupAdmin;
-            this.$emit('setTitle', 'Group Membership:'+response.data.groupDescription);
+            this.currentGroupDescription=response.data.groupDescription
+            this.$emit('setTitle', 'Group Membership:'+this.currentGroupDescription);
             this.view=this.GROUP_INFO;
             if(this.isGroupAdmin){
               this.currentMenu = this.adminGroupMenu;

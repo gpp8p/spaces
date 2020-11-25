@@ -158,6 +158,7 @@
                 this.$emit('moved', [evt.screenY , evt.screenX]);
             },
             componentSettingsMounted(msg){
+              debugger;
               console.log(msg);
               this.currentMenuOpts = msg[0];
               this.currentSelectedMenuOption = msg[1];

@@ -33,7 +33,7 @@
         },
         watch: {
             currentlySelectedGroupId: function(){
-                debugger;
+//                debugger;
                 this.showSelected();
             }
         },

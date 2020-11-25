@@ -1,5 +1,13 @@
 <template>
-    <span class="lline" v-on:click="this.memberSelected"><span class="gitem">{{name}}</span><span class="gitem">{{email}}</span></span>
+  <span :class="deleteActive ? 'llineDelete' :'lline' ">
+    <span v-if="deleteActive">
+      <input type="radio" name="deleteMember" @click="deleteClicked"/>
+    </span>
+
+    <span  v-on:click="this.memberSelected" >{{name}}</span>
+    <span>{{email}}</span>
+  </span>
+
 </template>
 
 <script>
@@ -17,12 +25,20 @@
             id:{
                 type: Number,
                 required: true
+            },
+            deleteActive:{
+              type: Boolean,
+              required: true
             }
         },
         methods:{
             memberSelected(){
                 this.$emit('memberSelected', [this.id]);
-            }
+            },
+          deleteClicked(){
+            this.$emit('deleteMemberClicked', this.groupId);
+          },
+
         }
     }
 </script>
@@ -35,6 +51,14 @@
         font-family: Arial;
         align-items: left;
         color: black
+    }
+    .llineDelete{
+      display: grid;
+      grid-template-columns: 10% 30% 70%;
+      font-size: medium;
+      font-family: Arial;
+      align-items: left;
+      color: black
     }
     .lline:hover {
         background-color: burlywood;
