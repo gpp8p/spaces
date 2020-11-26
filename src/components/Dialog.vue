@@ -39,6 +39,7 @@
                     @setTitle="setTitle"
                     :selectedMenuOption="currentSelectedMenuOption"
           ></PermList>
+          <register-user v-if="dialogType==this.DIALOG_REGISTER" ></register-user>
         </div>
         <div class="dialogComponentFooter">
             <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -55,9 +56,11 @@
     import newLayout from "../components/createLayout.vue";
     import AreYouSure from "../components/AreYouSure.vue";
     import PermList from "../components/PermList.vue"
+    import store from "@/store";
+    import RegisterUser from "@/components/registerUser";
     export default {
         name: "Dialog",
-        components :{greenComponentSettings, menuOpt, newCardCreate, newLayout, AreYouSure, PermList},
+        components :{RegisterUser, greenComponentSettings, menuOpt, newCardCreate, newLayout, AreYouSure, PermList},
         props:{
             dialogType:{
                 type: Number,
@@ -108,6 +111,7 @@
                     this.currentSelectedMenuOption = msg;
                     this.$emit('configSelected',['cancel']);
                   }
+                  store.commit('setRegister', false);
                   break;
                 }
                 case 'Done':{
@@ -159,9 +163,16 @@
             },
             componentSettingsMounted(msg){
               debugger;
+              console.log("register=", this.$store.getters.getRegister);
               console.log(msg);
-              this.currentMenuOpts = msg[0];
-              this.currentSelectedMenuOption = msg[1];
+              if(this.$store.getters.getRegister){
+                this.dialogType = this.DIALOG_REGISTER;
+                this.currentMenuOpts = ['Register', 'Cancel'];
+                this.currentSelectedMenuOption = 'Cancel';
+              }else{
+                this.currentMenuOpts = msg[0];
+                this.currentSelectedMenuOption = msg[1];
+              }
             },
             freezeEvent(eventType, eventArgs){
                 this.frozenEvent.eventType = eventType;
@@ -188,6 +199,9 @@
 //                  this.titleMsg = "Who Can Access This Space";
                   break;
                 }
+                case this.DIALOG_REGISTER:{
+                  this.titleMsg = "Register New User";
+                }
               }
             },
             setTitle(msg){
@@ -212,6 +226,7 @@
                 DIALOG_CREATE_CARD:3,
                 DIALOG_NEW_LAYOUT:4,
                 DIALOG_PERMS:5,
+                DIALOG_REGISTER:6,
                 titleMsg:'Headline Card',
 
                 sureMsg:'',

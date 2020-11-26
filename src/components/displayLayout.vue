@@ -43,7 +43,7 @@
         components:{genericCard, Dialog},
         mounted(){
 //          debugger;
-          console.log('displayLayout mounted',this.$route.params.layoutId);
+            console.log('displayLayout mounted',this.$route.params.layoutId);
             this.$emit('viewStatusChangeFunction',['displayLayout', this.displayLayoutViewStatusChange])
 //          debugger;
             var thisLayoutIdStack;
@@ -59,6 +59,7 @@
                 thisLayoutIdStack.push(parseInt(this.$route.params.layoutId));
                 sessionStorage.setItem('layoutIdStack', JSON.stringify(thisLayoutIdStack));
             }
+
             this.reloadLayoutForDisplay(this.$route.params.layoutId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId);
         },
       created() {

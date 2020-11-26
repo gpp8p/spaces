@@ -5,7 +5,7 @@
             <menu-component :items='menuItems' :selected-item="this.selectedMenuItem" @menuSelection="tabSelected"></menu-component>
             <span class="messageArea">{{this.message}}</span>
         </span>
-        <span class="loginArea"><login-component @login="login" @newLayout="newLayout" @logError="logError"></login-component></span>
+        <span class="loginArea"><login-component @login="login" @register="register" @newLayout="newLayout" @logError="logError"></login-component></span>
 
     </div>
 
@@ -88,6 +88,9 @@
 //                debugger;
                 this.layoutChanged();
                 this.$emit('login', [msg[0]]);
+            },
+            register(){
+                this.$emit('register');
             },
             newLayout(msg){
               console.log('newLayout',msg);

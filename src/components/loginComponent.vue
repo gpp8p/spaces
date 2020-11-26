@@ -23,12 +23,15 @@
 
         </span>
         <span v-if="this.logStatus===this.LOGGED_IN" >
-            <span v-if="this.credentials.loggedInUser==='GuestUser'" class="loggedIn">
+            <span v-if="this.credentials.loggedInUser==='GuestUser'" class="notLogged">
                  <span>
                      Welcome Guest !
                 </span>
-                <span>
-                    <a @click="showLogin">Please Log In</a>
+                <span class ="log1">
+                  <a @click="showLogin">Please Log In</a>
+                </span>
+               <span class ="log1">
+                  <a @click="register">Register</a>
                 </span>
             </span>
             <span v-else class="loggedIn">
@@ -122,6 +125,12 @@
             doLogout(){
                 this.sendLogin('GuestUser@nomail.com', 'GuestUser', this.setLoginStatus);
             },
+            register(){
+ //               debugger;
+                console.log('register clicked');
+                store.commit('setRegister', true);
+                this.$emit('register');
+            },
             setLoginStatus(newStatus){
 //                debugger;
                if(newStatus<0){
@@ -191,18 +200,21 @@
     .loggedIn {
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 50% 50%;
+        grid-template-rows: 30% 30% 30%;
+        justify-items: center;
         color: blue;
-        font-size: smaller;
+        font-size: medium;
+        font-family: Arial;
 
     }
     .notLogged {
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 50% 50%;
+        grid-template-rows: 30% 30% 30%;
         justify-items: center;
         color: blue;
-        font-size: smaller;
+        font-size: medium;
+        font-family: Arial;
     }
     .login {
         margin-top:2px;
@@ -213,6 +225,12 @@
         justify-items: left;
         color: blue;
         font-size: 12px;
+    }
+    .log1 {
+      color: blue;
+    }
+    .log1:hover {
+      color: #ff330a;
     }
     .labelStyle {
         color:blue;

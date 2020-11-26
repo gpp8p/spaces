@@ -16,7 +16,8 @@ export default new Vuex.Store({
             org_id:0,
             perms: {},
             layoutIdStack:[],
-            currentLayoutId:0
+            currentLayoutId:0,
+            register: false
         }
     },
     getters:{
@@ -52,6 +53,9 @@ export default new Vuex.Store({
         },
         getCurrentLayoutId(state){
             return state.credentials.currentLayoutId
+        },
+        getRegister(state){
+            return state.credentials.register
         }
     },
     mutations:{
@@ -87,6 +91,9 @@ export default new Vuex.Store({
         },
         setCurrentLayoutId(state, currentLayoutId){
             state.credentials.currentLayoutId = currentLayoutId;
+        },
+        setRegister(state, registerState){
+            state.credentials.register = registerState;
         }
 
     }

@@ -2,7 +2,7 @@
 
         <span class="layoutScreen">
           <section class="navbar">
-              <header-bar :message="message" @tabSelected="tabSelected" @login="login" @logError="logError" @viewStatusChangeFunction="viewStatusChange"></header-bar>
+              <header-bar :message="message" @register="register" @tabSelected="tabSelected" @login="login" @logError="logError" @viewStatusChangeFunction="viewStatusChange"></header-bar>
           </section>
           <section class="content">
               <router-view @layoutMessage="showLayoutMessage" @tabSelected="tabSelected" @configSelected="viewStatusChange" @layoutSelected="layoutSelected" @viewStatusChangeFunction="viewStatusChange"></router-view>
@@ -54,6 +54,15 @@
       }
     },
     methods: {
+      register(){
+        debugger;
+        console.log('register event reached app');
+        this.$eventHub.$emit('editStatusChanged', ['cancelEdit',0]);
+        this.$router.push({
+          name: 'displayLayout',
+          params: { layoutId: this.$store.getters.getCurrentLayoutId }
+        })
+      },
       tabSelected(msg){
  //               debugger;
         switch(msg){
