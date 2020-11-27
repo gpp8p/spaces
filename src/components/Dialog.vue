@@ -56,7 +56,7 @@
     import newLayout from "../components/createLayout.vue";
     import AreYouSure from "../components/AreYouSure.vue";
     import PermList from "../components/PermList.vue"
-    import store from "@/store";
+ //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
         name: "Dialog",
@@ -73,10 +73,18 @@
           dialogKey:{
             type: Number,
             required:true
+          },
+          cmd:{
+            type: String,
+            required: false
           }
         },
         mounted(){
           this.getTitle();
+          if(this.cmd=='register'){
+            this.currentMenuOpts = ['Register', 'Cancel'];
+            this.currentSelectedMenuOption = 'Cancel';
+          }
         },
         methods: {
             cancelClicked(){
@@ -111,7 +119,7 @@
                     this.currentSelectedMenuOption = msg;
                     this.$emit('configSelected',['cancel']);
                   }
-                  store.commit('setRegister', false);
+//                  store.commit('setRegister', false);
                   break;
                 }
                 case 'Done':{
@@ -165,6 +173,10 @@
               debugger;
               console.log("register=", this.$store.getters.getRegister);
               console.log(msg);
+              this.currentMenuOpts = msg[0];
+              this.currentSelectedMenuOption = msg[1];
+
+/*
               if(this.$store.getters.getRegister){
                 this.dialogType = this.DIALOG_REGISTER;
                 this.currentMenuOpts = ['Register', 'Cancel'];
@@ -173,6 +185,8 @@
                 this.currentMenuOpts = msg[0];
                 this.currentSelectedMenuOption = msg[1];
               }
+
+ */
             },
             freezeEvent(eventType, eventArgs){
                 this.frozenEvent.eventType = eventType;

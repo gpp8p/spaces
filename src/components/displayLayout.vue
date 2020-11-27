@@ -24,6 +24,7 @@
               :key="dialogKey"
               :currentValues=this.currentValues
               :dialogKey = "this.dialogKey"
+              :cmd = "cmd"
               @dragStart="dragStart"
               @moved="dialogMoved"
               @configSelected = "configSelected"
@@ -41,6 +42,21 @@
     export default {
         name: "displayLayout",
         components:{genericCard, Dialog},
+        props:{
+          cmd:{
+            type: String,
+            required: false
+          }
+        },
+        watch:{
+          cmd: function(){
+            debugger;
+            console.log('cmd property changed:', this.cmd);
+            if(this.cmd=='register'){
+              this.dialogType = this.DIALOG_REGISTER;
+            }
+          }
+        },
         mounted(){
 //          debugger;
             console.log('displayLayout mounted',this.$route.params.layoutId);
@@ -82,6 +98,7 @@
               DIALOG_CREATE_CARD:3,
               DIALOG_NEW_LAYOUT:4,
               DIALOG_PERMS:5,
+              DIALOG_REGISTER:6,
 
               currentValues:{},
               dialogKey:0,
@@ -176,7 +193,9 @@
           configSelected(msg) {
             switch (msg[0]) {
               case 'cancel': {
+                debugger;
                 this.dialogType = 0;
+                this.$emit('configSelected',['cancel']);
                 break;
               }
               case 'layoutSaved':{

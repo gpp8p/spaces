@@ -128,7 +128,7 @@
             register(){
  //               debugger;
                 console.log('register clicked');
-                store.commit('setRegister', true);
+//                store.commit('setRegister', true);
                 this.$emit('register');
             },
             setLoginStatus(newStatus){

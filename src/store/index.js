@@ -54,9 +54,12 @@ export default new Vuex.Store({
         getCurrentLayoutId(state){
             return state.credentials.currentLayoutId
         },
+/*
         getRegister(state){
             return state.credentials.register
         }
+
+ */
     },
     mutations:{
         setBearerToken(state, token){
@@ -92,9 +95,12 @@ export default new Vuex.Store({
         setCurrentLayoutId(state, currentLayoutId){
             state.credentials.currentLayoutId = currentLayoutId;
         },
+/*
         setRegister(state, registerState){
             state.credentials.register = registerState;
         }
+
+ */
 
     }
 
