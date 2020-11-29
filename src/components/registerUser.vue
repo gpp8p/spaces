@@ -13,15 +13,23 @@
             Email:
          </span>
          <span>
-            <input type="password" v-model="userEmail"  size="60"/>
+            <input type="text" v-model="userEmail"  size="60"/>
          </span>
      </span>
      <span class="labelPlusInput">
          <span>
-            Email Repeat:
+            Password:
          </span>
          <span>
-            <input type="password" v-model="userEmailRepeat"  size="60"/>
+            <input type="password" v-model="userPassword"  size="40"/>
+         </span>
+     </span>
+     <span class="labelPlusInput">
+         <span>
+            Password:
+         </span>
+         <span>
+            <input type="password" v-model="userPasswordRepeat"  size="40"/>
          </span>
      </span>
   </span>
@@ -29,7 +37,18 @@
 
 <script>
 export default {
-name: "registerUser"
+name: "registerUser",
+  props:{
+    cmd:{
+      type: String,
+      required: false
+    }
+  },
+  watch :{
+    cmd: function(){
+      console.log('registerUser cmd', this.cmd);
+    }
+  }
 }
 </script>
 

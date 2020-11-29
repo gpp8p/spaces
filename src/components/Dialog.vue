@@ -39,7 +39,7 @@
                     @setTitle="setTitle"
                     :selectedMenuOption="currentSelectedMenuOption"
           ></PermList>
-          <register-user v-if="dialogType==this.DIALOG_REGISTER" ></register-user>
+          <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" ></register-user>
         </div>
         <div class="dialogComponentFooter">
             <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -82,7 +82,7 @@
         mounted(){
           this.getTitle();
           if(this.cmd=='register'){
-            this.currentMenuOpts = ['Register', 'Cancel'];
+            this.currentMenuOpts = ['Save Registration', 'Cancel'];
             this.currentSelectedMenuOption = 'Cancel';
           }
         },
@@ -144,6 +144,10 @@
                   var newCardTitle = this.$refs.newCardDialog.getCardTitle();
                   var newCardType = this.$refs.newCardDialog.getCardType()
                   this.$emit('configSelected', ['Create New Card', newCardTitle, newCardType]);
+                  break;
+                }
+                case 'Save Registration':{
+                  this.$emit('configSelected', ['Save Registration']);
                   break;
                 }
                 default:{

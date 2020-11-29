@@ -166,6 +166,10 @@
 
             break;
           }
+          case 'Save Registration':{
+            this.thisCmd = 'saveRegistration';
+            break;
+          }
           case 'cancel':{
             debugger;
             this.thisCmd='';
