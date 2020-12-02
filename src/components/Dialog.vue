@@ -39,7 +39,7 @@
                     @setTitle="setTitle"
                     :selectedMenuOption="currentSelectedMenuOption"
           ></PermList>
-          <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" ></register-user>
+          <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved"></register-user>
         </div>
         <div class="dialogComponentFooter">
             <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -89,6 +89,9 @@
         methods: {
             cancelClicked(){
                 this.$emit('configSelected',['cancel']);
+            },
+            registrationSaved(){
+              this.$emit('configSelected',['cancel']);
             },
             saveClicked(){
                 //        debugger;

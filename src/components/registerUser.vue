@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
 name: "registerUser",
   props:{
@@ -44,9 +46,37 @@ name: "registerUser",
       required: false
     }
   },
+  data(){
+    return {
+      userName:'',
+      userEmail:'',
+      userPassword:''
+    }
+  },
   watch :{
     cmd: function(){
+      debugger;
       console.log('registerUser cmd', this.cmd);
+      if(this.cmd=='saveRegistration'){
+        axios.post('http://localhost:8000/api/shan/setupNewUser?XDEBUG_SESSION_START=17516', {
+          params:{
+            name:this.userName,
+            email:this.userEmail,
+            password:this.userPassword,
+            org: this.$store.getters.getOrgId
+          }
+        }).then(response=>
+        {
+//            debugger;
+          if(response.data.result=='ok'){
+            console.log('registration has been saved');
+            this.$emit('registrationSaved');
+          }
+
+        }).catch(function(error) {
+          console.log(error);
+        });
+      }
     }
   }
 }
