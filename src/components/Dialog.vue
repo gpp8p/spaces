@@ -56,6 +56,7 @@
     import newLayout from "../components/createLayout.vue";
     import AreYouSure from "../components/AreYouSure.vue";
     import PermList from "../components/PermList.vue"
+
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
@@ -273,7 +274,7 @@
 
 <style scoped>
     .dialogComponent {
-        height:300px;
+        height:325px;
         width:650px;
         position: relative;
         background-color: #ab97ff;

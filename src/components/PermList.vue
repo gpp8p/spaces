@@ -20,17 +20,7 @@
 
         </span>
         <span v-if="this.view==this.GROUP_INFO">
-            <group-member-header></group-member-header>
-            <group-member-line v-for="(member, index) in  groupMembers"
-                               :key="index"
-                               :name="member.name"
-                               :email="member.email"
-                               :id="member.id"
-                               :deleteActive="deleteActive"
-                               @deleteClicked="deleteClicked"
-                               @memberSelected="memberSelected"
-
-            ></group-member-line>
+          <group-membership :groupMembers="groupMembers"></group-membership>
         </span>
         <span v-if="this.view==this.GROUP_LIST">
           <group-list-header></group-list-header>
@@ -59,11 +49,13 @@
 
 <script>
 import axios from "axios";
+
 //import store from "../store";
 import PermListLine from "./permListLine.vue";
 import PermListHeader from "./permListHeader.vue";
-import GroupMemberLine from "./GroupMemberLine.vue";
-import GroupMemberHeader from "./GroupMemberHeader";
+//import GroupMemberLine from "./GroupMemberLine.vue";
+//import GroupMemberHeader from "./GroupMemberHeader";
+import groupMembership from "@/components/groupMembership";
 import groupListHeader from "./groupListHeader.vue";
 import groupListLine from "./groupListLine.vue";
 import GroupListHeader from "@/components/groupListHeader";
@@ -71,7 +63,7 @@ import GroupListLine from "@/components/groupListLine";
 
 export default {
 name: "PermList",
-  components: {GroupListLine, GroupListHeader, PermListLine, PermListHeader, GroupMemberLine, GroupMemberHeader, groupListHeader, groupListLine},
+  components: {GroupListLine, GroupListHeader, PermListLine, PermListHeader,  groupListHeader, groupListLine, groupMembership},
   props:{
     selectedMenuOption: {
       type: String,
