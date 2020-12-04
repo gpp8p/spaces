@@ -1,6 +1,6 @@
 <template>
   <span>
-   <o-table :data="groupMembers"
+   <o-table :data="orgMembers"
             :columns="columns"
             :selected.sync="selected"
             :paginated="isPaginated"
@@ -15,19 +15,18 @@
             @update:selected="spaceSelected"
             focusable> </o-table>
   </span>
-
 </template>
 
 <script>
 export default {
-name: "groupMembership",
+name: "orgMembership",
   props:{
-    groupMembers :{
+    orgMembers :{
       type: Array,
       required: true
     }
   },
-  data(){
+  data() {
     return {
       isPaginated: true,
       isPaginationSimple: true,
@@ -38,7 +37,7 @@ name: "groupMembership",
       currentPage: 1,
       perPage: 5,
       nxtPage: 'Next Page',
-      selected:'',
+      selected: '',
       columns: [
         {
           field: 'id',
@@ -55,14 +54,13 @@ name: "groupMembership",
           label: 'Email'
 
         }
-        ]
+      ]
     }
   }
 }
 </script>
 
 <style scoped>
-
 span {
   font-family: Arial;
   font-size: smaller;
@@ -72,6 +70,4 @@ span {
   --oruga-table-detail-background: #ab97ff;
 
 }
-
-
 </style>

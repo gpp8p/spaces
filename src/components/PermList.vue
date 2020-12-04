@@ -32,17 +32,7 @@
           ></group-list-line>
         </span>
         <span v-if="this.view==this.ORG_MEMBERS">
-            <group-member-header></group-member-header>
-            <group-member-line v-for="(member, index) in  orgMembers"
-                               :key="index"
-                               :name="member.name"
-                               :email="member.email"
-                               :id="member.id"
-                               :deleteActive="deleteActive"
-                               @deleteMemberClicked="deleteClicked"
-                               @memberSelected="orgMemberSelected"
-
-            ></group-member-line>
+          <org-membership :orgMembers="orgMembers"></org-membership>
         </span>
       </span>
 </template>
@@ -56,6 +46,7 @@ import PermListHeader from "./permListHeader.vue";
 //import GroupMemberLine from "./GroupMemberLine.vue";
 //import GroupMemberHeader from "./GroupMemberHeader";
 import groupMembership from "@/components/groupMembership";
+import orgMembership from "@/components/orgMembership";
 import groupListHeader from "./groupListHeader.vue";
 import groupListLine from "./groupListLine.vue";
 import GroupListHeader from "@/components/groupListHeader";
@@ -63,7 +54,7 @@ import GroupListLine from "@/components/groupListLine";
 
 export default {
 name: "PermList",
-  components: {GroupListLine, GroupListHeader, PermListLine, PermListHeader,  groupListHeader, groupListLine, groupMembership},
+  components: {GroupListLine, GroupListHeader, PermListLine, PermListHeader,  groupListHeader, groupListLine, groupMembership, orgMembership },
   props:{
     selectedMenuOption: {
       type: String,
