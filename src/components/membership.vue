@@ -1,6 +1,6 @@
 <template>
   <span>
-   <o-table :data="groupMembers"
+   <o-table :data="members"
             :columns="columns"
             :selected.sync="selected"
             :paginated="isPaginated"
@@ -20,16 +20,25 @@
 
 <script>
 export default {
-name: "groupMembership",
+  name: "membership",
   props:{
-    groupMembers :{
+    members :{
       type: Array,
       required: true
+    },
+    membershipType :{
+      type: String,
+      required:true
     }
   },
   methods:{
     memberSelected(msg){
       console.log(msg);
+      if(this.membershipType=='groups'){
+        this.$emit('memberSelected',['groupMemberSelected',msg]);
+      }else if(this.membershipType=='org'){
+        this.$emit('memberSelected',['orgMemberSelected',msg]);
+      }
 
     }
   },
@@ -60,7 +69,7 @@ name: "groupMembership",
           label: 'Email'
 
         }
-        ]
+      ]
     }
   }
 }
@@ -81,3 +90,4 @@ span {
 
 
 </style>
+

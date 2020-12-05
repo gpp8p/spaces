@@ -20,7 +20,7 @@
 
         </span>
         <span v-if="this.view==this.GROUP_INFO">
-          <group-membership :groupMembers="groupMembers"></group-membership>
+          <membership :members="this.groupMembers" :membershipType="groupMembershipType" @memberSelected="memberSelected"></membership>
         </span>
         <span v-if="this.view==this.GROUP_LIST">
           <group-list-header></group-list-header>
@@ -32,7 +32,7 @@
           ></group-list-line>
         </span>
         <span v-if="this.view==this.ORG_MEMBERS">
-          <org-membership :orgMembers="orgMembers"></org-membership>
+          <membership :members="orgMembers" :membershipType="orgMembershipType" @memberSelected="memberSelected"></membership>
         </span>
       </span>
 </template>
@@ -45,8 +45,9 @@ import PermListLine from "./permListLine.vue";
 import PermListHeader from "./permListHeader.vue";
 //import GroupMemberLine from "./GroupMemberLine.vue";
 //import GroupMemberHeader from "./GroupMemberHeader";
-import groupMembership from "@/components/groupMembership";
-import orgMembership from "@/components/orgMembership";
+//import groupMembership from "@/components/groupMembership";
+//import orgMembership from "@/components/orgMembership";
+import membership from "./membership.vue";
 import groupListHeader from "./groupListHeader.vue";
 import groupListLine from "./groupListLine.vue";
 import GroupListHeader from "@/components/groupListHeader";
@@ -54,7 +55,7 @@ import GroupListLine from "@/components/groupListLine";
 
 export default {
 name: "PermList",
-  components: {GroupListLine, GroupListHeader, PermListLine, PermListHeader,  groupListHeader, groupListLine, groupMembership, orgMembership },
+  components: {GroupListLine, GroupListHeader, PermListLine, PermListHeader,  groupListHeader, groupListLine, membership },
   props:{
     selectedMenuOption: {
       type: String,
@@ -87,6 +88,8 @@ name: "PermList",
         }
         case "Add Member":{
           this.getOrgMembers();
+          this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+          this.$emit('setTitle','Click on member to add');
           break;
         }
         case "Remove":{
@@ -137,6 +140,8 @@ name: "PermList",
       groupMembers: [],
       orgMembers:[],
       groups:[],
+      groupMembershipType:"groups",
+      orgMembershipType:"org",
       OrganizationGroups: [],
       adminUserSelect:0,
       allUserRefresh:0,
@@ -255,7 +260,8 @@ name: "PermList",
 //            debugger;
             console.log(response);
             this.orgMembers=response.data;
-            this.$emit('setTitle', 'Select User to Add');
+            this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+            this.$emit('setTitle','Click on member to add');
             this.view=this.ORG_MEMBERS;
 
 
@@ -350,6 +356,13 @@ name: "PermList",
           });
 
 
+    },
+    memberSelected(msg){
+      console.log(msg);
+      if(msg[0]=="orgMemberSelected"){
+        var titleMsg = "Add "+msg[1].name+" to group ?";
+        this.$emit('setTitle',titleMsg)
+      }
     },
     groupSelected(msg) {
       console.log(msg);
