@@ -43,8 +43,7 @@ name: "groupMembership",
         {
           field: 'id',
           label: 'ID',
-          width: '10',
-          numeric: true
+          width: '5',
         },
         {
           field: 'name',
@@ -70,6 +69,7 @@ span {
   --oruga-table-background-color: #ab97ff;
   --oruga-table-background: #ab97ff;
   --oruga-table-detail-background: #ab97ff;
+
 
 }
 

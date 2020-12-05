@@ -113,7 +113,7 @@
         width: 100%;
         display: grid;
         grid-template-columns: 50% 13% 13% 13% 13%;
-        font-size: medium;
+        font-size: smaller;
         font-family: Arial;
     }
 
@@ -121,7 +121,7 @@
       width: 100%;
       display: grid;
       grid-template-columns: 10% 40% 13% 13% 13% 13%;
-      font-size: medium;
+      font-size: smaller;
       font-family: Arial;
     }
 

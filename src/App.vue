@@ -224,7 +224,7 @@
   --oruga-button-height:18px;
 }
 
-  .layoutScreen {
+.layoutScreen {
     position: fixed;
   }
   section {
