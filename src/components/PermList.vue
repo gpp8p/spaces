@@ -91,6 +91,9 @@ name: "PermList",
           this.orgMemberSelected(this.selectedMemberId);
           break;
         }
+        case "Remove Member From Group":{
+          break;
+        }
         case "Add Member":{
           this.getOrgMembers();
           this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
@@ -163,7 +166,7 @@ name: "PermList",
 
       topMenu: ['Add Group', 'Remove Group','Done'],
       topMenuB: ['Add Group', 'Clear Remove','Done'],
-      adminGroupMenu: ['Add Member','Remove','Back','Done'],
+      adminGroupMenu: ['Add Member','Back','Done'],
       groupMenu:['Back', 'Done']
 
 
@@ -207,7 +210,7 @@ name: "PermList",
       debugger;
       this.deleteActive=false;
       this.currentMenu = this.adminGroupMenu;
-      this.$emit('setTitle', 'Group Membership:'+this.currentGroupDescription);
+      this.$emit('setTitle', this.currentGroupDescription+" click on member to select");
       this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
 
     },
@@ -224,7 +227,7 @@ name: "PermList",
         debugger;
         if(response.data=='ok'){
           this.reloadLayoutPerms();
-          this.$emit('setTitle', 'Who Can Access This Space');
+          this.$emit('setTitle', 'Access This Space - Click on Group to Select');
           this.$emit("componentSettingsMounted",[this.currentMenu,this.currentMenuActiveOption]);
           this.view=this.PERMS;
         }
@@ -315,21 +318,25 @@ name: "PermList",
           .then(response => {
 // eslint-disable-next-line no-debugger
             // JSON responses are automatically parsed.
-//                      debugger;
+                      debugger;
             console.log('getGroupMembers', response.data);
             this.groupMembers=response.data.members;
             this.isGroupAdmin = response.data.groupAdmin;
             this.currentGroupDescription=response.data.groupDescription
-            this.$emit('setTitle', 'Group Membership:'+this.currentGroupDescription);
+
             this.view=this.GROUP_INFO;
             if(this.isGroupAdmin){
+              this.isGroupAdmin = true;
+              this.$emit('setTitle', this.currentGroupDescription+" Click on Member to Select");
               this.currentMenu = this.adminGroupMenu;
               this.currentMenuActiveOption = 'Done';
               this.$emit("componentSettingsMounted",[this.adminGroupMenu,'Done']);
             }else{
+              this.isGroupAdmin=false;
+              this.$emit('setTitle', this.currentGroupDescription+" Members");
               this.currentMenu = this.groupMenu;
               this.currentMenuActiveOption = 'Done';
-              this.$emit("componentSettingsMounted",[this.groupMenu,'Done']);
+              this.$emit("componentSettingsMounted",[['Back','Done'],'Done']);
             }
 
 
@@ -372,6 +379,14 @@ name: "PermList",
         this.selectedMemberId = msg[1].id;
         this.$emit('componentSettingsMounted',[['Add Member To Group','Back','Done'],'Done'])
         this.$emit('setTitle',titleMsg)
+      }
+      if(msg[0]=="groupMemberSelected"){
+        if(this.isGroupAdmin){
+          titleMsg = "Remove "+msg[1].name+" from "+this.selectedGroupDescription+" ?";
+          this.selectedMemberId = msg[1].id;
+          this.$emit('componentSettingsMounted',[['Remove Member From Group','Back','Done'],'Done'])
+          this.$emit('setTitle',titleMsg)
+        }
       }
     },
     groupSelected(msg) {
