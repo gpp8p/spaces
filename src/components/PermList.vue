@@ -68,6 +68,7 @@ name: "PermList",
   },
   watch:{
     selectedMenuOption: function(){
+      debugger;
       console.log('permList selectedMenuOption watcher triggered');
       this.openMenuOption = this.selectedMenuOption;
       switch(this.selectedMenuOption){
@@ -84,6 +85,10 @@ name: "PermList",
         case "Add Group":{
           debugger;
           this.getOrgGroups(this.orgId, this.layoutId);
+          break;
+        }
+        case "Add Member To Group":{
+          this.orgMemberSelected(this.selectedMemberId);
           break;
         }
         case "Add Member":{
@@ -143,9 +148,11 @@ name: "PermList",
       groupMembershipType:"groups",
       orgMembershipType:"org",
       OrganizationGroups: [],
+      selectedGroupDescription:'',
       adminUserSelect:0,
       allUserRefresh:0,
       selectedGroupId:0,
+      selectedMemberId:0,
       view:0,
       layoutId:'',
       isGroupAdmin:false,
@@ -334,14 +341,15 @@ name: "PermList",
     },
     groupClicked(msg){
       console.log('groupClicked',msg);
+      this.selectedGroupDescription = msg[0][1];
       this.getGroupMembers(msg[0][0]);
     },
-    orgMemberSelected(msg){
-      console.log(msg);
+    orgMemberSelected(userId){
+      debugger;
       axios.post('http://localhost:8000/api/shan/addUserToGroup?XDEBUG_SESSION_START=15022', {
         params:{
           groupId: this.selectedGroupId,
-          selectedUserId: msg
+          selectedUserId: userId
         }
       }).then(response=>
       {
@@ -360,7 +368,9 @@ name: "PermList",
     memberSelected(msg){
       console.log(msg);
       if(msg[0]=="orgMemberSelected"){
-        var titleMsg = "Add "+msg[1].name+" to group ?";
+        var titleMsg = "Add "+msg[1].name+" to "+this.selectedGroupDescription+" ?";
+        this.selectedMemberId = msg[1].id;
+        this.$emit('componentSettingsMounted',[['Add Member To Group','Back','Done'],'Done'])
         this.$emit('setTitle',titleMsg)
       }
     },

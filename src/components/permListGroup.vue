@@ -39,7 +39,7 @@
         },
         methods:{
             groupClicked(){
-                this.$emit('groupClicked',[this.groupId])
+                this.$emit('groupClicked',[this.groupId, this.groupDescription])
             },
             orgGroupClicked(){
                 this.$emit('groupClicked',[this.groupId]);
