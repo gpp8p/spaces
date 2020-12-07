@@ -5,7 +5,7 @@
             Name:
          </span>
          <span>
-            <input v-model="userName"  size="40"/>
+            <input v-model="userName" ref="name" size="40" class="inputStyle" placeholder="Name" />
          </span>
      </span>
     <span class="labelPlusInput">
@@ -13,7 +13,7 @@
             Email:
          </span>
          <span>
-            <input type="text" v-model="userEmail"  size="60"/>
+            <input type="text" v-model="userEmail"  size="60" class="inputStyle" placeholder="email"/>
          </span>
      </span>
      <span class="labelPlusInput">
@@ -21,7 +21,7 @@
             Password:
          </span>
          <span>
-            <input type="password" v-model="userPassword"  size="40"/>
+            <input type="password" v-model="userPassword"  size="40" class="inputStyle" />
          </span>
      </span>
      <span class="labelPlusInput">
@@ -29,7 +29,7 @@
             Password:
          </span>
          <span>
-            <input type="password" v-model="userPasswordRepeat"  size="40"/>
+            <input type="password" v-model="userPasswordRepeat"  size="40" class="inputStyle" />
          </span>
      </span>
   </span>
@@ -37,6 +37,7 @@
 
 <script>
 import axios from "axios";
+import Vue from 'vue';
 
 export default {
 name: "registerUser",
@@ -45,6 +46,13 @@ name: "registerUser",
       type: String,
       required: false
     }
+  },
+  mounted(){
+    let self = this
+    Vue.nextTick()
+        .then(function () {
+          console.log(self.$refs.name.focus())
+        })
   },
   data(){
     return {
@@ -96,4 +104,10 @@ name: "registerUser",
   font-size: medium;
   color: #0a3aff;
 }
+
+.inputStyle {
+  padding:4px;
+  border-radius:4px;
+}
+
 </style>
