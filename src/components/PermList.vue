@@ -92,6 +92,8 @@ name: "PermList",
           break;
         }
         case "Remove Member From Group":{
+//          debugger;
+          this.removeUserFromGroup(this.selectedMemberId)
           break;
         }
         case "Add Member":{
@@ -351,6 +353,26 @@ name: "PermList",
       this.selectedGroupDescription = msg[0][1];
       this.getGroupMembers(msg[0][0]);
     },
+    removeUserFromGroup(userId){
+      debugger;
+      axios.post('http://localhost:8000/api/shan/removeUserFromGroup?XDEBUG_SESSION_START=15022', {
+        params:{
+          groupId: this.selectedGroupId,
+          selectedUserId: userId
+        }
+      }).then(response=>
+      {
+        debugger;
+        if(response.data=='ok'){
+          this.getGroupMembers(this.selectedGroupId);
+        }
+      })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('addAccess failed');
+          });
+
+    },
     orgMemberSelected(userId){
       debugger;
       axios.post('http://localhost:8000/api/shan/addUserToGroup?XDEBUG_SESSION_START=15022', {
@@ -375,10 +397,13 @@ name: "PermList",
     memberSelected(msg){
       console.log(msg);
       if(msg[0]=="orgMemberSelected"){
-        var titleMsg = "Add "+msg[1].name+" to "+this.selectedGroupDescription+" ?";
-        this.selectedMemberId = msg[1].id;
-        this.$emit('componentSettingsMounted',[['Add Member To Group','Back','Done'],'Done'])
-        this.$emit('setTitle',titleMsg)
+        if(this.isGroupAdmin){
+          var titleMsg = "Add "+msg[1].name+" to "+this.selectedGroupDescription+" ?";
+          this.selectedMemberId = msg[1].id;
+          this.$emit('componentSettingsMounted',[['Add Member To Group','Back','Done'],'Done'])
+          this.$emit('setTitle',titleMsg)
+        }
+
       }
       if(msg[0]=="groupMemberSelected"){
         if(this.isGroupAdmin){
