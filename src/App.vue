@@ -93,6 +93,10 @@
             this.$eventHub.$emit('editStatusChanged', ['newLayout',0]);
             break;
           }
+          case 'Organizations':{
+            this.displayViewStatusChangeFunction(['organizations',0]);
+            break;
+          }
           case 'New Card':{
             this.headerBarViewStatusChangeFunction(['New Card', 0]);
             this.editViewStatusChangeFunction(['New Card', 0]);

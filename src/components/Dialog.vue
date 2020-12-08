@@ -40,6 +40,7 @@
                     :selectedMenuOption="currentSelectedMenuOption"
           ></PermList>
           <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted"></register-user>
+          <organizations v-if="dialogType==this.DIALOG_ORGANIZATIONS" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted"></organizations>
         </div>
         <div class="dialogComponentFooter">
             <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -55,13 +56,14 @@
 //    import newLayout from "../components/newLayout.vue";
     import newLayout from "../components/createLayout.vue";
     import AreYouSure from "../components/AreYouSure.vue";
-    import PermList from "../components/PermList.vue"
+    import PermList from "../components/PermList.vue";
+    import organizations from "../components/organizations.vue";
 
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
         name: "Dialog",
-        components :{RegisterUser, greenComponentSettings, menuOpt, newCardCreate, newLayout, AreYouSure, PermList},
+        components :{RegisterUser, greenComponentSettings, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations},
         props:{
             dialogType:{
                 type: Number,
@@ -248,6 +250,7 @@
                 DIALOG_NEW_LAYOUT:4,
                 DIALOG_PERMS:5,
                 DIALOG_REGISTER:6,
+                DIALOG_ORGANIZATIONS:7,
                 titleMsg:'Headline Card',
 
                 sureMsg:'',

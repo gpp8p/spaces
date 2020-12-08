@@ -99,6 +99,7 @@
               DIALOG_NEW_LAYOUT:4,
               DIALOG_PERMS:5,
               DIALOG_REGISTER:6,
+              DIALOG_ORGANIZATIONS:7,
 
               currentValues:{},
               dialogKey:0,
@@ -160,6 +161,10 @@
               }
               case 'access':{
                 this.dialogType = this.DIALOG_PERMS;
+                break;
+              }
+              case 'organizations':{
+                this.dialogType = this.DIALOG_ORGANIZATIONS;
                 break;
               }
             }
