@@ -105,7 +105,6 @@ name: "registerUser",
         this.$emit('setTitle','All fields must be entered !');
       }
     },
-
   },
   watch :{
     cmd: function(){

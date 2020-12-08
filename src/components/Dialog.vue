@@ -141,7 +141,6 @@
                   this.$refs.newl.getEnteredData();
                   break;
                 }
-
                 case 'Create New Card':{
 //                  debugger;
                   this.currentSelectedMenuOption = msg;
