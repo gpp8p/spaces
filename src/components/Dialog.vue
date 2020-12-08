@@ -39,7 +39,7 @@
                     @setTitle="setTitle"
                     :selectedMenuOption="currentSelectedMenuOption"
           ></PermList>
-          <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved"></register-user>
+          <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted"></register-user>
         </div>
         <div class="dialogComponentFooter">
             <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -83,7 +83,7 @@
         mounted(){
           this.getTitle();
           if(this.cmd=='register'){
-            this.currentMenuOpts = ['Save Registration', 'Cancel'];
+            this.currentMenuOpts = ['Cancel'];
             this.currentSelectedMenuOption = 'Cancel';
           }
         },

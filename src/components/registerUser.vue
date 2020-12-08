@@ -1,11 +1,12 @@
 <template>
   <span class="newUserWrapper">
+    <form>
      <span class="labelPlusInput">
          <span>
             Name:
          </span>
          <span>
-            <input v-model="userName" ref="name" size="40" class="inputStyle" placeholder="Name" />
+            <input v-model="userName" ref="name" size="40" class="inputStyle" placeholder="Name" @blur="focusChangedUserName" />
          </span>
      </span>
     <span class="labelPlusInput">
@@ -13,7 +14,7 @@
             Email:
          </span>
          <span>
-            <input type="text" v-model="userEmail"  size="60" class="inputStyle" placeholder="email"/>
+            <input type="text" v-model="userEmail"  size="60" class="inputStyle" placeholder="email" @blur="focusChangedUserEmail"/>
          </span>
      </span>
      <span class="labelPlusInput">
@@ -21,7 +22,7 @@
             Password:
          </span>
          <span>
-            <input type="password" v-model="userPassword"  size="40" class="inputStyle" />
+            <input type="password" v-model="userPassword"  size="40" class="inputStyle" @blur="focusChangedPass1"/>
          </span>
      </span>
      <span class="labelPlusInput">
@@ -29,9 +30,10 @@
             Password:
          </span>
          <span>
-            <input type="password" v-model="userPasswordRepeat"  size="40" class="inputStyle" />
+            <input type="password" v-model="userPasswordRepeat"  size="40" class="inputStyle" @blur="focusChangedPass2"/>
          </span>
      </span>
+      </form>
   </span>
 </template>
 
@@ -58,8 +60,52 @@ name: "registerUser",
     return {
       userName:'',
       userEmail:'',
-      userPassword:''
+      userPassword:'',
+      userPasswordRepeat:''
     }
+  },
+  methods:{
+    focusChangedUserName(){
+
+      if(this.userName==''){
+        this.$emit('setTitle','You must enter a name!');
+      }else{
+        this.$emit('setTitle','Register New User');
+      }
+
+    },
+    focusChangedUserEmail(){
+
+      if(this.userEmail==''){
+        this.$emit('setTitle','You must enter an Email !!');
+      }else{
+        this.$emit('setTitle','Register New User');
+      }
+
+    },
+
+    focusChangedPass1(){
+
+      if(this.userPassword==''){
+        this.$emit('setTitle','You must enter a Password!!');
+      }else{
+        this.$emit('setTitle','Register New User');
+      }
+    },
+    focusChangedPass2(){
+      if(this.userPasswordRepeat==''){
+        this.$emit('setTitle','You must enter a Password!!');
+      }
+      if(this.userPassword!=this.userPasswordRepeat){
+        this.$emit('setTitle','The passwords must match !');
+      }else if(this.userEmail!='' && this.userEmail!='' && this.userPassword!=''){
+        this.$emit('setTitle','Click on Save Registration to register !');
+        this.$emit('componentSettingsMounted', [['Save Registration','Cancel'],'Cancel']);
+      }else{
+        this.$emit('setTitle','All fields must be entered !');
+      }
+    },
+
   },
   watch :{
     cmd: function(){
