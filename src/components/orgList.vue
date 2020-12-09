@@ -23,7 +23,7 @@
 import axios from "axios";
 
 export default {
-name: "organizations",
+name: "orgList",
   data(){
     return {
       ORG_LIST:0,
@@ -61,22 +61,6 @@ name: "organizations",
           numeric: true,
           visible: false
         }
-      ],
-      orgUserColumns:[
-        {
-          field: 'name',
-          label: 'User Name',
-          width: '30'
-        },
-        {
-          field: 'email',
-          label: 'Email',
-          width: '40'
-        },
-        {
-          field: 'id',
-          visible: false
-        }
       ]
     }
   },
@@ -111,13 +95,5 @@ name: "organizations",
 </script>
 
 <style scoped>
-span {
-  font-family: Arial;
-  font-size: smaller;
-  --oruga-table-color: green;
-  --oruga-table-background-color: #ab97ff;
-  --oruga-table-background: #ab97ff;
-  --oruga-table-detail-background: #ab97ff;
 
-}
 </style>

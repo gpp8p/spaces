@@ -1,33 +1,25 @@
 <template>
   <span>
-   <o-table :data="orgMembers"
-            :columns="columns"
-            :selected.sync="selected"
-            :paginated="isPaginated"
-            :per-page="perPage"
-            :current-page.sync="currentPage"
-            :pagination-simple="isPaginationSimple"
-            :pagination-position="paginationPosition"
-            aria-next-label="Next page"
-            aria-previous-label="Previous page"
-            aria-page-label="Page"
-            aria-current-label="Current page"
-            @update:selected="spaceSelected"
-            focusable> </o-table>
+          <membership :members="this.orgMembers" :membershipType="membershipType" @memberSelected="memberSelected"></membership>
   </span>
 </template>
 
 <script>
+import membership from "./components/membership.vue";
+import axios from "axios";
 export default {
 name: "orgMembership",
+  components: {membership},
   props:{
-    orgMembers :{
-      type: Array,
+    orgId:{
+      type: Number,
       required: true
     }
   },
   data() {
     return {
+      orgMembers: [],
+      membershipType:'org',
       isPaginated: true,
       isPaginationSimple: true,
       paginationPosition: 'bottom',
@@ -55,6 +47,33 @@ name: "orgMembership",
 
         }
       ]
+    }
+  },
+  methods:{
+    memberSelected(msg){
+      console.log(msg);
+    },
+    getOrgMembers(orgId){
+      axios.get('http://localhost:8000/api/shan/orgUsers?XDEBUG_SESSION_START=14668', {
+        params: {
+          orgId:orgId
+        }
+      })
+          .then(response => {
+// eslint-disable-next-line no-debugger
+            // JSON responses are automatically parsed.
+//            debugger;
+            console.log(response);
+            this.orgUsers=response.data;
+            this.orgView=this.ORG_MEMBERS;
+            this.$emit('componentSettingsMounted',[['Back','Done', 'Add User'],'Done']);
+            this.$emit('setTitle','Click on Organization to See Members');
+
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('orgMembers failed');
+          });
     }
   }
 }

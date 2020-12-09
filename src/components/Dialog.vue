@@ -40,7 +40,7 @@
                     :selectedMenuOption="currentSelectedMenuOption"
           ></PermList>
           <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted"></register-user>
-          <organizations v-if="dialogType==this.DIALOG_ORGANIZATIONS" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted"></organizations>
+          <organizations v-if="dialogType==this.DIALOG_ORGANIZATIONS" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected"></organizations>
         </div>
         <div class="dialogComponentFooter">
             <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -161,6 +161,9 @@
                 }
               }
             },
+            orgSelected(msg){
+              console.log('orgSelected:', msg);
+            },
             rusure(msg){
               debugger;
               if(msg){
@@ -251,6 +254,7 @@
                 DIALOG_PERMS:5,
                 DIALOG_REGISTER:6,
                 DIALOG_ORGANIZATIONS:7,
+                DIALOG_ORGANIZATION_MEMBERS:8,
                 titleMsg:'Headline Card',
 
                 sureMsg:'',
