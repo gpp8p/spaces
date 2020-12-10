@@ -123,7 +123,7 @@ name: "registerUser",
 //            debugger;
           if(response.data.result=='ok'){
             console.log('registration has been saved');
-            this.$emit('registrationSaved');
+            this.$emit('registrationSaved',[this.name, this.email]);
           }
 
         }).catch(function(error) {

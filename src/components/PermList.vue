@@ -60,10 +60,6 @@ name: "PermList",
     selectedMenuOption: {
       type: String,
       required: true
-    },
-    dialogKey:{
-      type: Number,
-      required:true
     }
   },
   watch:{

@@ -2,6 +2,7 @@
   <span>
     <org-list v-if="orgView==this.ORG_LIST" @orgSelected="orgSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle"></org-list>
     <org-membership :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" ></org-membership>
+    <org-new v-if="orgView==this.ORG_NEW"></org-new>
   </span>
 </template>
 
@@ -9,13 +10,38 @@
 import axios from "axios";
 import orgList from "../components/orgList.vue";
 import orgMembership from "../components/orgMembership.vue";
+import orgNew from "../components/orgNew.vue";
 export default {
   name: "organizations",
-  components:{orgList, orgMembership},
+  components:{orgList, orgMembership, orgNew},
+  props:{
+    selectedMenuOption: {
+      type: String,
+      required: true
+    }
+  },
+  watch:{
+    selectedMenuOption: function(){
+        switch(this.selectedMenuOption){
+          case 'Back':{
+            this.orgView=this.ORG_LIST;
+            this.$emit('componentSettingsMounted',[['Done', 'Add New Organization'],'Done']);
+            this.$emit('setTitle','Click on Organization to See Members');
+            break;
+          }
+          case 'Add New Organization':{
+            this.orgView=this.ORG_NEW;
+            this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+          }
+        }
+      }
+  },
+
   data(){
     return {
       ORG_LIST:0,
       ORG_MEMBERS:1,
+      ORG_NEW:2,
       orgView:0,
       orgs:[],
       orgUsers:[],
