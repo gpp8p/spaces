@@ -1,11 +1,11 @@
 <template>
   <span>
-          <membership :members="this.orgMembers" :membershipType="membershipType" @memberSelected="memberSelected"></membership>
+          <membership :members="this.orgUsers" :membershipType="membershipType" @memberSelected="memberSelected"></membership>
   </span>
 </template>
 
 <script>
-import membership from "./components/membership.vue";
+import membership from "../components/membership.vue";
 import axios from "axios";
 export default {
 name: "orgMembership",
@@ -16,9 +16,12 @@ name: "orgMembership",
       required: true
     }
   },
+  mounted(){
+    this.getOrgMembers(this.orgId);
+  },
   data() {
     return {
-      orgMembers: [],
+      orgUsers: [],
       membershipType:'org',
       isPaginated: true,
       isPaginationSimple: true,
@@ -62,12 +65,12 @@ name: "orgMembership",
           .then(response => {
 // eslint-disable-next-line no-debugger
             // JSON responses are automatically parsed.
-//            debugger;
+            debugger;
             console.log(response);
             this.orgUsers=response.data;
             this.orgView=this.ORG_MEMBERS;
-            this.$emit('componentSettingsMounted',[['Back','Done', 'Add User'],'Done']);
-            this.$emit('setTitle','Click on Organization to See Members');
+            this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
+            this.$emit('setTitle','Organization Members - Click to Select');
 
           })
           .catch(e => {

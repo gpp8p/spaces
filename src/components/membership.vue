@@ -59,6 +59,7 @@ export default {
           field: 'id',
           label: 'ID',
           width: '5',
+          visible: false
         },
         {
           field: 'name',

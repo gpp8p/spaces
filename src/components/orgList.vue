@@ -88,7 +88,8 @@ name: "orgList",
           });
     },
     orgSelected(msg){
-      console.log(msg);
+      console.log(msg.id);
+      this.$emit('orgSelected', msg.id);
     },
   }
 }

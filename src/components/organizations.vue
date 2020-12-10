@@ -1,29 +1,17 @@
 <template>
   <span>
-       <o-table :data="orgs"
-                :columns="orgColumns"
-                :selected.sync="selected"
-                :paginated="isPaginated"
-                :per-page="perPage"
-                :current-page.sync="currentPage"
-                :pagination-simple="isPaginationSimple"
-                :pagination-position="paginationPosition"
-                aria-next-label="Next page"
-                aria-previous-label="Previous page"
-                aria-page-label="Page"
-                aria-current-label="Current page"
-                @update:selected="orgSelected"
-                focusable
-       >
-       </o-table>
-    </span>
+    <org-list v-if="orgView==this.ORG_LIST" @orgSelected="orgSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle"></org-list>
+    <org-membership :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" ></org-membership>
+  </span>
 </template>
 
 <script>
 import axios from "axios";
-
+import orgList from "../components/orgList.vue";
+import orgMembership from "../components/orgMembership.vue";
 export default {
-name: "organizations",
+  name: "organizations",
+  components:{orgList, orgMembership},
   data(){
     return {
       ORG_LIST:0,
@@ -62,27 +50,12 @@ name: "organizations",
           visible: false
         }
       ],
-      orgUserColumns:[
-        {
-          field: 'name',
-          label: 'User Name',
-          width: '30'
-        },
-        {
-          field: 'email',
-          label: 'Email',
-          width: '40'
-        },
-        {
-          field: 'id',
-          visible: false
-        }
-      ]
+      selectedOrgId:0
     }
   },
   mounted(){
     this.orgView = this.ORG_LIST;
-    this.getOrgs();
+//    this.getOrgs();
   },
   methods:{
     getOrgs(){
@@ -104,8 +77,15 @@ name: "organizations",
           });
     },
     orgSelected(msg){
-      console.log(msg);
+      this.selectedOrgId=msg;
+      this.orgView=this.ORG_MEMBERS;
     },
+    componentSettingsMounted(msg){
+      this.$emit('componentSettingsMounted', msg);
+    },
+    setTitle(msg){
+      this.$emit('setTitle', msg);
+    }
   }
 }
 </script>
