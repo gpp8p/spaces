@@ -2,7 +2,7 @@
   <span>
     <org-list v-if="orgView==this.ORG_LIST" @orgSelected="orgSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle"></org-list>
     <org-membership :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" ></org-membership>
-    <org-new v-if="orgView==this.ORG_NEW"></org-new>
+    <org-new :cmd="cmd" v-if="orgView==this.ORG_NEW" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" :selectedMenuOption="selectedMenuOption" ></org-new>
   </span>
 </template>
 
@@ -18,6 +18,10 @@ export default {
     selectedMenuOption: {
       type: String,
       required: true
+    },
+    cmd:{
+      type: String,
+      required: false
     }
   },
   watch:{
@@ -31,6 +35,7 @@ export default {
           }
           case 'Add New Organization':{
             this.orgView=this.ORG_NEW;
+            this.$emit('setTitle','New Organization');
             this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
           }
         }
