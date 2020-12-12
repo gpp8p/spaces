@@ -36,7 +36,7 @@ export default {
           case 'Add New Organization':{
             this.orgView=this.ORG_NEW;
             this.$emit('setTitle','New Organization');
-            this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+            this.$emit('componentSettingsMounted',[['Back','Done', 'Find Existing User for Admin'],'Done']);
           }
         }
       }
@@ -124,7 +124,7 @@ export default {
 <style scoped>
 span {
   font-family: Arial;
-  font-size: smaller;
+  font-size: medium;
   --oruga-table-color: green;
   --oruga-table-background-color: #ab97ff;
   --oruga-table-background: #ab97ff;

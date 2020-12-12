@@ -78,16 +78,7 @@ export default {
 
 <style scoped>
 
-span {
-  font-family: Arial;
-  font-size: smaller;
-  --oruga-table-color: green;
-  --oruga-table-background-color: #ab97ff;
-  --oruga-table-background: #ab97ff;
-  --oruga-table-detail-background: #ab97ff;
 
-
-}
 
 
 </style>

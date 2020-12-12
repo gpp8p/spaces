@@ -17,7 +17,12 @@ name: "orgMembership",
     }
   },
   mounted(){
-    this.getOrgMembers(this.orgId);
+    if(this.orgId>0){
+      this.getOrgMembers(this.orgId);
+    }else{
+      this.getAllUsers();
+    }
+
   },
   data() {
     return {
@@ -61,6 +66,27 @@ name: "orgMembership",
         params: {
           orgId:orgId
         }
+      })
+          .then(response => {
+// eslint-disable-next-line no-debugger
+            // JSON responses are automatically parsed.
+            debugger;
+            console.log(response);
+            this.orgUsers=response.data;
+            this.orgView=this.ORG_MEMBERS;
+            this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
+            this.$emit('setTitle','Organization Members - Click to Select');
+
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('orgMembers failed');
+          });
+    },
+
+    getAllUsers(){
+      axios.get('http://localhost:8000/api/shan/allUsers?XDEBUG_SESSION_START=14668', {
+
       })
           .then(response => {
 // eslint-disable-next-line no-debugger

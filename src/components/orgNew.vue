@@ -32,6 +32,9 @@
     <span v-if="this.viewStatus==this.NEWORG_NEWUSER">
       <register-user @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted"></register-user>
     </span>
+    <span v-if="this.viewStatus==this.NEWORG_EXISTING_USER">
+      <org-membership :orgId="allUserId" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" ></org-membership>
+    </span>
 
   </span>
 </template>
@@ -39,9 +42,10 @@
 <script>
 import Vue from 'vue';
 import registerUser from "../components/registerUser.vue";
+import orgMembership from "../components/orgMembership.vue";
 export default {
   name: "orgNew",
-  components: {registerUser},
+  components: {registerUser, orgMembership},
   props:{
     selectedMenuOption: {
       type: String,
@@ -67,20 +71,21 @@ export default {
       NEWORG_ORGINFO:0,
       NEWORG_NEWUSER:1,
       NEWORG_EXISTING_USER:2,
+      allUserId:0
     }
   },
   watch:{
     selectedMenuOption: function() {
-        switch (this.selectedMenuOption) {
-          case 'Return to New Organization':{
-            this.$emit('setTitle','New Organization');
-            this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
-            this.viewStatus=this.NEWORG_ORGINFO;
-            break;
-          }
+      switch (this.selectedMenuOption) {
+        case 'Return to New Organization':{
+          this.$emit('setTitle','New Organization');
+          this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+          this.viewStatus=this.NEWORG_ORGINFO;
+          break;
         }
       }
-    },
+    }
+  },
   methods:{
     newUserTypeSelected(msg){
       console.log('new user selected',msg);
@@ -89,6 +94,9 @@ export default {
       this.viewStatus=this.NEWORG_NEWUSER;
     },
     existingUserTypeSelected(msg){
+      this.$emit('componentSettingsMounted',[['Return to New Organization','Done'],'Done']);
+      this.$emit('setTitle','Select User to be Organization Administrator');
+      this.viewStatus=this.NEWORG_EXISTING_USER;
       console.log('existingUserSelected', msg);
     }
   }
