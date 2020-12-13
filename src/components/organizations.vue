@@ -36,7 +36,7 @@ export default {
           case 'Add New Organization':{
             this.orgView=this.ORG_NEW;
             this.$emit('setTitle','New Organization');
-            this.$emit('componentSettingsMounted',[['Back','Done', 'Find Existing User for Admin'],'Done']);
+            this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
           }
         }
       }

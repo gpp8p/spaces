@@ -60,6 +60,7 @@ name: "orgMembership",
   methods:{
     memberSelected(msg){
       console.log(msg);
+      this.$emit('memberSelected', msg);
     },
     getOrgMembers(orgId){
       axios.get('http://localhost:8000/api/shan/orgUsers?XDEBUG_SESSION_START=14668', {
