@@ -132,6 +132,15 @@ export default {
       this.orgAmdinId=msg[1].id;
       this.viewStatus=this.NEWORG_ORGINFO;
       this.adminIdentified=true;
+    },
+    componentSettingsMounted(msg){
+      this.$emit('componentSettingsMounted', msg);
+    },
+    setTitle(msg){
+      this.$emit('setTitle', msg);
+    },
+    registrationSaved(msg){
+      console.log(msg);
     }
   }
 }

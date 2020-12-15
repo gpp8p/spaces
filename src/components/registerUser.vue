@@ -93,6 +93,7 @@ name: "registerUser",
       }
     },
     focusChangedPass2(){
+      debugger;
       if(this.userPasswordRepeat==''){
         this.$emit('setTitle','You must enter a Password!!');
       }
@@ -123,7 +124,10 @@ name: "registerUser",
 //            debugger;
           if(response.data.result=='ok'){
             console.log('registration has been saved');
-            this.$emit('registrationSaved',[this.name, this.email]);
+            this.$emit('registrationSaved',['ok',response.data.userName, response.data.email, response.data.userId]);
+          }
+          if(response.data.result=='userFound'){
+            this.$emit('registrationSaved',['userFound',response.data.userName, response.data.email, response.data.userId]);
           }
 
         }).catch(function(error) {
