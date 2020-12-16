@@ -1,20 +1,20 @@
 <template>
   <span class="newUserWrapper">
     <form>
+    <span class="labelPlusInput">
+         <span>
+            Email:
+         </span>
+         <span>
+            <input type="text" v-model="userEmail" ref="email" size="60" class="inputStyle" placeholder="Email" @blur="focusChangedUserEmail"/>
+         </span>
+     </span>
      <span class="labelPlusInput">
          <span>
             Name:
          </span>
          <span>
             <input v-model="userName" ref="name" size="40" class="inputStyle" placeholder="Name" @blur="focusChangedUserName" />
-         </span>
-     </span>
-    <span class="labelPlusInput">
-         <span>
-            Email:
-         </span>
-         <span>
-            <input type="text" v-model="userEmail"  size="60" class="inputStyle" placeholder="email" @blur="focusChangedUserEmail"/>
          </span>
      </span>
      <span class="labelPlusInput">
@@ -53,7 +53,7 @@ name: "registerUser",
     let self = this
     Vue.nextTick()
         .then(function () {
-          console.log(self.$refs.name.focus())
+          console.log(self.$refs.email.focus())
         })
   },
   data(){
@@ -75,6 +75,30 @@ name: "registerUser",
 
     },
     focusChangedUserEmail(){
+
+        debugger;
+        axios.get('http://localhost:8000/api/shan/userExists?XDEBUG_SESSION_START=14668', {
+          params: {
+            email:this.userEmail
+          }
+        }).then(response => {
+// eslint-disable-next-line no-debugger
+              // JSON responses are automatically parsed.
+            debugger;
+              if(response.data==true){
+                console.log('user exists');
+                this.$emit('setTitle','That user already exists!');
+                this.userEmail='';
+                self.$refs.email.focus();
+              }else{
+                console.log('user does not exist');
+              }
+
+            })
+            .catch(e => {
+              this.errors.push(e);
+              console.log('user exists failed', e);
+            });
 
       if(this.userEmail==''){
         this.$emit('setTitle','You must enter an Email !!');
