@@ -6,7 +6,7 @@
             Organization Name:
          </span>
          <span>
-            <input v-model="orgName" ref="orgName" size="40" class="inputStyle" placeholder="OrganizatrionName" @blur="focusChangedOrgName" />
+            <input v-model.lazy="orgName" ref="orgName" size="40" class="inputStyle" placeholder="Organization Name"  />
          </span>
      </span>
      <span class="labelPlusInput">
@@ -14,7 +14,7 @@
             Description:
          </span>
          <span>
-            <input v-model="orgName"  size="60" class="inputStyle" placeholder="OrganizatrionName" @blur="focusChangedOrgName" />
+            <input v-model.lazy="orgDescription"  size="60" class="inputStyle" placeholder="Organization Description"  />
          </span>
      </span>
 
@@ -23,7 +23,7 @@
             Home Space Dim.:
          </span>
          <span>
-           <input v-model="hpRows" size="5" class="inputStyle"  @blur="focusChangedRows" /> - Rows <input v-model="hpCols" size="5" class="inputStyle"  @blur="focusChangedCols" /> - Columns
+           <input v-model.lazy="hpRows" size="5" class="inputStyle"   /> - Rows <input v-model.lazy="hpCols" size="5" class="inputStyle"   /> - Columns
          </span>
      </span>
      <span class="labelPlusInput">
@@ -40,8 +40,8 @@
       <span>Administrator:</span>
 
       <span class="adminTypes">
-        <span @click="newUserTypeSelected" class="nt">Enter new User</span>
-        <span @click="existingUserTypeSelected" class="nt">Select an Existing User</span>
+        <span @click="newUserTypeSelected">Enter new User</span>
+        <span @click="existingUserTypeSelected">Select an Existing User</span>
       </span>
      </span>
      <span class="adminSelect" v-if="adminIdentified==true">
@@ -50,7 +50,12 @@
      </span>
     </span>
     <span v-if="this.viewStatus==this.NEWORG_NEWUSER">
-      <register-user @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted"></register-user>
+      <register-user
+          @registrationSaved="registrationSaved"
+          @setTitle="setTitle"
+          @componentSettingsMounted="componentSettingsMounted"
+          @userExists="userExists"
+      ></register-user>
     </span>
     <span v-if="this.viewStatus==this.NEWORG_EXISTING_USER">
       <org-membership :orgId="allUserId" @memberSelected="memberSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" ></org-membership>
@@ -79,15 +84,20 @@ export default {
   },
   mounted(){
     this.viewStatus=this.NEWORG_ORGINFO;
+
     let self = this
     Vue.nextTick()
         .then(function () {
           console.log(self.$refs.orgName.focus())
         })
+
   },
   data(){
     return {
       orgName:'',
+      orgDescription:'',
+      hpRows:'',
+      hpCols:'',
       viewStatus:0,
       NEWORG_ORGINFO:0,
       NEWORG_NEWUSER:1,
@@ -110,7 +120,20 @@ export default {
           break;
         }
       }
+    },
+    orgName: function(){
+      console.log('orgName Changed - ', this.orgName);
+    },
+    orgDescription: function(){
+      console.log('orgDescription changed -', this.orgDescription);
+    },
+    hpRows: function(){
+      console.log('hpRows changed - ', this.hpRows);
+    },
+    hpCols: function(){
+      console.log('hpCols changed - ', this.hpCols);
     }
+
   },
   methods:{
     newUserTypeSelected(msg){
@@ -141,6 +164,11 @@ export default {
     },
     registrationSaved(msg){
       console.log(msg);
+    },
+    userExists(msg){
+      console.log(msg);
+      this.viewStatus=this.NEWORG_ORGINFO;
+
     }
   }
 }
@@ -176,3 +204,4 @@ export default {
   color:red;
 }
 </style>
+

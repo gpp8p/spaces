@@ -61,7 +61,8 @@ name: "registerUser",
       userName:'',
       userEmail:'',
       userPassword:'',
-      userPasswordRepeat:''
+      userPasswordRepeat:'',
+      existingUserData:{}
     }
   },
   methods:{
@@ -76,7 +77,7 @@ name: "registerUser",
     },
     focusChangedUserEmail(){
 
-        debugger;
+//        debugger;
         axios.get('http://localhost:8000/api/shan/userExists?XDEBUG_SESSION_START=14668', {
           params: {
             email:this.userEmail
@@ -85,11 +86,14 @@ name: "registerUser",
 // eslint-disable-next-line no-debugger
               // JSON responses are automatically parsed.
             debugger;
-              if(response.data==true){
+              if(response.data.result==true){
                 console.log('user exists');
-                this.$emit('setTitle','That user already exists!');
-                this.userEmail='';
-                self.$refs.email.focus();
+                this.$emit('setTitle',"User "+response.data.name+"("+response.data.email+") already exists!");
+                this.existingUserData.name=response.data.name;
+                this.existingUserData.email = response.data.email;
+                this.existingUserData.id=response.data.id;
+                this.existingUserData.is_admin=response.data.is_admin;
+                this.$emit('userExists', this.existingUserData);
               }else{
                 console.log('user does not exist');
               }

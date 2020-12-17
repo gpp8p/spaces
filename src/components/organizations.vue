@@ -10,10 +10,13 @@
 import axios from "axios";
 import orgList from "../components/orgList.vue";
 import orgMembership from "../components/orgMembership.vue";
-import orgNew from "../components/orgNew.vue";
+//import TestNewOrg from "@/components/testNewOrg";
+import orgNew from "@/components/orgNew.vue";
+
+//import orgNew from "../components/orgNew.vue";
 export default {
   name: "organizations",
-  components:{orgList, orgMembership, orgNew},
+  components:{orgNew, orgList, orgMembership },
   props:{
     selectedMenuOption: {
       type: String,
