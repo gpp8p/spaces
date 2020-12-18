@@ -39,7 +39,8 @@
                     @setTitle="setTitle"
                     :selectedMenuOption="currentSelectedMenuOption"
           ></PermList>
-          <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted"></register-user>
+          <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
+          <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
           <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected"></organizations>
         </div>
         <div class="dialogComponentFooter">
@@ -58,12 +59,13 @@
     import AreYouSure from "../components/AreYouSure.vue";
     import PermList from "../components/PermList.vue";
     import organizations from "../components/organizations.vue";
+    import userExists from "../components/userExists.vue";
 
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
         name: "Dialog",
-        components :{RegisterUser, greenComponentSettings, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations},
+        components :{RegisterUser, greenComponentSettings, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists},
         props:{
             dialogType:{
                 type: Number,
@@ -230,6 +232,14 @@
                 }
               }
             },
+            userExists(msg){
+              this.currentMenuOpts = ['Done'];
+              this.currentSelectedMenuOption = 'Done';
+              this.dialogType=this.DIALOG_USER_EXISTS;
+              console.log(msg);
+
+
+            },
             setTitle(msg){
               this.titleMsg = msg;
             }
@@ -255,6 +265,7 @@
                 DIALOG_REGISTER:6,
                 DIALOG_ORGANIZATIONS:7,
                 DIALOG_ORGANIZATION_MEMBERS:8,
+                DIALOG_USER_EXISTS:9,
                 titleMsg:'Headline Card',
 
                 sureMsg:'',

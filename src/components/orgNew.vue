@@ -45,7 +45,7 @@
       </span>
      </span>
      <span class="adminSelect" v-if="adminIdentified==true">
-       <span>Administrator</span>
+       <span @click="showAdminEntryLinks">Administrator</span>
        <span>{{this.orgAdminName}} - {{this.orgAdminEmail}}</span>
      </span>
     </span>
@@ -107,6 +107,7 @@ export default {
       orgAdminName:'',
       orgAdminEmail:'',
       orgAmdinId:'',
+      orgIsAdmin:0,
       adminIdentified:false
     }
   },
@@ -167,8 +168,16 @@ export default {
     },
     userExists(msg){
       console.log(msg);
+      this.orgAdminName = msg.name;
+      this.orgAdminEmail= msg.email;
+      this.orgAmdinId=msg.id;
+      this.orgIsAdmin=msg.is_admin;
+      this.adminIdentified=true;
       this.viewStatus=this.NEWORG_ORGINFO;
 
+    },
+    showAdminEntryLinks(){
+      this.adminIdentified=false;
     }
   }
 }
