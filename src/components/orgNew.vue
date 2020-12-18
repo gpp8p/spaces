@@ -31,7 +31,7 @@
             Background:
           </span>
        <span class="backgroundPick">
-          <background-picker :currentValues="currentValues" :dialogKey="dialogKey" :pType="backgroundColorType" :noTransparent=true @configSelected="configSelected"></background-picker>
+          <background-picker :currentValues="currentBackground" :dialogKey="dialogKey" :pType="backgroundColorType" :noTransparent=true @configSelected="configSelected"></background-picker>
       </span>
      </span>
 
@@ -108,7 +108,27 @@ export default {
       orgAdminEmail:'',
       orgAmdinId:'',
       orgIsAdmin:0,
-      adminIdentified:false
+      adminIdentified:false,
+
+      currentBackground: '#dbdbdb',
+
+      errs:{
+        orgNameOk:false,
+        orgDescriptionOk:false,
+        orgAdminOk:false,
+        orgRowsOk:false,
+        orgColsOk:false,
+        orgBackgroundOk:true,
+        allOk: function(){
+          debugger;
+          if(this.orgNameOk && this.orgDescriptionOk && this.orgAdminOk && this.orgRowsOk && this.orgColsOk && this.orgBackgroundOk){
+            return true;
+          }else{
+            return false;
+          }
+        }
+      },
+      currentErrs:''
     }
   },
   watch:{
@@ -123,16 +143,62 @@ export default {
       }
     },
     orgName: function(){
+      debugger;
       console.log('orgName Changed - ', this.orgName);
+      var spaceFound = this.orgName.indexOf(' ');
+      if(spaceFound>(-1)){
+        this.$emit('setTitle','Organization Name Must Not Have Space!');
+      }else{
+        this.errs.orgNameOk = true;
+        this.$emit('setTitle','New Organization');
+      }
     },
     orgDescription: function(){
+      this.errs.orgDescriptionOk = true;
       console.log('orgDescription changed -', this.orgDescription);
     },
     hpRows: function(){
+      if(!this.hpRows.match(/^[0-9]+$/) != null){
+        this.errs.orgRowsOk = true;
+      }else{
+        this.errs.orgRowsOk = false;
+      }
       console.log('hpRows changed - ', this.hpRows);
     },
     hpCols: function(){
+      debugger;
+      if(!this.hpCols.match(/^[0-9]+$/) != null){
+        this.errs.orgColsOk = true;
+      }else{
+        this.errs.orgColsOk = false;
+      }
       console.log('hpCols changed - ', this.hpCols);
+      if(this.errs.allOk()){
+        this.$emit('setTitle','New Organization');
+        this.$emit('componentSettingsMounted',[['Back','Done', 'Save New Organization'],'Done']);
+      }else{
+        if(!this.errs.orgNameOk){
+          this.currentErrs += 'Name, ';
+        }
+        if(!this.errs.orgDescriptionOk){
+          this.currentErrs += 'Description, ';
+        }
+        if(!this.errs.orgAdminOk){
+          this.currentErrs += 'Select Admin, ';
+        }
+        if(!this.errs.orgRowsOk){
+          this.CurrentErrs += 'Rows, ';
+        }
+        if(!this.errs.orgColsOk){
+          this.currentErrs += 'Cols, ';
+        }
+        this.currentErrs = 'Please Correct:'+this.currentErrs;
+        this.$emit('setTitle',this.currentErrs);
+      }
+    },
+    adminIdentified: function(){
+      this.$emit('setTitle','New Organization');
+      this.errs.orgAdminOk = true;
     }
 
   },
