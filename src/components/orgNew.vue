@@ -111,7 +111,11 @@ export default {
       orgIsAdmin:0,
       adminIdentified:false,
 
+      BACKGROUND_TYPE_COLOR:'C',
+      BACKGROUND_TYPE_IMAGE:'I',
       currentBackground: '#dbdbdb',
+      backgroundType:'C',
+      backgroundImage:'',
 
       errs:{
         orgNameOk:false,
@@ -156,7 +160,9 @@ export default {
                 backgroundColor: this.currentBackground,
                 adminUserId: this.orgAmdinId,
                 adminUserEmail: this.orgAdminEmail,
-                adminUserName: this.orgAdminName
+                adminUserName: this.orgAdminName,
+                backgroundType: this.backgroundType,
+                backgroundImage:this.backgroundImage
               }
             })
             .then(response => {
@@ -281,6 +287,23 @@ export default {
     },
     showAdminEntryLinks(){
       this.adminIdentified=false;
+    },
+    configSelected(msg){
+      console.log(msg);
+      switch(msg[0]){
+        case 'backgroundType':{
+          this.backgroundType=this.BACKGROUND_TYPE_IMAGE;
+          break;
+        }
+        case 'backgroundTypeColor':{
+          this.backgroundType=this.BACKGROUND_TYPE_COLOR;
+          break;
+        }
+        case 'backgroundImage':{
+          this.backgroundImage=msg[1];
+          break;
+        }
+      }
     }
   }
 }
