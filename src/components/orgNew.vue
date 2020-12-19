@@ -69,6 +69,7 @@ import Vue from 'vue';
 import registerUser from "../components/registerUser.vue";
 import orgMembership from "../components/orgMembership.vue";
 import backgroundPicker from "@/components/backgroundPicker";
+import axios from "axios";
 export default {
   name: "orgNew",
   components: {registerUser, orgMembership, backgroundPicker},
@@ -136,8 +137,63 @@ export default {
       switch (this.selectedMenuOption) {
         case 'Return to New Organization':{
           this.$emit('setTitle','New Organization');
-          this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+          this.$emit('componentSettingsMounted',[['Back','Done','Save'],'Done']);
           this.viewStatus=this.NEWORG_ORGINFO;
+          break;
+        }
+      }
+    },
+    cmd: function(){
+      switch(this.cmd){
+        case 'save':{
+          if(this.errs.allOk()){
+            axios.post('http://localhost:8000/api/shan/newOrg?XDEBUG_SESSION_START=14668', {
+              params:{
+                name: this.orgName,
+                description: this.orgDescription,
+                height: this.hpRows,
+                width: this.hpCols,
+                backgroundColor: this.currentBackground,
+                adminUserId: this.orgAmdinId,
+                adminUserEmail: this.orgAdminEmail,
+                adminUserName: this.orgAdminName
+              }
+            })
+            .then(response => {
+// eslint-disable-next-line no-debugger
+              // JSON responses are automatically parsed.
+              this.$emit('orgCreated');
+              console.log(response);
+            })
+            .catch(e => {
+              this.errors.push(e);
+              console.log('new org failed');
+            });
+
+
+
+
+
+
+          }else{
+            if(!this.errs.orgNameOk){
+              this.currentErrs += 'Name, ';
+            }
+            if(!this.errs.orgDescriptionOk){
+              this.currentErrs += 'Description, ';
+            }
+            if(!this.errs.orgAdminOk){
+              this.currentErrs += 'Select Admin, ';
+            }
+            if(!this.errs.orgRowsOk){
+              this.CurrentErrs += 'Rows, ';
+            }
+            if(!this.errs.orgColsOk){
+              this.currentErrs += 'Cols, ';
+            }
+            this.currentErrs = 'Please Correct:'+this.currentErrs;
+            this.$emit('setTitle',this.currentErrs);
+          }
           break;
         }
       }
@@ -173,31 +229,11 @@ export default {
         this.errs.orgColsOk = false;
       }
       console.log('hpCols changed - ', this.hpCols);
-      if(this.errs.allOk()){
-        this.$emit('setTitle','New Organization');
-        this.$emit('componentSettingsMounted',[['Back','Done', 'Save New Organization'],'Done']);
-      }else{
-        if(!this.errs.orgNameOk){
-          this.currentErrs += 'Name, ';
-        }
-        if(!this.errs.orgDescriptionOk){
-          this.currentErrs += 'Description, ';
-        }
-        if(!this.errs.orgAdminOk){
-          this.currentErrs += 'Select Admin, ';
-        }
-        if(!this.errs.orgRowsOk){
-          this.CurrentErrs += 'Rows, ';
-        }
-        if(!this.errs.orgColsOk){
-          this.currentErrs += 'Cols, ';
-        }
-        this.currentErrs = 'Please Correct:'+this.currentErrs;
-        this.$emit('setTitle',this.currentErrs);
-      }
+
     },
     adminIdentified: function(){
       this.$emit('setTitle','New Organization');
+      this.$emit('componentSettingsMounted',[['Back','Done','Save'],'Done']);
       this.errs.orgAdminOk = true;
     }
 
@@ -220,6 +256,7 @@ export default {
       this.orgAdminName=msg[1].name;
       this.orgAdminEmail=msg[1].email;
       this.orgAmdinId=msg[1].id;
+      this.$emit('componentSettingsMounted',[['Back','Done','Save'],'Done']);
       this.viewStatus=this.NEWORG_ORGINFO;
       this.adminIdentified=true;
     },

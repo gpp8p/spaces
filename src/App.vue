@@ -170,6 +170,10 @@
 
             break;
           }
+          case 'save':{
+            this.thisCmd='save';
+            break;
+          }
           case 'Save Registration':{
             this.thisCmd = 'saveRegistration';
             break;

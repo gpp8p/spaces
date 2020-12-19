@@ -2,7 +2,12 @@
   <span>
     <org-list v-if="orgView==this.ORG_LIST" @orgSelected="orgSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle"></org-list>
     <org-membership :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" ></org-membership>
-    <org-new :cmd="cmd" v-if="orgView==this.ORG_NEW" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" :selectedMenuOption="selectedMenuOption" ></org-new>
+    <org-new :cmd="cmd" v-if="orgView==this.ORG_NEW"
+             @componentSettingsMounted="componentSettingsMounted"
+             @setTitle="setTitle"
+             @orgCreated="orgCreated"
+             :selectedMenuOption="selectedMenuOption"
+    ></org-new>
   </span>
 </template>
 
@@ -39,7 +44,7 @@ export default {
           case 'Add New Organization':{
             this.orgView=this.ORG_NEW;
             this.$emit('setTitle','New Organization');
-            this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+            this.$emit('componentSettingsMounted',[['Back','Done', 'Save'],'Done']);
           }
         }
       }
@@ -113,6 +118,10 @@ export default {
     orgSelected(msg){
       this.selectedOrgId=msg;
       this.orgView=this.ORG_MEMBERS;
+    },
+    orgCreated(){
+      this.getOrgs();
+      this.orgView=this.ORG_LIST;
     },
     componentSettingsMounted(msg){
       this.$emit('componentSettingsMounted', msg);
