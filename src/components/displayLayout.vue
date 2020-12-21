@@ -222,7 +222,7 @@
                 this.layoutId = layoutId;
 //      this.cancelLayoutEdit();
 //      console.log("reloading" + msg);
-//                debugger;
+                debugger;
                 axios.get('http://localhost:8000/getLayout?XDEBUG_SESSION_START=15122"', {
                     params:{
                         orgId:orgId,
