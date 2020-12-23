@@ -55,6 +55,7 @@
           @setTitle="setTitle"
           @componentSettingsMounted="componentSettingsMounted"
           @userExists="userExists"
+          :cmd="cmd"
       ></register-user>
     </span>
     <span v-if="this.viewStatus==this.NEWORG_EXISTING_USER">
@@ -247,7 +248,7 @@ export default {
   methods:{
     newUserTypeSelected(msg){
       console.log('new user selected',msg);
-      this.$emit('componentSettingsMounted',[['Return to New Organization','Done'],'Done']);
+      this.$emit('componentSettingsMounted',[['Return to New Organization','Save Registration'],'Done']);
       this.$emit('setTitle','New Organization Administrator');
       this.viewStatus=this.NEWORG_NEWUSER;
     },
@@ -274,6 +275,12 @@ export default {
     },
     registrationSaved(msg){
       console.log(msg);
+      this.orgAdminName = msg[1];
+      this.orgAdminEmail = msg[2];
+      this.orgAmdinId = msg[3];
+      this.$emit('componentSettingsMounted',[['Back','Done','Save'],'Done']);
+      this.viewStatus=this.NEWORG_ORGINFO;
+      this.adminIdentified=true;
     },
     userExists(msg){
       console.log(msg);

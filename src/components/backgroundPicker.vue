@@ -83,7 +83,7 @@
         },
         methods:{
             refreshCurrentValues(){
-              debugger;
+//              debugger;
               console.log('currentValues updated in backgroundPicker');
               var typeColor = (this.currentValues['backgroundTypeColor']=='checked' ? true: false);
               console.log('typeColor-',typeColor);

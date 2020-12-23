@@ -52,6 +52,12 @@
           cmd: function(){
             debugger;
             console.log('cmd property changed:', this.cmd);
+            switch(this.cmd){
+              case 'register':{
+                this.dialogType = this.DIALOG_REGISTER;
+                break;
+              }
+            }
             if(this.cmd=='register'){
               this.dialogType = this.DIALOG_REGISTER;
             }
