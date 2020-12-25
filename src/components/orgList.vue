@@ -64,6 +64,17 @@ name: "orgList",
       ]
     }
   },
+  props:{
+    cmd:{
+      type: String,
+      required: false
+    }
+  },
+  watch:{
+    cmd: function(){
+      console.log('orgList cmd changed - ', this.cmd);
+    }
+  },
   mounted(){
     this.orgView = this.ORG_LIST;
     this.getOrgs();

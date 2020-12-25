@@ -14,6 +14,10 @@ name: "orgMembership",
     orgId:{
       type: Number,
       required: true
+    },
+    cmd:{
+      type: String,
+      required: false
     }
   },
   mounted(){

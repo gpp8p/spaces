@@ -15,12 +15,13 @@
                         :opt3Value="perm.opt3"
                         :selectedId="selectedGroupId"
                         :deleteActive="deleteActive"
+                        :cmd="cmd"
                         @deleteClicked="deleteClicked"
                         @groupClicked="groupClicked"></perm-list-line>
 
         </span>
         <span v-if="this.view==this.GROUP_INFO">
-          <membership :members="this.groupMembers" :membershipType="groupMembershipType" @memberSelected="memberSelected"></membership>
+          <membership :members="this.groupMembers" :membershipType="groupMembershipType" @memberSelected="memberSelected" :cmd="cmd"></membership>
         </span>
         <span v-if="this.view==this.GROUP_LIST">
           <group-list-header></group-list-header>
@@ -28,11 +29,12 @@
                            :key="index"
                            :groupId="group.id"
                            :groupDescription="group.description"
+                           :cmd="cmd"
                            @groupClicked="groupSelected"
           ></group-list-line>
         </span>
         <span v-if="this.view==this.ORG_MEMBERS">
-          <membership :members="orgMembers" :membershipType="orgMembershipType" @memberSelected="memberSelected"></membership>
+          <membership :members="orgMembers" :membershipType="orgMembershipType" @memberSelected="memberSelected" :cmd="cmd"></membership>
         </span>
       </span>
 </template>
@@ -60,9 +62,16 @@ name: "PermList",
     selectedMenuOption: {
       type: String,
       required: true
+    },
+    cmd:{
+      type: String,
+      required: false
     }
   },
   watch:{
+    cmd: function(){
+      console.log('PermList cmd changed - ', this.cmd);
+    },
     selectedMenuOption: function(){
       debugger;
       console.log('permList selectedMenuOption watcher triggered');

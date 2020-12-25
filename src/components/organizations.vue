@@ -1,7 +1,7 @@
 <template>
   <span>
-    <org-list v-if="orgView==this.ORG_LIST" @orgSelected="orgSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle"></org-list>
-    <org-membership :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" ></org-membership>
+    <org-list v-if="orgView==this.ORG_LIST" cmd="cmd" @orgSelected="orgSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle"></org-list>
+    <org-membership :cmd="cmd" :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" ></org-membership>
     <org-new :cmd="cmd" v-if="orgView==this.ORG_NEW"
              @componentSettingsMounted="componentSettingsMounted"
              @setTitle="setTitle"
@@ -47,7 +47,10 @@ export default {
             this.$emit('componentSettingsMounted',[['Back','Done', 'Save'],'Done']);
           }
         }
-      }
+      },
+    cmd: function(){
+      console.log('organizations cmd changed -', this.cmd);
+    }
   },
 
   data(){

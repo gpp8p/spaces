@@ -52,6 +52,17 @@ export default {
   mounted(){
     this.$emit("componentSettingsMounted",[this.menuOptions,this.openMenuOption])
   },
+  props:{
+    cmd: {
+      type: String,
+      required: false
+    }
+  },
+  watch:{
+    cmd: function(){
+      console.log('newLayout cmd changed - ', cmd);
+    }
+  },
   data(){
     return {
       layoutName:'',

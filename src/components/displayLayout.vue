@@ -58,9 +58,7 @@
                 break;
               }
             }
-            if(this.cmd=='register'){
-              this.dialogType = this.DIALOG_REGISTER;
-            }
+
           }
         },
         mounted(){

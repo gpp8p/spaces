@@ -71,8 +71,25 @@ name: "createLayout",
       COLOR_SELECTED:1,
       IMAGE_SELECTED:2,
 
-      menuOptions: ['Save Layout', 'Cancel' ],
-      openMenuOption: 'Save Layout'
+      menuOptions: ['Save', 'Cancel' ],
+      openMenuOption: 'Save'
+    }
+  },
+  props:{
+    cmd:{
+      type: String,
+      required: false
+    }
+  },
+  watch:{
+    cmd: function(){
+      console.log('createLayout cmd changed - ', this.cmd);
+      switch(this.cmd){
+        case 'Save':{
+          this.saveClicked();
+          break;
+        }
+      }
     }
   },
   methods:{

@@ -48,11 +48,18 @@
       dialogKey:{
         type: Number,
         required:true
+      },
+      cmd: {
+        type: String,
+        required: false
       }
     },
     watch:{
       selectedMenuOption: function(){
         console.log('newCardCreate selectedMenuOption watcher triggered');
+      },
+      cmd: function(){
+        console.log('newCardCreate cmd changed - ', this.cmd);
       }
     },
     methods:{

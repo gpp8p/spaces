@@ -18,6 +18,7 @@
               :selectedMenuOption="currentSelectedMenuOption"
               :currentValues=currentValues
               :dialogKey="dialogKey"
+              :cmd="cmd"
           ></green-component-settings>
           <new-card-create
               v-if = "dialogType==this.DIALOG_CREATE_CARD"
@@ -27,17 +28,20 @@
               :selectedMenuOption="currentSelectedMenuOption"
               @componentSettingsMounted="componentSettingsMounted"
               @configSelected="configSelected"
+              :cmd="cmd"
           ></new-card-create>
           <new-layout
               ref="newl"
               v-if = "dialogType==this.DIALOG_NEW_LAYOUT"
               @componentSettingsMounted="componentSettingsMounted"
               @layoutData="layoutData"
+              :cmd="cmd"
           ></new-layout>
           <PermList v-if="dialogType==this.DIALOG_PERMS"
                     @componentSettingsMounted="componentSettingsMounted"
                     @setTitle="setTitle"
                     :selectedMenuOption="currentSelectedMenuOption"
+                    :cmd="cmd"
           ></PermList>
           <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
           <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
@@ -87,7 +91,7 @@
         mounted(){
           this.getTitle();
           if(this.cmd=='register'){
-            this.currentMenuOpts = ['Cancel'];
+            this.currentMenuOpts = ['Cancel', 'Save Registration'];
             this.currentSelectedMenuOption = 'Cancel';
           }
         },
@@ -117,6 +121,7 @@
             },
             menuOptSelected(msg){
               console.log(msg);
+//              debugger;
               switch(msg){
                 case 'Cancel':{
                   if(this.dialogDataChanged){
@@ -135,16 +140,20 @@
                   this.$emit('configSelected',['cancel']);
                   break;
                 }
+/*
                 case 'Save':{
                   this.currentSelectedMenuOption = msg;
                   this.$emit('configSelected',['save']);
                   break;
                 }
+
                 case 'Save Layout':{
                   this.currentSelectedMenuOption = msg;
+                  this.cmd = msg;
                   this.$refs.newl.getEnteredData();
                   break;
                 }
+*/
                 case 'Create New Card':{
 //                  debugger;
                   this.currentSelectedMenuOption = msg;
@@ -159,6 +168,7 @@
                 }
                 default:{
                   this.currentSelectedMenuOption = msg;
+                  this.cmd = msg;
                   break;
                 }
               }

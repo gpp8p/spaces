@@ -45,6 +45,15 @@ export default {
     displayStatus: {
       type: Boolean,
       required: true
+    },
+    cmd: {
+      type: String,
+      required: false
+    }
+  },
+  watch:{
+    cmd: function() {
+      console.log('green component cmd changed-', this.cmd);
     }
   },
   data() {
