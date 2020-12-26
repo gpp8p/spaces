@@ -33,6 +33,8 @@
                 @dragStart="dragStart"
                 @moved="dialogMoved"
                 @configSelected = "configSelected"
+                @cardSaved="cardSaved"
+                :cmd="dialogCmd"
                 v-bind:style='this.styleObject'
         ></Dialog>
 
@@ -72,6 +74,7 @@
                 },
                 cardDataFunction: null,
 
+                dialogCmd:'',
 
                 cardCurrentConfigurationValues:{},
                 newCardBeingAdded:false,
@@ -111,6 +114,10 @@
             this.$eventHub.$emit('editStatusChanged',['openEdit',0]);
         },
         methods: {
+            cardSaved(msg){
+              this.dialogType=0;
+              this.$emit('cardSaved', msg);
+            },
             layoutGridParameters(height, width, backgroundColor) {
                 var heightSize = (95 / height).toFixed(2);
                 var widthSize = (98 / width).toFixed(2);
@@ -165,8 +172,20 @@
                       }else{
                         this.$emit('layoutMessage', ['clear', '',0 ]);
                       }
+                      var newCardParams = {
+                        cmd:'createCard',
+                        layoutId: currentLayoutId,
+                        title: msg[1],
+                        cardType: msg[2],
+                        tlRow: this.topLeftRow,
+                        tlCol:this.topLeftCol,
+                        brRow:this.bottomRightRow,
+                        brCol:this.bottomRightCol
+
+                      }
+                      this.dialogCmd = JSON.stringify(newCardParams);
                       console.log(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
-                      this.insertCard(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
+//                      this.insertCard(currentLayoutId, msg[1], msg[2], this.topLeftRow, this.topLeftCol, this.bottomRightRow, this.bottomRightCol);
                       break;
 
                     }

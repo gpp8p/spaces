@@ -26,12 +26,6 @@ Vue.use(VueRouter)
 
     },
     {
-      path: '/edit',
-      name: 'edit',
-      component: editLayout
-
-    },
-    {
       path: '/MySpaces',
       name: 'MySpaces',
       component: MySpaces

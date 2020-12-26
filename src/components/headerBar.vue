@@ -22,6 +22,10 @@
           message:{
             type: String,
             required: true
+          },
+          cmd:{
+            type: String,
+            required: true
           }
         },
         data(){
@@ -53,6 +57,18 @@
         },
         mounted(){
           this.$emit('viewStatusChangeFunction', ['headerBar',this.viewStatusChange]);
+        },
+        watch:{
+          cmd: function(){
+            switch(this.cmd){
+              case 'cardSaved':{
+                this.viewContext=this.VIEW_VIEWING;
+                this.menuItems = this.getMenuItems();
+                this.$emit('viewStatusChangeFunction', ['clearCmd']);
+                break;
+              }
+            }
+          }
         },
         created() {
             console.log('event hub set up in headerBar');
@@ -117,7 +133,7 @@
 
             },
             editStatusChanged(msg){
- //               debugger;
+                debugger;
                 console.log('edit status called',msg);
                 switch(msg[0]){
 

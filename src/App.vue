@@ -2,10 +2,10 @@
 
         <span class="layoutScreen">
           <section class="navbar">
-              <header-bar :message="message" @register="register" @tabSelected="tabSelected" @login="login" @logError="logError" @viewStatusChangeFunction="viewStatusChange"></header-bar>
+              <header-bar :message="message" :cmd="thisCmd" @register="register" @tabSelected="tabSelected" @login="login" @logError="logError" @viewStatusChangeFunction="viewStatusChange"></header-bar>
           </section>
           <section class="content">
-              <router-view @layoutMessage="showLayoutMessage" @tabSelected="tabSelected" @configSelected="viewStatusChange" @layoutSelected="layoutSelected" @viewStatusChangeFunction="viewStatusChange" :cmd="thisCmd"></router-view>
+              <router-view @layoutMessage="showLayoutMessage" @tabSelected="tabSelected" @configSelected="viewStatusChange" @layoutSelected="layoutSelected" @viewStatusChangeFunction="viewStatusChange" @cardSaved="cardSaved" :cmd="thisCmd"></router-view>
           </section>
 
         </span>
@@ -55,6 +55,15 @@
       }
     },
     methods: {
+      cardSaved(msg){
+        console.log('App - card saved', msg);
+        this.thisCmd="cardSaved";
+        this.$router.push({
+          name: 'displayLayout',
+          params: { layoutId: this.$store.getters.getCurrentLayoutId }
+        })
+
+      },
       register(){
         debugger;
         this.thisCmd='register';
@@ -72,7 +81,7 @@
  //               debugger;
         switch(msg){
           case 'Edit':{
-            this.$eventHub.$emit('editStatusChanged', ['openEdit',0]);
+//            this.$eventHub.$emit('editStatusChanged', ['openEdit',0]);
             this.$router.push({
               name: 'edit',
               params: { layoutId: this.$store.getters.getCurrentLayoutId }
@@ -180,6 +189,10 @@
           }
           case 'cancel':{
             debugger;
+            this.thisCmd='';
+            break;
+          }
+          case 'clearCmd':{
             this.thisCmd='';
             break;
           }

@@ -28,6 +28,7 @@
               :selectedMenuOption="currentSelectedMenuOption"
               @componentSettingsMounted="componentSettingsMounted"
               @configSelected="configSelected"
+              @cardSaved="cardSaved"
               :cmd="cmd"
           ></new-card-create>
           <new-layout
@@ -96,6 +97,9 @@
           }
         },
         methods: {
+            cardSaved(msg){
+              this.$emit('cardSaved', msg);
+            },
             cancelClicked(){
                 this.$emit('configSelected',['cancel']);
             },

@@ -15,6 +15,7 @@
 
 <script>
   import SelectPicker from "@/components/selectPicker";
+  import axios from "axios";
   export default {
     name: "newCardCreate",
     components: {SelectPicker},
@@ -30,7 +31,8 @@
         cardTypeLabel: 'Card Type:',
         cardPtypeReference: 'cardType',
         cardTypeOptions: ['Headline', 'RichText'],
-        dKey:0
+        dKey:0,
+        newCardParams:{}
       }
     },
     mounted(){
@@ -60,6 +62,21 @@
       },
       cmd: function(){
         console.log('newCardCreate cmd changed - ', this.cmd);
+        this.newCardParams = JSON.parse(this.cmd);
+        console.log(this.newCardParams);
+        switch(this.newCardParams.cmd){
+          case 'createCard':{
+            this.insertCard(this.newCardParams.layoutId,
+                            this.newCardParams.title,
+                            this.newCardParams.cardType,
+                            this.newCardParams.tlRow,
+                            this.newCardParams.tlCol,
+                            this.newCardParams.brRow,
+                            this.newCardParams.brCol);
+            break;
+          }
+        }
+
       }
     },
     methods:{
@@ -73,7 +90,33 @@
       },
       getCardType(){
         return this.cardType;
-      }
+      },
+      insertCard(layoutId, title, cardType, tlrow, tlcol, brrow, brcol){
+//                debugger;
+        axios.post('http://localhost:8000/saveCardOnly?XDEBUG_SESSION_START=12016', {
+          layoutId: layoutId,
+          cardTitle: title,
+          cardType: cardType,
+          topLeftRow: tlrow,
+          topLeftCol: tlcol,
+          bottomRightRow: brrow,
+          bottomRightCol: brcol
+        }).then(response=>
+        {
+          console.log('card saved:',response);
+          debugger;
+          this.$emit('cardSaved', [this.newCardParams.layoutId]);
+          this.$router.push({
+            name: 'displayLayout',
+            params: { layoutId: this.$store.getters.getCurrentLayoutId }
+          })
+
+          this.$emit('cardSaved', [this.newCardParams.layoutId]);
+        }).catch(function(error) {
+          this.$emit('layoutMessage', ['error', 'There was an error saving this card',0 ]);
+          console.log(error);
+        });
+      },
     }
 
 
