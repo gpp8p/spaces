@@ -62,6 +62,16 @@
                 this.dialogType = this.DIALOG_NEW_LAYOUT;
                 break;
               }
+              case 'access':{
+                this.dialogType = this.DIALOG_PERMS;
+                this.$emit('viewStatusChangeFunction', ['clearCmd'])
+                break;
+              }
+              case 'organizations':{
+                this.dialogType = this.DIALOG_ORGANIZATIONS;
+                this.$emit('viewStatusChangeFunction', ['clearCmd'])
+                break;
+              }
             }
 
           }
@@ -169,11 +179,11 @@
                 break;
               }
               case 'access':{
-                this.dialogType = this.DIALOG_PERMS;
+//                this.dialogType = this.DIALOG_PERMS;
                 break;
               }
               case 'organizations':{
-                this.dialogType = this.DIALOG_ORGANIZATIONS;
+//                this.dialogType = this.DIALOG_ORGANIZATIONS;
                 break;
               }
             }

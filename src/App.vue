@@ -100,18 +100,20 @@
             break;
           }
           case 'Access':{
-            this.displayViewStatusChangeFunction(['access',0]);
+//            this.displayViewStatusChangeFunction(['access',0]);
+            this.thisCmd='access';
             break;
           }
           case 'Create':{
 //            debugger;
-            this.displayViewStatusChangeFunction(['newLayout',0]);
-            this.$eventHub.$emit('editStatusChanged', ['newLayout',0]);
+//            this.displayViewStatusChangeFunction(['newLayout',0]);
+//            this.$eventHub.$emit('editStatusChanged', ['newLayout',0]);
             this.thisCmd='createNewLayout';
             break;
           }
           case 'Organizations':{
-            this.displayViewStatusChangeFunction(['organizations',0]);
+            this.thisCmd='organizations';
+//            this.displayViewStatusChangeFunction(['organizations',0]);
             break;
           }
           case 'New Card':{
@@ -142,24 +144,10 @@
             })
             break;
           }
-          case 'Table':{
-            this.openDialog=false;
-            this.$router.push('table');
-            break;
-          }
-          case 'Bar':{
-            this.openDialog=false;
-            this.$router.push('bar');
-            break;
-          }
-          case 'Dialog':{
-            this.openDialog = true;
-            break;
-          }
         }
       },
       viewStatusChange(msg){
-//        debugger;
+        debugger;
         switch(msg[0]){
           case 'headerBar':{
             this.headerBarViewStatusChangeFunction=msg[1];
