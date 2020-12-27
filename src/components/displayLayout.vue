@@ -57,6 +57,11 @@
                 this.dialogType = this.DIALOG_REGISTER;
                 break;
               }
+              case 'createNewLayout':{
+                console.log('displayLayout createNewLayout triggered');
+                this.dialogType = this.DIALOG_NEW_LAYOUT;
+                break;
+              }
             }
 
           }
@@ -153,8 +158,8 @@
                 this.$emit('cardDataLoaded',msg);
             },
             editStatusChanged(msg){
-              console.log('displayLayout:',msg);
-              this.dialogType = this.DIALOG_NEW_LAYOUT;
+              console.log('displayLayout - editStatusChanged:',msg);
+ //             this.dialogType = this.DIALOG_NEW_LAYOUT;
             },
           displayLayoutViewStatusChange(args){
             console.log('displayLayout recieved a view Status change');
@@ -257,7 +262,7 @@
                     store.commit('setPerms', response.data.perms);
                     this.$emit('layoutChanged',[this.layoutId]);
                     store.commit('setCurrentLayoutId', this.layoutId);
-                    this.$eventHub.$emit('layoutChanged');
+//                    this.$eventHub.$emit('layoutChanged');
                 }).catch(e => {
                     console.log(e);
                     this.errors.push(e);

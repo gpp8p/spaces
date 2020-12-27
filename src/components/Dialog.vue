@@ -181,7 +181,7 @@
               console.log('orgSelected:', msg);
             },
             rusure(msg){
-              debugger;
+//              debugger;
               if(msg){
                 this.sureMsg = '';
                 this.dialogContext=this.DIALOG_TITLE;
@@ -198,7 +198,7 @@
                 this.$emit('moved', [evt.screenY , evt.screenX]);
             },
             componentSettingsMounted(msg){
-              debugger;
+//              debugger;
               console.log("register=", this.$store.getters.getRegister);
               console.log(msg);
               this.currentMenuOpts = msg[0];

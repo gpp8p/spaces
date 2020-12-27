@@ -67,17 +67,22 @@
                 this.$emit('viewStatusChangeFunction', ['clearCmd']);
                 break;
               }
+              case 'layoutChanged':{
+                this.layoutChanged();
+                this.$emit('viewStatusChangeFunction', ['clearCmd']);
+                break;
+              }
             }
           }
         },
         created() {
             console.log('event hub set up in headerBar');
-            this.$eventHub.$on('layoutChanged', this.layoutChanged);
+//            this.$eventHub.$on('layoutChanged', this.layoutChanged);
             this.$eventHub.$on('editStatusChanged', this.editStatusChanged);
         },
         beforeDestroy(){
             console.log('event hub turned off in headerBar');
-            this.$eventHub.$off('layoutChanged');
+//            this.$eventHub.$off('layoutChanged');
             this.$eventHub.$off('editStatusChanged');
         },
         components: {menuComponent, loginComponent, contextArea},

@@ -5,7 +5,14 @@
               <header-bar :message="message" :cmd="thisCmd" @register="register" @tabSelected="tabSelected" @login="login" @logError="logError" @viewStatusChangeFunction="viewStatusChange"></header-bar>
           </section>
           <section class="content">
-              <router-view @layoutMessage="showLayoutMessage" @tabSelected="tabSelected" @configSelected="viewStatusChange" @layoutSelected="layoutSelected" @viewStatusChangeFunction="viewStatusChange" @cardSaved="cardSaved" :cmd="thisCmd"></router-view>
+              <router-view @layoutMessage="showLayoutMessage"
+                           @tabSelected="tabSelected"
+                           @configSelected="viewStatusChange"
+                           @layoutSelected="layoutSelected"
+                           @layoutChanged="layoutChanged"
+                           @viewStatusChangeFunction="viewStatusChange"
+                           @cardSaved="cardSaved"
+                           :cmd="thisCmd"></router-view>
           </section>
 
         </span>
@@ -100,6 +107,7 @@
 //            debugger;
             this.displayViewStatusChangeFunction(['newLayout',0]);
             this.$eventHub.$emit('editStatusChanged', ['newLayout',0]);
+            this.thisCmd='createNewLayout';
             break;
           }
           case 'Organizations':{
@@ -151,7 +159,7 @@
         }
       },
       viewStatusChange(msg){
-        debugger;
+//        debugger;
         switch(msg[0]){
           case 'headerBar':{
             this.headerBarViewStatusChangeFunction=msg[1];
@@ -197,6 +205,10 @@
             break;
           }
         }
+      },
+      layoutChanged(msg){
+        this.thisCmd='layoutChanged';
+        console.log('layoutChanged - ', msg);
       },
       showLayoutMessage(msg){
         console.log(msg);
