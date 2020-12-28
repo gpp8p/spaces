@@ -61,6 +61,16 @@ name: "orgMembership",
       ]
     }
   },
+  watch :{
+    cmd: function(){
+      switch(this.cmd){
+        case 'Add Member':{
+          console.log('orgMembership Add Member activated');
+          break
+        }
+      }
+    }
+  },
   methods:{
     memberSelected(msg){
       console.log(msg);
@@ -79,6 +89,7 @@ name: "orgMembership",
             console.log(response);
             this.orgUsers=response.data;
             this.orgView=this.ORG_MEMBERS;
+            this.getOrgPerms(orgId);
             this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
             this.$emit('setTitle','Organization Members - Click to Select');
 
@@ -107,6 +118,25 @@ name: "orgMembership",
           .catch(e => {
             this.errors.push(e);
             console.log('orgMembers failed');
+          });
+    },
+
+    getOrgPerms(orgId){
+      axios.get('http://localhost:8000/api/shan/userOrgPerms?XDEBUG_SESSION_START=14668', {
+        params: {
+          orgId:orgId
+        }
+      })
+          .then(response => {
+// eslint-disable-next-line no-debugger
+            // JSON responses are automatically parsed.
+            debugger;
+            console.log(response);
+
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('orgUserPerms failed');
           });
     }
   }
