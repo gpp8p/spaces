@@ -22,15 +22,19 @@ name: "orgMembership",
   },
   mounted(){
     if(this.orgId>0){
+      this.getOrgPerms(this.orgId);
+//      debugger;
       this.getOrgMembers(this.orgId);
     }else{
       this.getAllUsers();
+      this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
     }
 
   },
   data() {
     return {
       orgUsers: [],
+      orgPermissions:{},
       membershipType:'org',
       isPaginated: true,
       isPaginationSimple: true,
@@ -66,6 +70,10 @@ name: "orgMembership",
       switch(this.cmd){
         case 'Add Member':{
           console.log('orgMembership Add Member activated');
+          this.$emit('setTitle','Click to Select Member to Add');
+          this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+          this.getAllUsers();
+
           break
         }
       }
@@ -89,9 +97,8 @@ name: "orgMembership",
             console.log(response);
             this.orgUsers=response.data;
             this.orgView=this.ORG_MEMBERS;
-            this.getOrgPerms(orgId);
-            this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
-            this.$emit('setTitle','Organization Members - Click to Select');
+  //          this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
+//            this.$emit('setTitle','Organization Members - Click to Select');
 
           })
           .catch(e => {
@@ -111,8 +118,8 @@ name: "orgMembership",
             console.log(response);
             this.orgUsers=response.data;
             this.orgView=this.ORG_MEMBERS;
-            this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
-            this.$emit('setTitle','Organization Members - Click to Select');
+
+//            this.$emit('setTitle','Organization Members - Click to Select');
 
           })
           .catch(e => {
@@ -122,6 +129,7 @@ name: "orgMembership",
     },
 
     getOrgPerms(orgId){
+      debugger;
       axios.get('http://localhost:8000/api/shan/userOrgPerms?XDEBUG_SESSION_START=14668', {
         params: {
           orgId:orgId
@@ -131,6 +139,16 @@ name: "orgMembership",
 // eslint-disable-next-line no-debugger
             // JSON responses are automatically parsed.
             debugger;
+            this.orgPermissions.view = response.data.view;
+            this.orgPermissions.author = response.data.author;
+            this.orgPermissions.admin = response.data.admin;
+            if(this.orgPermissions.admin==true){
+              this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
+              this.$emit('setTitle','Organization Members - Click to Select');
+            }else{
+              this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+              this.$emit('setTitle','Organization Members');
+            }
             console.log(response);
 
           })
