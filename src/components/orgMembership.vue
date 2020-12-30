@@ -7,6 +7,7 @@
 <script>
 import membership from "../components/membership.vue";
 import axios from "axios";
+//import store from "@/store";
 export default {
 name: "orgMembership",
   components: {membership},
@@ -22,20 +23,31 @@ name: "orgMembership",
   },
   mounted(){
     if(this.orgId>0){
-      this.getOrgPerms(this.orgId);
+      if(this.$store.getters.getIsAdmin==1){
+        this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
+        this.$emit('setTitle','Organization Members - Click to Select');
+      }else{
+        this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+        this.$emit('setTitle','Organization Members');
+      }
 //      debugger;
+      this.orgMemberViewStatus=this.ORG_MEMBERS;
       this.getOrgMembers(this.orgId);
     }else{
       this.getAllUsers();
+      this.orgMemberViewStatus=this.ALL_MEMBERS;
       this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
     }
 
-    
+
   },
   data() {
     return {
       orgUsers: [],
-      orgPermissions:{},
+      ORG_MEMBERS:0,
+      ALL_MEMBERS:1,
+      AVAILABLE_MEMBERS:2,
+      orgMemberViewStatus:0,
       membershipType:'org',
       isPaginated: true,
       isPaginationSimple: true,
@@ -73,7 +85,8 @@ name: "orgMembership",
           console.log('orgMembership Add Member activated');
           this.$emit('setTitle','Click to Select Member to Add');
           this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
-          this.getAllUsers();
+          this.getAvailableOrgMembers(this.orgId);
+          this.orgMemberViewStatus = this.AVAILABLE_MEMBERS;
 
           break
         }
@@ -82,6 +95,43 @@ name: "orgMembership",
   },
   methods:{
     memberSelected(msg){
+      switch(this.orgMemberViewStatus){
+        case this.ORG_MEMBERS:{
+          console.log('member selected ORG_MEMBERS');
+          break;
+        }
+        case this.ALL_MEMBERS:{
+          console.log('member selected ALL_MEMBERS');
+          break;
+        }
+        case this.AVAILABLE_MEMBERS:{
+          console.log('member selected AVAILABLE_MEMBERS');
+          console.log('selected member:',msg[1].id);
+          axios.post('http://localhost:8000/api/shan/addUserToOrg?XDEBUG_SESSION_START=15022', {
+            userId:msg[1].id,
+            orgId: this.orgId
+          }).then(response=>
+          {
+            console.log(response)
+            if(response.data=='ok'){
+              if(this.$store.getters.getIsAdmin==1){
+                this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
+                this.$emit('setTitle','Organization Members - Click to Select');
+              }else{
+                this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
+                this.$emit('setTitle','Organization Members');
+              }
+              this.orgMemberViewStatus=this.ORG_MEMBERS;
+              this.getOrgMembers(this.orgId);
+            }
+          }).catch(function(error) {
+//                    debugger;
+            console.log(error);
+          });
+
+          break;
+        }
+      }
       console.log(msg);
       this.$emit('memberSelected', msg);
     },
@@ -99,6 +149,29 @@ name: "orgMembership",
             this.orgUsers=response.data;
             this.orgView=this.ORG_MEMBERS;
   //          this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
+//            this.$emit('setTitle','Organization Members - Click to Select');
+
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log('orgMembers failed');
+          });
+    },
+
+    getAvailableOrgMembers(orgId){
+      axios.get('http://localhost:8000/api/shan/availableUsers?XDEBUG_SESSION_START=14668', {
+        params: {
+          orgId:orgId
+        }
+      })
+          .then(response => {
+// eslint-disable-next-line no-debugger
+            // JSON responses are automatically parsed.
+            debugger;
+            console.log(response);
+            this.orgUsers=response.data;
+            this.orgView=this.AVAILABLE_MEMBERS;
+            //          this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
 //            this.$emit('setTitle','Organization Members - Click to Select');
 
           })
@@ -126,36 +199,6 @@ name: "orgMembership",
           .catch(e => {
             this.errors.push(e);
             console.log('orgMembers failed');
-          });
-    },
-
-    getOrgPerms(orgId){
-      debugger;
-      axios.get('http://localhost:8000/api/shan/userOrgPerms?XDEBUG_SESSION_START=14668', {
-        params: {
-          orgId:orgId
-        }
-      })
-          .then(response => {
-// eslint-disable-next-line no-debugger
-            // JSON responses are automatically parsed.
-            debugger;
-            this.orgPermissions.view = response.data.view;
-            this.orgPermissions.author = response.data.author;
-            this.orgPermissions.admin = response.data.admin;
-            if(this.orgPermissions.admin==true){
-              this.$emit('componentSettingsMounted',[['Back','Done', 'Add Member'],'Done']);
-              this.$emit('setTitle','Organization Members - Click to Select');
-            }else{
-              this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
-              this.$emit('setTitle','Organization Members');
-            }
-            console.log(response);
-
-          })
-          .catch(e => {
-            this.errors.push(e);
-            console.log('orgUserPerms failed');
           });
     }
   }
