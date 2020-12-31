@@ -144,6 +144,10 @@
                   this.$emit('configSelected',['cancel']);
                   break;
                 }
+                case 'Save':{
+                  this.cmd='Save';
+                  break;
+                }
 /*
                 case 'Save':{
                   this.currentSelectedMenuOption = msg;

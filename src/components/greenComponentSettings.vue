@@ -39,11 +39,23 @@ import TextSet from "@/components/TextSet";
       dialogKey:{
         type: Number,
         required:true
+      },
+      cmd:{
+        type: String,
+        required: false
       }
     },
     watch:{
       selectedMenuOption: function(){
         this.openMenuOption = this.selectedMenuOption;
+      },
+      cmd: function(){
+        console.log('cmd changes in green component settings:', this.cmd);
+        switch(this.cmd){
+          case 'Save':{
+            this.$emit('configSelected',['save']);
+          }
+        }
       }
     },
     methods:{
