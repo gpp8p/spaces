@@ -46,7 +46,7 @@
           ></PermList>
           <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
           <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
-          <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected"></organizations>
+          <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected" @clearCmd="clearCmd"></organizations>
         </div>
         <div class="dialogComponentFooter">
             <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -96,6 +96,11 @@
             this.currentSelectedMenuOption = 'Cancel';
           }
         },
+        watch:{
+          cmd: function(){
+            console.log('Dialog cmd changed:',this.cmd);
+          }
+        },
         methods: {
             cardSaved(msg){
               this.$emit('cardSaved', msg);
@@ -125,7 +130,8 @@
             },
             menuOptSelected(msg){
               console.log(msg);
-//              debugger;
+              this.cmd='';
+              debugger;
               switch(msg){
                 case 'Cancel':{
                   if(this.dialogDataChanged){
@@ -260,6 +266,10 @@
             },
             setTitle(msg){
               this.titleMsg = msg;
+            },
+            clearCmd(){
+              this.cmd='';
+              this.$emit('clearCmd');
             }
         },
 

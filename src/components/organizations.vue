@@ -1,7 +1,7 @@
 <template>
   <span>
-    <org-list v-if="orgView==this.ORG_LIST" cmd="cmd" @orgSelected="orgSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle"></org-list>
-    <org-membership :cmd="cmd" :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" ></org-membership>
+    <org-list v-if="orgView==this.ORG_LIST" :cmd="cmd" @orgSelected="orgSelected" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle"></org-list>
+    <org-membership :cmd="cmd" :orgId="selectedOrgId" v-if="orgView==this.ORG_MEMBERS" @componentSettingsMounted="componentSettingsMounted" @setTitle="setTitle" @clearCmd="clearCmd"></org-membership>
     <org-new :cmd="cmd" v-if="orgView==this.ORG_NEW"
              @componentSettingsMounted="componentSettingsMounted"
              @setTitle="setTitle"
@@ -131,6 +131,9 @@ export default {
     },
     setTitle(msg){
       this.$emit('setTitle', msg);
+    },
+    clearCmd(){
+      this.$emit('clearCmd');
     }
   }
 }

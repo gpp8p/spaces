@@ -24,10 +24,11 @@
               :key="dialogKey"
               :currentValues=this.currentValues
               :dialogKey = "this.dialogKey"
-              :cmd = "cmd"
+              :cmd = "this.cmd"
               @dragStart="dragStart"
               @moved="dialogMoved"
               @configSelected = "configSelected"
+              @clearCmd="clearCmd"
               v-bind:style='this.styleObject'
       ></Dialog>
     </div>
@@ -51,7 +52,7 @@
         watch:{
           cmd: function(){
             debugger;
-            console.log('cmd property changed:', this.cmd);
+            console.log('displayLayout - cmd property changed:', this.cmd);
             switch(this.cmd){
               case 'register':{
                 this.dialogType = this.DIALOG_REGISTER;
@@ -132,6 +133,9 @@
           }
         },
         methods: {
+            clearCmd(){
+              this.$emit('viewStatusChangeFunction', ['clearCmd'])
+            },
             layoutGridParameters(height, width, backgroundColor, backgroundImageUrl, backgroundType) {
                 var heightSize = (95 / height).toFixed(2);
                 var widthSize = (98 / width).toFixed(2);

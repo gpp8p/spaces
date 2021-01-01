@@ -95,6 +95,7 @@ name: "orgMembership",
           this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
           this.getAvailableOrgMembers(this.orgId);
           this.orgMemberViewStatus = this.AVAILABLE_MEMBERS;
+          this.$emit('clearCmd');
 
           break
         }
@@ -109,6 +110,11 @@ name: "orgMembership",
 // eslint-disable-next-line no-debugger
                 // JSON responses are automatically parsed.
                 debugger;
+                if(response.data=="ok"){
+                  this.orgMemberViewStatus=this.ORG_MEMBERS;
+                  this.getOrgMembers(this.orgId);
+                  this.$emit('clearCmd');
+                }
                 console.log(response);
               })
               .catch(e => {
@@ -151,6 +157,7 @@ name: "orgMembership",
                 this.$emit('componentSettingsMounted',[['Back','Done'],'Done']);
                 this.$emit('setTitle','Organization Members');
               }
+              this.$emit('clearCmd');
               this.orgMemberViewStatus=this.ORG_MEMBERS;
               this.getOrgMembers(this.orgId);
             }
