@@ -10,47 +10,47 @@
       </div>
         <br/>
 
-        <div class="dialogComponentBody">
-          <green-component-settings
-              v-if = "dialogType==this.DIALOG_CONFIGURE_GREEN_CARD"
-              @componentSettingsMounted="componentSettingsMounted"
-              @configSelected="configSelected"
-              :selectedMenuOption="currentSelectedMenuOption"
-              :currentValues=currentValues
-              :dialogKey="dialogKey"
-              :cmd="cmd"
-          ></green-component-settings>
-          <new-card-create
-              v-if = "dialogType==this.DIALOG_CREATE_CARD"
-              ref="newCardDialog"
-              :currentValues=currentValues
-              :dialogKey="dialogKey"
-              :selectedMenuOption="currentSelectedMenuOption"
-              @componentSettingsMounted="componentSettingsMounted"
-              @configSelected="configSelected"
-              @cardSaved="cardSaved"
-              :cmd="cmd"
-          ></new-card-create>
-          <new-layout
-              ref="newl"
-              v-if = "dialogType==this.DIALOG_NEW_LAYOUT"
-              @componentSettingsMounted="componentSettingsMounted"
-              @layoutData="layoutData"
-              :cmd="cmd"
-          ></new-layout>
-          <PermList v-if="dialogType==this.DIALOG_PERMS"
-                    @componentSettingsMounted="componentSettingsMounted"
-                    @setTitle="setTitle"
-                    :selectedMenuOption="currentSelectedMenuOption"
-                    :cmd="cmd"
-          ></PermList>
-          <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
-          <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
-          <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected" @clearCmd="clearCmd"></organizations>
-        </div>
-        <div class="dialogComponentFooter">
-            <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
-        </div>
+      <div class="dialogComponentBody">
+        <green-component-settings
+            v-if = "dialogType==this.DIALOG_CONFIGURE_GREEN_CARD"
+            @componentSettingsMounted="componentSettingsMounted"
+            @configSelected="configSelected"
+            :selectedMenuOption="currentSelectedMenuOption"
+            :currentValues=currentValues
+            :dialogKey="dialogKey"
+            :cmd="cmd"
+        ></green-component-settings>
+        <new-card-create
+            v-if = "dialogType==this.DIALOG_CREATE_CARD"
+            ref="newCardDialog"
+            :currentValues=currentValues
+            :dialogKey="dialogKey"
+            :selectedMenuOption="currentSelectedMenuOption"
+            @componentSettingsMounted="componentSettingsMounted"
+            @configSelected="configSelected"
+            @cardSaved="cardSaved"
+            :cmd="cmd"
+        ></new-card-create>
+        <new-layout
+            ref="newl"
+            v-if = "dialogType==this.DIALOG_NEW_LAYOUT"
+            @componentSettingsMounted="componentSettingsMounted"
+            @layoutData="layoutData"
+            :cmd="cmd"
+        ></new-layout>
+        <PermList v-if="dialogType==this.DIALOG_PERMS"
+                  @componentSettingsMounted="componentSettingsMounted"
+                  @setTitle="setTitle"
+                  :selectedMenuOption="currentSelectedMenuOption"
+                  :cmd="cmd"
+        ></PermList>
+        <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
+        <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
+        <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected" @clearCmd="clearCmd"></organizations>
+      </div>
+      <div class="dialogComponentFooter">
+          <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
+      </div>
     </div>
 
 </template>
@@ -355,16 +355,18 @@
 
     }
     .dialogComponentFooter {
-        height: 10%;
-        margin-left: 10px;
-        margin-right: 5px;
+      height: 10%;
+      width:100%;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center
     }
     .linkStyle{
         font-family: Arial;
         font-size: medium;
         color: #0a3aff;
         margin-left: 10%;
-        margin-right: 40%;
+        margin-right: 10%;
     }
     .field{
       font-family: Avenir, Helvetica, Arial, sans-serif;
