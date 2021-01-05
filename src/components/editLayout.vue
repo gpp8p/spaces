@@ -29,6 +29,7 @@
                 :dialog-type="dialogType"
                 :key="dialogKey"
                 :currentValues=this.cardCurrentConfigurationValues
+                :selectedCardConfigurationValues = this.selectedCardConfigurationValues
                 :dialogKey = "this.dialogKey"
                 @dragStart="dragStart"
                 @moved="dialogMoved"
@@ -62,6 +63,7 @@
                 dialogType:0,
                 DIALOG_CONFIGURE_GREEN_CARD:1,
                 DIALOG_CONFIGURE_TEXT_CARD:2,
+                DIALOG_CONFIGURE_CARD:10,
                 DIALOG_CREATE_CARD:3,
 
                 displayStatus:true,
@@ -77,6 +79,7 @@
                 dialogCmd:'',
 
                 cardCurrentConfigurationValues:{},
+                selectedCardConfigurationValues:{},
                 newCardBeingAdded:false,
                 topLeftClicked: 0,
                 bottomRightClicked: 0,
@@ -229,6 +232,7 @@
               this.cardCurrentConfigurationValues = msg[1];
             },
             cardClick(msg){
+//              debugger;
               console.log('cardClick', msg);
               switch(msg[0][2]){
                   case 'greenComponent':{
@@ -238,6 +242,19 @@
                       this.dialogType=this.DIALOG_CONFIGURE_GREEN_CARD;
                       this.$emit("layoutChanged");
                       break;
+                  }
+                  default:{
+                    this.cardDataFunction = msg[0][3];
+                    this.selectedCardConfigurationValues ={
+                      cardTypeBeingConfigured: msg[0][2],
+                      instancePositionBeingConfigured: msg[0][1],
+                      screenElementBeingConfigured: msg[0][4],
+                      cardDataFunction: msg[0][3],
+                      cardConfigurationElements:msg[0][4],
+                      cardCurrentConfigurationValues:msg[0][5]
+                    }
+                    this.dialogType=this.DIALOG_CONFIGURE_CARD;
+                    this.dialogCmd=msg[0][2];
                   }
               }
             },
@@ -297,7 +314,7 @@
 //          debugger;
                         for (var d = 0; d < cardsToDelete.length; d++) {
                             var indexOfCardToDelete = cardsToDelete[d];
-                            console.log(indexOfCardToDelete);
+//                            console.log(indexOfCardToDelete);
                             blankLayout[indexOfCardToDelete].toDelete = true;
                         }
 // copy all the cards in blankLayout that are not to be deleted

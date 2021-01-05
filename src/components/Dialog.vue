@@ -20,6 +20,15 @@
             :dialogKey="dialogKey"
             :cmd="cmd"
         ></green-component-settings>
+        <card-configuration-settings
+            v-if = "dialogType==this.DIALOG_CONFIGURE_CARD"
+            @componentSettingsMounted="componentSettingsMounted"
+            @configSelected="configSelected"
+            :selectedMenuOption="currentSelectedMenuOption"
+            :currentValues=currentValues
+            :dialogKey="dialogKey"
+            :cmd="cmd"
+        ></card-configuration-settings>
         <new-card-create
             v-if = "dialogType==this.DIALOG_CREATE_CARD"
             ref="newCardDialog"
@@ -65,12 +74,13 @@
     import PermList from "../components/PermList.vue";
     import organizations from "../components/organizations.vue";
     import userExists from "../components/userExists.vue";
+    import cardConfigurationSettings from "../components/cardConfigurationSettings.vue";
 
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
     export default {
         name: "Dialog",
-        components :{RegisterUser, greenComponentSettings, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists},
+        components :{RegisterUser, greenComponentSettings, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings},
         props:{
             dialogType:{
                 type: Number,
@@ -86,7 +96,11 @@
           },
           cmd:{
             type: String,
-            required: false
+            required: true
+          },
+          selectedCardConfigurationValues:{
+              type: Object,
+              required: true
           }
         },
         mounted(){
@@ -95,11 +109,33 @@
             this.currentMenuOpts = ['Cancel', 'Save Registration'];
             this.currentSelectedMenuOption = 'Cancel';
           }
+          if(this.cmd=='textShow'){
+            this.currentMenuOpts = ['Appearence', 'Save', 'Cancel'];
+            this.currentSelectedMenuOption = 'Appearence';
+          }
         },
         watch:{
+          dialogType: function(){
+            console.log(this.selectedCardConfigurationValues);
+            debugger;
+
+          },
           cmd: function(){
             console.log('Dialog cmd changed:',this.cmd);
-          }
+            switch(this.cmd){
+              case 'showConfigurationSetup':{
+                switch(this.selectedCardConfigurationValues.cardTypeBeingConfigured){
+                  case'textShow':{
+                    this.currentMenuOpts =  ['Appearence', 'Save', 'Cancel' ];
+                    this.currentSelectedMenuOption = 'Appearence';
+                    this.cmd='showConfigurationSetup';
+                    break;
+                  }
+                }
+
+              }
+            }
+          },
         },
         methods: {
             cardSaved(msg){
@@ -208,7 +244,7 @@
                 this.$emit('moved', [evt.screenY , evt.screenX]);
             },
             componentSettingsMounted(msg){
-//              debugger;
+              debugger;
               console.log("register=", this.$store.getters.getRegister);
               console.log(msg);
               this.currentMenuOpts = msg[0];
@@ -294,6 +330,7 @@
                 DIALOG_ORGANIZATIONS:7,
                 DIALOG_ORGANIZATION_MEMBERS:8,
                 DIALOG_USER_EXISTS:9,
+                DIALOG_CONFIGURE_CARD:10,
                 titleMsg:'Headline Card',
 
                 sureMsg:'',
