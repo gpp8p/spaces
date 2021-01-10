@@ -52,6 +52,10 @@ import TextSet from "@/components/TextSet";
       openMenuOption:{
         type: String,
         required: true
+      },
+      selectedCardConfigurationValues:{
+        type: Object,
+        required: true
       }
     },
     watch:{

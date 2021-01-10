@@ -1,6 +1,7 @@
 <template>
     <span>
 
+
              <div v-bind:style="gridParamDefinition" >
                         <generic-card
                                 v-for="(instance, index) in cardInstances"
@@ -22,10 +23,23 @@
                                 ref="key"
                         ></generic-card>
 
+
               </div>
-
-
         <Dialog v-if="this.dialogType>0"
+                 :dialog-type="dialogType"
+                 :key="dialogKey"
+                 :currentValues=this.cardCurrentConfigurationValues
+                 :selectedCardConfigurationValues = this.selectedCardConfigurationValues
+                 :dialogKey = "this.dialogKey"
+                 @dragStart="dragStart"
+                 @moved="dialogMoved"
+                 @configSelected = "configSelected"
+                 @cardSaved="cardSaved"
+                 :cmd="dialogCmd"
+                 v-bind:style='this.styleObject'
+        ></Dialog>
+
+        <Dialog2 v-if="this.RICH_TEXT_EDITOR==true"
                 :dialog-type="dialogType"
                 :key="dialogKey"
                 :currentValues=this.cardCurrentConfigurationValues
@@ -37,7 +51,9 @@
                 @cardSaved="cardSaved"
                 :cmd="dialogCmd"
                 v-bind:style='this.styleObject'
-        ></Dialog>
+        ></Dialog2>
+
+
 
     </span>
 
@@ -47,9 +63,11 @@
     import axios from "axios";
     import genericCard from '../components/genericCard.vue';
     import Dialog from "../components/Dialog.vue";
+    import Dialog2 from "../components/Dialog2.vue";
+//    import simpleCkDialog from "../components/simpleCk.vue";
     export default {
         name: "editLayout",
-        components:{Dialog, genericCard},
+        components:{ genericCard, Dialog2, Dialog},
         data(){
             return {
                 cardInstances: [],
@@ -99,6 +117,13 @@
                 CANCELLAYOUTUPDATE:7,
                 CARDBEINGCONFIGED:8,
 
+                newCardCoords: [],
+                updateCallback: null,
+                cardData: '',
+                layoutLink:'',
+                RICH_TEXT_EDITOR: false
+
+
 
             }
         },
@@ -117,6 +142,13 @@
             this.$eventHub.$emit('editStatusChanged',['openEdit',0]);
         },
         methods: {
+          textEditor(msg){
+            console.log(msg);
+            debugger;
+            this.updateCallback = msg[0][1];
+            this.cardData = msg[0][3];
+            this.RICH_TEXT_EDITOR=true;
+          },
             cardSaved(msg){
               this.dialogType=0;
               this.$emit('cardSaved', msg);
@@ -235,6 +267,7 @@
 //              debugger;
               console.log('cardClick', msg);
               switch(msg[0][2]){
+/*
                   case 'greenComponent':{
 //                      debugger;
                       this.cardDataFunction = msg[0][3];
@@ -243,6 +276,7 @@
                       this.$emit("layoutChanged");
                       break;
                   }
+*/
                   default:{
                     this.cardDataFunction = msg[0][3];
                     this.selectedCardConfigurationValues ={

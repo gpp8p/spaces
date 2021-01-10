@@ -12,44 +12,7 @@
 
       <div class="dialogComponentBody">
 
-        <card-configuration-settings
-            v-if = "dialogType==this.DIALOG_CONFIGURE_CARD"
-            @componentSettingsMounted="componentSettingsMounted"
-            @configSelected="configSelected"
-            :selectedMenuOption="currentSelectedMenuOption"
-            :selectedCardConfigurationValues="selectedCardConfigurationValues"
-            :currentValues=currentValues
-            :dialogKey="dialogKey"
-            :cmd="cmd"
-        ></card-configuration-settings>
-        <new-card-create
-            v-if = "dialogType==this.DIALOG_CREATE_CARD"
-            ref="newCardDialog"
-            :currentValues=currentValues
-            :dialogKey="dialogKey"
-            :selectedMenuOption="currentSelectedMenuOption"
-            @componentSettingsMounted="componentSettingsMounted"
-            @configSelected="configSelected"
-            @cardSaved="cardSaved"
-            :cmd="cmd"
-        ></new-card-create>
-        <new-layout
-            ref="newl"
-            v-if = "dialogType==this.DIALOG_NEW_LAYOUT"
-            @componentSettingsMounted="componentSettingsMounted"
-            @layoutData="layoutData"
-            :cmd="cmd"
-        ></new-layout>
-        <PermList v-if="dialogType==this.DIALOG_PERMS"
-                  @componentSettingsMounted="componentSettingsMounted"
-                  @setTitle="setTitle"
-                  :selectedMenuOption="currentSelectedMenuOption"
-                  :cmd="cmd"
-        ></PermList>
-        <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
-        <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
-        <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected" @clearCmd="clearCmd"></organizations>
-      </div>
+       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
       </div>
@@ -60,20 +23,20 @@
 <script>
 //    import greenComponentSettings from "../components/greenComponentSettings.vue";
     import menuOpt from "../components/menuOpt.vue";
-    import newCardCreate from "../components/newCardCreate.vue";
+
 //    import newLayout from "../components/newLayout.vue";
-    import newLayout from "../components/createLayout.vue";
+
     import AreYouSure from "../components/AreYouSure.vue";
-    import PermList from "../components/PermList.vue";
-    import organizations from "../components/organizations.vue";
-    import userExists from "../components/userExists.vue";
-    import cardConfigurationSettings from "../components/cardConfigurationSettings.vue";
+
+
+
+
 
  //   import store from "@/store";
-    import RegisterUser from "@/components/registerUser";
+
     export default {
-        name: "Dialog",
-        components :{RegisterUser, menuOpt, newCardCreate, newLayout, AreYouSure, PermList, organizations, userExists, cardConfigurationSettings},
+        name: "Dialog2",
+        components :{ menuOpt,   AreYouSure},
         props:{
             dialogType:{
                 type: Number,
@@ -341,10 +304,10 @@
 
 <style scoped>
     .dialogComponent {
-        height:325px;
-        width:650px;
+        height:450px;
+        width:750px;
         position: relative;
-        background-color: #ab97ff;
+        background-color: #81e7cb;
         border: 2px solid blue;
         border-radius: 8px;
         box-shadow: 10px 10px 5px grey;
