@@ -11,7 +11,7 @@
         <br/>
 
       <div class="dialogComponentBody">
-
+        <editor-ck></editor-ck>
        </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -27,6 +27,7 @@
 //    import newLayout from "../components/newLayout.vue";
 
     import AreYouSure from "../components/AreYouSure.vue";
+    import editorCk from '../components/editorCk.vue'
 
 
 
@@ -36,7 +37,7 @@
 
     export default {
         name: "rtEditorDialog",
-        components :{ menuOpt,   AreYouSure},
+        components :{ menuOpt,   AreYouSure, editorCk},
         props:{
             dialogType:{
                 type: Number,

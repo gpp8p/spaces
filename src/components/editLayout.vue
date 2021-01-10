@@ -64,6 +64,7 @@
     import genericCard from '../components/genericCard.vue';
     import Dialog from "../components/Dialog.vue";
     import rtEditorDialog from "./rtEditorDialog.vue";
+
 //    import simpleCkDialog from "../components/simpleCk.vue";
     export default {
         name: "editLayout",
