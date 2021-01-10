@@ -35,7 +35,7 @@
  //   import store from "@/store";
 
     export default {
-        name: "Dialog2",
+        name: "rtEditorDialog",
         components :{ menuOpt,   AreYouSure},
         props:{
             dialogType:{
@@ -60,20 +60,10 @@
           }
         },
         mounted(){
-          this.getTitle();
-          if(this.cmd=='register'){
-            this.currentMenuOpts = ['Cancel', 'Save Registration'];
-            this.currentSelectedMenuOption = 'Cancel';
-          }
-          if(this.cmd=='textShow'){
-            this.currentMenuOpts = ['Appearence', 'Save', 'Cancel'];
-            this.currentSelectedMenuOption = 'Appearence';
-          }
-          if(this.cmd=='greenComponent'){
-            this.currentMenuOpts = ['Appearence', 'Text', 'Save', 'Cancel' ];
-            this.currentSelectedMenuOption = 'Appearence';
+          this.titleMsg='Edit This Card';
+          this.currentMenuOpts = ['Cancel', 'Save'];
+          this.currentSelectedMenuOption = 'Cancel';
 
-          }
         },
         watch:{
           dialogType: function(){
@@ -195,8 +185,6 @@
               debugger;
               console.log("register=", this.$store.getters.getRegister);
               console.log(msg);
-              this.currentMenuOpts = msg[0];
-              this.currentSelectedMenuOption = msg[1];
 
 /*
               if(this.$store.getters.getRegister){
@@ -217,29 +205,6 @@
             releaseFrozenEvent(){
               this.$emit(this.frozenEvent.eventType, this.frozenEvent.eventArgs);
             },
-            getTitle(){
-              switch(this.dialogType){
-                case this.DIALOG_NEW_LAYOUT:{
-                  this.titleMsg = "New Layout";
-                  break;
-                }
-                case this.DIALOG_CREATE_CARD:{
-                  this.titleMsg = "New Card";
-                  break;
-                }
-                case this.DIALOG_CONFIGURE_GREEN_CARD:{
-                  this.titleMsg = "Headline Card";
-                  break;
-                }
-                case this.DIALOG_PERMS:{
-//                  this.titleMsg = "Who Can Access This Space";
-                  break;
-                }
-                case this.DIALOG_REGISTER:{
-                  this.titleMsg = "Register New User";
-                }
-              }
-            },
             userExists(msg){
               this.currentMenuOpts = ['Done'];
               this.currentSelectedMenuOption = 'Done';
@@ -247,9 +212,6 @@
               console.log(msg);
 
 
-            },
-            setTitle(msg){
-              this.titleMsg = msg;
             },
             clearCmd(){
               this.cmd='';

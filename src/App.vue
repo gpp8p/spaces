@@ -135,6 +135,7 @@
 //            debugger;
             this.headerBarViewStatusChangeFunction(['Cancel New Card', 0]);
             this.$eventHub.$emit('editStatusChanged', ['openEdit',0]);
+            this.thisCmd='cancelDialog';
             break;
           }
           case 'My Spaces':{

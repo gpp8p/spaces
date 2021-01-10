@@ -39,7 +39,7 @@
                  v-bind:style='this.styleObject'
         ></Dialog>
 
-        <Dialog2 v-if="this.RICH_TEXT_EDITOR==true"
+        <rt-editor-dialog v-if="this.RICH_TEXT_EDITOR==true"
                 :dialog-type="dialogType"
                 :key="dialogKey"
                 :currentValues=this.cardCurrentConfigurationValues
@@ -49,9 +49,9 @@
                 @moved="dialogMoved"
                 @configSelected = "configSelected"
                 @cardSaved="cardSaved"
-                :cmd="dialogCmd"
+                :cmd="cmd"
                 v-bind:style='this.styleObject'
-        ></Dialog2>
+        ></rt-editor-dialog>
 
 
 
@@ -63,11 +63,17 @@
     import axios from "axios";
     import genericCard from '../components/genericCard.vue';
     import Dialog from "../components/Dialog.vue";
-    import Dialog2 from "../components/Dialog2.vue";
+    import rtEditorDialog from "./rtEditorDialog.vue";
 //    import simpleCkDialog from "../components/simpleCk.vue";
     export default {
         name: "editLayout",
-        components:{ genericCard, Dialog2, Dialog},
+        components:{ genericCard, rtEditorDialog, Dialog},
+        props:{
+          cmd:{
+            type: String,
+            required: false
+          }
+        },
         data(){
             return {
                 cardInstances: [],
@@ -141,6 +147,17 @@
             this.$emit('viewStatusChangeFunction',['editLayout', this.viewStatusChangeFunction]);
             this.$eventHub.$emit('editStatusChanged',['openEdit',0]);
         },
+        watch:{
+          cmd: function(){
+            switch(this.cmd){
+              case 'cancelDialog':{
+                this.RICH_TEXT_EDITOR=false;
+                this.$emit('viewStatusChangeFunction', ['clearCmd'])
+                break;
+              }
+            }
+          }
+        },
         methods: {
           textEditor(msg){
             console.log(msg);
@@ -184,6 +201,7 @@
               }
             },
             configSelected(msg){
+                debugger;
                 switch(msg[0]){
                     case 'cancel':{
                         this.dialogType=0;
