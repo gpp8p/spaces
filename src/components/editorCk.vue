@@ -40,10 +40,19 @@ import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefrom
 
 export default {
   name: 'editorCk',
+  props:{
+    cardData:{
+      type: String,
+      required: true
+    }
+  },
+  mounted(){
+    this.editorData = this.cardData;
+  },
   data() {
     return {
       editor: ClassicEditor,
-      editorData: '<p>Content of the editor.</p>',
+      editorData: this.cardData,
       editorConfig: {
         plugins: [
           EssentialsPlugin,
@@ -128,10 +137,39 @@ export default {
   }
 };
 </script>
+<style>
+.ck-editor__editable {
+  min-height: 350px;
+  max-height:350px;
+  min-width:950px;
+}
+.image {
+  display: table;
+  clear: both;
+  text-align: center;
+}
+.image-style-side {
+  float: right;
+
+}
+.image-style-side > img {
+  max-width: 100%;
+  height: auto;
+}
+.image-style-align-right {
+  float: right;
+}
+.image-style-align-left {
+  float: left;
+}
+</style>
 
 <style scoped>
 .editorDialog{
-  width:50%;
+  height:530px;
+  width:1000px;
+
+
 }
 
 </style>

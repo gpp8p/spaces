@@ -45,6 +45,7 @@
                 :currentValues=this.cardCurrentConfigurationValues
                 :selectedCardConfigurationValues = this.selectedCardConfigurationValues
                 :dialogKey = "this.dialogKey"
+                :cardData = "cardData"
                 @dragStart="dragStart"
                 @moved="dialogMoved"
                 @configSelected = "configSelected"

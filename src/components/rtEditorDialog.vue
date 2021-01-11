@@ -11,7 +11,7 @@
         <br/>
 
       <div class="dialogComponentBody">
-        <editor-ck></editor-ck>
+        <editor-ck :cardData="cardData"></editor-ck>
        </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -58,6 +58,10 @@
           selectedCardConfigurationValues:{
               type: Object,
               required: true
+          },
+          cardData:{
+            type: String,
+            required: true
           }
         },
         mounted(){
@@ -267,8 +271,8 @@
 
 <style scoped>
     .dialogComponent {
-        height:450px;
-        width:750px;
+        height:530px;
+        width:1025px;
         position: relative;
         background-color: #81e7cb;
         border: 2px solid blue;
@@ -292,7 +296,7 @@
         margin-top: 5px;
     }
     .dialogComponentBody {
-        height: 72%;
+        height: 78%;
         width: 90%;
         margin-left: 10px;
         margin-right: 10px;
@@ -303,7 +307,7 @@
 
     }
     .dialogComponentFooter {
-      height: 10%;
+      height: 5%;
       width:100%;
       margin-left: auto;
       margin-right: auto;
