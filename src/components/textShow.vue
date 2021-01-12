@@ -45,6 +45,10 @@ export default {
     displayStatus: {
       type: Boolean,
       required: true
+    },
+    cmd:{
+      type: String,
+      required: false
     }
   },
   data() {
@@ -145,7 +149,7 @@ export default {
     editClicked(){
       debugger;
       this.loadCardConfiguration(this.cardId);
-      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData]);
+      this.$emit('textEditor', [this.cardKey, this.setCardData,this.configurationCurrentValues, this.cardData, this.cardId]);
     },
     refId: function() {
       return "card" + this.cardId;

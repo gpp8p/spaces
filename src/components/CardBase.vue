@@ -12,7 +12,7 @@
             this.saveCardConfiguration();
             break;
           case "saveCardContent":
-              this.saveCardContent();
+              this.saveCardContent(cardData);
               break;
           case "loadConfiguration":
             this.loadCardConfiguration(cardData);
@@ -240,22 +240,22 @@
 
         console.log(jsonCardConfigurationPackage);
       },
-        saveCardContent(){
-            var cardConfigurationPackage = [this.cardId, this.content];
-            var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
-            debugger;
-            axios.post('http://localhost:8000/saveCardContent?XDEBUG_SESSION_START=14252', {
-                cardParams: jsonCardConfigurationPackage,
-            }).then(response=>
-            {
-                console.log(response);
-                this.$emit('configurationHasBeenSaved')
-            }).catch(function(error) {
-                console.log(error);
-            });
+      saveCardContent(){
+        var cardConfigurationPackage = [this.cardId, this.content];
+        var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationPackage);
+        debugger;
+        axios.post('http://localhost:8000/saveCardContent?XDEBUG_SESSION_START=14252', {
+          cardParams: jsonCardConfigurationPackage,
+        }).then(response=>
+        {
+          console.log(response);
+          this.$emit('configurationHasBeenSaved')
+        }).catch(function(error) {
+          console.log(error);
+        });
 
-            console.log(jsonCardConfigurationPackage);
-        }
+        console.log(jsonCardConfigurationPackage);
+      }
 
     }
   };

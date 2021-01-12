@@ -1,9 +1,9 @@
 <template>
-    <div class="dialogComponent" ref="drg"  draggable="true"  @dragstart="handleDragStart"   @dragend="handleDragEnd" >
+    <div class="dialogComponent" ref="drg"    >
       <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_TITLE">
         <span class="headingText">{{this.titleMsg}}</span>
       </div>
-      <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_RUSURE">
+      <div class="dialogComponentHeader" v-if="dialogContext==this.DIALOG_RUSURE" >
             <span class="sure">
               <are-you-sure :msg="sureMsg" @rusureClick="rusure"></are-you-sure>
             </span>
@@ -11,7 +11,7 @@
         <br/>
 
       <div class="dialogComponentBody">
-        <editor-ck :cardData="cardData"></editor-ck>
+        <editor-ck :cardData="cardData" :cmd="cmd" @saveContent="cardSaved"></editor-ck>
        </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -82,7 +82,8 @@
         },
         methods: {
             cardSaved(msg){
-              this.$emit('cardSaved', msg);
+              console.log('rtEditorDialog.cardSaved - ',msg);
+              this.$emit('saveCardData', msg);
             },
             cancelClicked(){
                 this.$emit('configSelected',['cancel']);

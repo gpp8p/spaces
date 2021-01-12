@@ -44,10 +44,26 @@ export default {
     cardData:{
       type: String,
       required: true
+    },
+    cmd:{
+      type: String,
+      required: true
     }
   },
   mounted(){
     this.editorData = this.cardData;
+  },
+  watch:{
+    cmd:function(){
+      debugger;
+      switch(this.cmd){
+        case 'Save':{
+          this.$emit('saveContent', this.editorData);
+          break;
+        }
+
+      }
+    }
   },
   data() {
     return {

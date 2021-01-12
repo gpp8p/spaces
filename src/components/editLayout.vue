@@ -14,10 +14,11 @@
                                 :gridCss="gridParamDefinition"
                                 :cardProperties="instance.card_parameters.properties"
                                 :displayStatus="displayStatus"
+                                :cmd = "cardCmd"
                                 @storeValue="processClick"
                                 @cardClick="cardClick"
                                 @textEditor="textEditor"
-                                @configurationHasBeenSaved="configurationHasBeenSaved"
+                                @configurationHasBeenSaved="cardSaved"
                                 @cardDataLoaded="cardDataLoaded"
                                 @linkHelperRequested="linkHelperRequested"
                                 ref="key"
@@ -49,7 +50,7 @@
                 @dragStart="dragStart"
                 @moved="dialogMoved"
                 @configSelected = "configSelected"
-                @cardSaved="cardSaved"
+                @saveCardData="saveCardData"
                 :cmd="cmd"
                 v-bind:style='this.styleObject'
         ></rt-editor-dialog>
@@ -103,6 +104,7 @@
                 cardDataFunction: null,
 
                 dialogCmd:'',
+                cardCmd:'',
 
                 cardCurrentConfigurationValues:{},
                 selectedCardConfigurationValues:{},
@@ -128,6 +130,7 @@
                 newCardCoords: [],
                 updateCallback: null,
                 cardData: '',
+                selectedCardId:0,
                 layoutLink:'',
                 RICH_TEXT_EDITOR: false
 
@@ -162,15 +165,25 @@
         },
         methods: {
           textEditor(msg){
-            console.log(msg);
+            console.log('editLayout.textEditor -',msg);
             debugger;
             this.updateCallback = msg[0][1];
             this.cardData = msg[0][3];
+            this.selectedCardId = msg[0][4];
             this.RICH_TEXT_EDITOR=true;
           },
             cardSaved(msg){
+              debugger;
               this.dialogType=0;
               this.$emit('cardSaved', msg);
+            },
+            saveCardData(msg){
+              debugger;
+              this.updateCallback(msg, 'cardText');
+              this.updateCallback(msg, 'saveCardContent');
+              console.log('editLayout.saveCardData', msg);
+
+//              this.cardDataFunction(msg, "saveCardContent");
             },
             layoutGridParameters(height, width, backgroundColor) {
                 var heightSize = (95 / height).toFixed(2);

@@ -20,6 +20,7 @@
                    :card-position=cardPosition
                    :cardProperties = cardProperties
                    :displayStatus = displayStatus
+                   :cmd = cmd
                    @cardClick="processCardClick"
                    @textEditor="textEditor"
                    @configurationHasBeenSaved="configurationHasBeenSaved"
@@ -78,6 +79,10 @@
       displayStatus:{
          type: Boolean,
          required: false
+      },
+      cmd:{
+        type: String,
+        required: false
       }
     },
     data(){
