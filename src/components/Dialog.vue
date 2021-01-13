@@ -49,6 +49,7 @@
         <register-user v-if="dialogType==this.DIALOG_REGISTER" :cmd="cmd" @registrationSaved="registrationSaved" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @userExists="userExists"></register-user>
         <user-exists v-if="dialogType==this.DIALOG_USER_EXISTS" ></user-exists>
         <organizations :cmd="cmd" v-if="dialogType==this.DIALOG_ORGANIZATIONS" :selectedMenuOption="currentSelectedMenuOption" @setTitle="setTitle" @componentSettingsMounted="componentSettingsMounted" @orgSelected="orgSelected" @clearCmd="clearCmd"></organizations>
+
       </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -68,6 +69,7 @@
     import organizations from "../components/organizations.vue";
     import userExists from "../components/userExists.vue";
     import cardConfigurationSettings from "../components/cardConfigurationSettings.vue";
+
 
  //   import store from "@/store";
     import RegisterUser from "@/components/registerUser";
@@ -316,6 +318,7 @@
                 DIALOG_ORGANIZATION_MEMBERS:8,
                 DIALOG_USER_EXISTS:9,
                 DIALOG_CONFIGURE_CARD:10,
+                DIALOG_LAYOUT_LIST:11,
                 titleMsg:'Headline Card',
 
                 sureMsg:'',
@@ -348,6 +351,7 @@
         border: 2px solid blue;
         border-radius: 8px;
         box-shadow: 10px 10px 5px grey;
+        z-index: 10;
     }
     .dialogComponentHeader {
         height:10%;

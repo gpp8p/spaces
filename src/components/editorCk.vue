@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="editorDialog">
-    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig" @ready="onEditorReady"></ckeditor>
   </div>
 </template>
 
@@ -63,6 +63,11 @@ export default {
         }
 
       }
+    }
+  },
+  methods:{
+    onEditorReady(editor){
+      this.$emit('editorReady',editor);
     }
   },
   data() {

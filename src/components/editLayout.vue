@@ -92,6 +92,7 @@
                 DIALOG_CONFIGURE_TEXT_CARD:2,
                 DIALOG_CONFIGURE_CARD:10,
                 DIALOG_CREATE_CARD:3,
+                DIALOG_LAYOUT_LIST:11,
 
                 displayStatus:true,
                 dialogKey:0,
@@ -228,6 +229,10 @@
                     case 'save':{
                       this.dialogType=0;
                       this.cardDataFunction("", "saveConfiguration");
+                      break;
+                    }
+                    case 'layoutList':{
+                      this.dialogType = this.DIALOG_LAYOUT_LIST;
                       break;
                     }
                     case 'Create New Card':{

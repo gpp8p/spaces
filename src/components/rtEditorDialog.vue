@@ -11,7 +11,8 @@
         <br/>
 
       <div class="dialogComponentBody">
-        <editor-ck :cardData="cardData" :cmd="cmd" @saveContent="cardSaved"></editor-ck>
+        <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady"></editor-ck>
+        <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd"></layout-list>
        </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -28,6 +29,7 @@
 
     import AreYouSure from "../components/AreYouSure.vue";
     import editorCk from '../components/editorCk.vue'
+    import layoutList from "../components/layoutList.vue";
 
 
 
@@ -37,7 +39,7 @@
 
     export default {
         name: "rtEditorDialog",
-        components :{ menuOpt,   AreYouSure, editorCk},
+        components :{ menuOpt,   AreYouSure, editorCk, layoutList},
         props:{
             dialogType:{
                 type: Number,
@@ -66,8 +68,9 @@
         },
         mounted(){
           this.titleMsg='Edit This Card';
-          this.currentMenuOpts = ['Cancel', 'Save'];
+          this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
           this.currentSelectedMenuOption = 'Cancel';
+          this.mode=this.DIALOG_EDIT;
 
         },
         watch:{
@@ -88,8 +91,8 @@
             cancelClicked(){
                 this.$emit('configSelected',['cancel']);
             },
-            registrationSaved(){
-              this.$emit('configSelected',['cancel']);
+            editorReady(msg){
+              this.editorInUse=msg;
             },
             saveClicked(){
                 //        debugger;
@@ -125,44 +128,18 @@
 //                  store.commit('setRegister', false);
                   break;
                 }
-                case 'Done':{
-                  this.currentSelectedMenuOption = msg;
-                  this.$emit('configSelected',['cancel']);
-                  break;
-                }
                 case 'Save':{
                   this.cmd='Save';
                   break;
                 }
-/*
-                case 'Save':{
-                  this.currentSelectedMenuOption = msg;
-                  this.$emit('configSelected',['save']);
-                  break;
-                }
+                case 'Link to Another Space':{
+                  const selection = this.editorInUse.model.document.selection;
+                  const range = selection.getFirstRange();
 
-                case 'Save Layout':{
-                  this.currentSelectedMenuOption = msg;
-                  this.cmd = msg;
-                  this.$refs.newl.getEnteredData();
-                  break;
-                }
-*/
-                case 'Create New Card':{
-//                  debugger;
-                  this.currentSelectedMenuOption = msg;
-                  var newCardTitle = this.$refs.newCardDialog.getCardTitle();
-                  var newCardType = this.$refs.newCardDialog.getCardType()
-                  this.$emit('configSelected', ['Create New Card', newCardTitle, newCardType]);
-                  break;
-                }
-                case 'Save Registration':{
-                  this.$emit('configSelected', ['Save Registration']);
-                  break;
-                }
-                default:{
-                  this.currentSelectedMenuOption = msg;
-                  this.cmd = msg;
+                  for (const item of range.getItems()) {
+                    console.log(item.data) //return the selected text
+                  }
+                  this.mode=this.DIALOG_LAYOUT_LIST;
                   break;
                 }
               }
@@ -247,6 +224,10 @@
                 DIALOG_ORGANIZATION_MEMBERS:8,
                 DIALOG_USER_EXISTS:9,
                 DIALOG_CONFIGURE_CARD:10,
+                DIALOG_LAYOUT_LIST:11,
+                DIALOG_EDIT:12,
+                mode:0,
+
                 titleMsg:'Headline Card',
 
                 sureMsg:'',
@@ -259,7 +240,9 @@
                   eventType:'',
                   eventArgs:[]
                 },
-                dialogDataChanged: false
+                dialogDataChanged: false,
+
+                editorInUse:{}
 
 
 
