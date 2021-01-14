@@ -12,7 +12,7 @@
 
       <div class="dialogComponentBody">
         <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady"></editor-ck>
-        <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd"></layout-list>
+        <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
        </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -102,6 +102,14 @@
                 this.dialogDataChanged = true;
                 this.$emit('configSelected', msg);
             },
+            spaceSelected(msg){
+//                debugger;
+                console.log(msg);
+                this.layoutLink=msg;
+                this.mode=this.DIALOG_EDIT;
+                this.titleMsg='Select portion of text for the link';
+                this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Save'];
+            },
             handleDragStart(evt){
 //                debugger;
                 this.$emit('dragStart',[evt.screenX, evt.screenY])
@@ -133,13 +141,27 @@
                   break;
                 }
                 case 'Link to Another Space':{
+
+                  this.mode=this.DIALOG_LAYOUT_LIST;
+                  break;
+                }
+                case 'Insert the Link':{
+                  var textHasBeenSelected = false;
                   const selection = this.editorInUse.model.document.selection;
                   const range = selection.getFirstRange();
 
                   for (const item of range.getItems()) {
                     console.log(item.data) //return the selected text
+                    textHasBeenSelected = true;
                   }
-                  this.mode=this.DIALOG_LAYOUT_LIST;
+                  if(!textHasBeenSelected){
+                    this.titleMsg='Please select some text!';
+                  }else{
+                    this.forwardToUrl = "http://localhost:8080/displayLayout/"+this.layoutLink;
+                    this.editorInUse.execute( 'link', this.forwardToUrl );
+                    this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
+                    this.titleMsg = 'Edit This Card';
+                  }
                   break;
                 }
               }
@@ -242,7 +264,8 @@
                 },
                 dialogDataChanged: false,
 
-                editorInUse:{}
+                editorInUse:{},
+                layoutLink:0
 
 
 

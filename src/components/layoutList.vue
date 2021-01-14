@@ -44,6 +44,12 @@ export default {
       console.log(e);
     });
   },
+  methods:{
+    spaceSelected(msg){
+//      debugger;
+      this.$emit('spaceSelected', msg.id);
+    }
+  },
   data(){
     return {
       data:[],
