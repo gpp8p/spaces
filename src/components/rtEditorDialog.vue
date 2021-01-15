@@ -13,6 +13,7 @@
       <div class="dialogComponentBody">
         <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady"></editor-ck>
         <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
+        <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
        </div>
       <div class="dialogComponentFooter">
           <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
@@ -30,6 +31,8 @@
     import AreYouSure from "../components/AreYouSure.vue";
     import editorCk from '../components/editorCk.vue'
     import layoutList from "../components/layoutList.vue";
+    import createLayout from "../components/createLayout.vue";
+
 
 
 
@@ -39,7 +42,7 @@
 
     export default {
         name: "rtEditorDialog",
-        components :{ menuOpt,   AreYouSure, editorCk, layoutList},
+        components :{ menuOpt,   AreYouSure, editorCk, layoutList, createLayout },
         props:{
             dialogType:{
                 type: Number,
@@ -108,7 +111,7 @@
                 this.layoutLink=msg;
                 this.mode=this.DIALOG_EDIT;
                 this.titleMsg='Select portion of text for the link';
-                this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Save'];
+                this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Back'];
             },
             handleDragStart(evt){
 //                debugger;
@@ -117,7 +120,12 @@
             layoutData(msg){
  //             debugger;
               console.log('layoutData',msg);
-              this.$emit('configSelected',['layoutSaved', msg[0]]);
+              this.layoutLink=msg;
+              this.mode=this.DIALOG_EDIT;
+              this.titleMsg='Select portion of text for the link';
+              this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Back'];
+
+//              this.$emit('configSelected',['layoutSaved', msg[0]]);
             },
             menuOptSelected(msg){
               console.log(msg);
@@ -140,9 +148,26 @@
                   this.cmd='Save';
                   break;
                 }
+                case 'Back':{
+                  this.titleMsg='Edit This Card';
+                  this.currentMenuOpts = ['Cancel', 'Link to Another Space',  'Save'];
+                  this.currentSelectedMenuOption = 'Cancel';
+                  this.mode=this.DIALOG_EDIT;
+                  break;
+                }
+                case 'Create Linked Space':{
+                  this.mode=this.DIALOG_NEW_LAYOUT;
+                  this.currentMenuOpts = ['Cancel', 'Save This Space',  'Back'];
+                  break;
+                }
+                case 'Save This Space':{
+                  this.cmd='saveSpace';
+                  break;
+                }
                 case 'Link to Another Space':{
 
                   this.mode=this.DIALOG_LAYOUT_LIST;
+                  this.currentMenuOpts = ['Cancel', 'Create Linked Space',  'Back'];
                   break;
                 }
                 case 'Insert the Link':{

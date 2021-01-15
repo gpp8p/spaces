@@ -60,7 +60,13 @@ export default {
   },
   watch:{
     cmd: function(){
-      console.log('newLayout cmd changed - ', cmd);
+      console.log('newLayout cmd changed - ', this.cmd);
+      switch(this.cmd){
+        case 'saveSpace':{
+          this.saveClicked();
+          break;
+        }
+      }
     }
   },
   data(){
@@ -91,7 +97,7 @@ export default {
       {
 //            debugger;
         this.layoutId=response.data;
-        this.$emit('layoutSaved', [this.layoutId, this.layoutRows, this.layoutColumns, this.layoutDescription, this.layoutName, this.val]);
+        this.$emit('layoutData', [this.layoutId, this.layoutRows, this.layoutColumns, this.layoutDescription, this.layoutName, this.val]);
 //                this.$refs.editGrid.createBlankLayout(msg[2],msg[3],msg[1],msg[0]);
       }).catch(function(error) {
         console.log(error);

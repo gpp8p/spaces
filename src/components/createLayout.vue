@@ -89,6 +89,10 @@ name: "createLayout",
           this.saveClicked();
           break;
         }
+        case 'saveSpace':{
+          this.saveClicked();
+          break;
+        }
       }
     }
   },
