@@ -61,17 +61,26 @@ export default {
           this.$emit('saveContent', this.editorData);
           break;
         }
+        case 'cacheCurrentContent':{
+          debugger;
+          const selection = this.editorInstance.model.document.selection;
+          const range = selection.getFirstRange();
+          this.$emit('currentContent', [this.editorData, range, selection]);
+          break;
+        }
 
       }
     }
   },
   methods:{
     onEditorReady(editor){
+      this.editorInstance = editor;
       this.$emit('editorReady',editor);
     }
   },
   data() {
     return {
+      editorInstance:{},
       editor: ClassicEditor,
       editorData: this.cardData,
       editorConfig: {

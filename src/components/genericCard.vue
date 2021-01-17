@@ -13,7 +13,7 @@
                           @cardPropertySet="cardPropertySet"
                           ref="cardKey"
         ></green-component>
-        <text-show v-if="cardType=='textShow'"
+        <text-show v-if="cardType=='textShow' || cardType=='RichText'"
                    :card-style=cardStyle
                    :card-id=cardId
                    :card-key=cardKey

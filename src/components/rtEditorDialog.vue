@@ -11,7 +11,7 @@
         <br/>
 
       <div class="dialogComponentBody">
-        <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady"></editor-ck>
+        <editor-ck v-if="mode==this.DIALOG_EDIT" :cardData="cardData" :cmd="cmd" @saveContent="cardSaved" @editorReady="editorReady" @currentContent="currentContent"></editor-ck>
         <layout-list v-if="mode==this.DIALOG_LAYOUT_LIST" :cmd="cmd" @spaceSelected="spaceSelected"></layout-list>
         <create-layout v-if="mode==this.DIALOG_NEW_LAYOUT" :cmd="cmd" @layoutData="layoutData"></create-layout>
        </div>
@@ -97,6 +97,15 @@
             editorReady(msg){
               this.editorInUse=msg;
             },
+            currentContent(msg){
+              debugger;
+              this.currentEditorContent = msg[0];
+              this.currentSelectedRange = msg[1];
+              this.currentSelection = msg[2];
+
+              this.mode=this.DIALOG_LAYOUT_LIST;
+              this.currentMenuOpts = ['Cancel', 'Create Linked Space',  'Back'];
+            },
             saveClicked(){
                 //        debugger;
                 this.$emit('configSelected', ['save']);
@@ -106,9 +115,10 @@
                 this.$emit('configSelected', msg);
             },
             spaceSelected(msg){
-//                debugger;
+                debugger;
                 console.log(msg);
                 this.layoutLink=msg;
+                this.cardData = this.currentEditorContent;
                 this.mode=this.DIALOG_EDIT;
                 this.titleMsg='Select portion of text for the link';
                 this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Back'];
@@ -165,15 +175,15 @@
                   break;
                 }
                 case 'Link to Another Space':{
-
-                  this.mode=this.DIALOG_LAYOUT_LIST;
-                  this.currentMenuOpts = ['Cancel', 'Create Linked Space',  'Back'];
+                  this.cmd='cacheCurrentContent';
                   break;
                 }
                 case 'Insert the Link':{
+                  debugger;
                   var textHasBeenSelected = false;
-                  const selection = this.editorInUse.model.document.selection;
-                  const range = selection.getFirstRange();
+//                  const selection = this.editorInUse.model.document.selection;
+//                  const range = selection.getFirstRange();
+                  const range = this.currentSelectedRange;
 
                   for (const item of range.getItems()) {
                     console.log(item.data) //return the selected text
@@ -290,7 +300,10 @@
                 dialogDataChanged: false,
 
                 editorInUse:{},
-                layoutLink:0
+                layoutLink:0,
+                currentEditorContent:'',
+                currentSelectedRange:{},
+                currentSelection:{}
 
 
 
