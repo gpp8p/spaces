@@ -128,9 +128,9 @@
                 this.$emit('dragStart',[evt.screenX, evt.screenY])
             },
             layoutData(msg){
- //             debugger;
+              debugger;
               console.log('layoutData',msg);
-              this.layoutLink=msg;
+              this.layoutLink=msg[0];
               this.mode=this.DIALOG_EDIT;
               this.titleMsg='Select portion of text for the link';
               this.currentMenuOpts = ['Cancel', 'Insert the Link',  'Back'];
@@ -181,9 +181,9 @@
                 case 'Insert the Link':{
                   debugger;
                   var textHasBeenSelected = false;
-//                  const selection = this.editorInUse.model.document.selection;
-//                  const range = selection.getFirstRange();
-                  const range = this.currentSelectedRange;
+                  const selection = this.editorInUse.model.document.selection;
+                  const range = selection.getFirstRange();
+//                  const range = this.currentSelectedRange;
 
                   for (const item of range.getItems()) {
                     console.log(item.data) //return the selected text
