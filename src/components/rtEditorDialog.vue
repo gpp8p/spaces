@@ -264,7 +264,7 @@
             return {
                 styleObject: {
                     top: '-600px',
-                    left: '400px'
+                    left: '600px'
                 },
                 lastMouseX:0,
                 lastMouseY:0,

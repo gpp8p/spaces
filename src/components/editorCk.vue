@@ -196,6 +196,7 @@ export default {
 
 <style scoped>
 .editorDialog{
+  top:250px;
   height:530px;
   width:1000px;
 

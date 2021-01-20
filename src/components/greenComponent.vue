@@ -1,6 +1,6 @@
 <template>
   <div >
-    <div class="cardStyle">
+    <div class="cardStyle" v-if="this.editStatus==false">
       <div class="cardHeader" v-if="displayStatus==false">
         <span class="textLeft">
           <a href="#" v-on:click="configureClicked" >Configure</a>
@@ -11,15 +11,32 @@
       </div>
     {{ this.cardTitle }}
     </div>
+    <div class="cardStyle" v-if="this.editStatus==true">
+      <div class="cardHeader" v-if="displayStatus==false">
+        <span class="textLeft">
+          <a href="#" v-on:click="configureClicked" >Configure</a>
+        </span>
+        <span class="textRight">
+          <a href="#"  v-on:click="editClicked" >Edit</a>
+        </span>
+      </div>
+      <span>
+        <textarea type="textarea" v-model="cardTitle" width="100%"></textarea>
+        <menu-opt :mOpts="currentMenuOpts" @menuOptSelected="menuOptSelected"></menu-opt>
+      </span>
+
+
+    </div>
   </div>
 </template>
 
 <script>
 /* eslint-disable no-console,no-debugger */
 import CardBase from "../components/CardBase.vue";
+import menuOpt from "../components/menuOpt.vue";
 export default {
   name: "greenComponent",
-  components: {},
+  components: {menuOpt},
   extends: CardBase,
   props: {
     cardStyle: {
@@ -68,6 +85,8 @@ export default {
       dialog: false,
       testProp: false,
       tdialogMsg:'',
+      editStatus:false,
+      currentMenuOpts: ['Save', 'Cancel'],
 /*
       configurationCurrentValues:{
         "backgroundTypeColor":'checked',
@@ -203,7 +222,33 @@ export default {
 
 
     },
+    editClicked(){
+      this.editStatus = true;
+      this.$emit("editClick", [
+        "cardClicked",
+        this.cardKey,
+        "greenComponent",
+        this.setCardData,
+        this.cardConfiguration,
+        this.configurationCurrentValues,
+      ]);
+    },
+    menuOptSelected(msg){
+      console.log(msg);
+      switch(msg){
+        case 'Cancel':{
 
+          this.editStatus=false;
+          break;
+        }
+        case 'Save':{
+          this.$emit('configSelected', ['title', this.cardTitle]);
+          this.$emit('configSelected',['saveCardContent', this.cardTitle]);
+          this.editStatus=false;
+          break;
+        }
+      }
+    },
     dialogMenuSelected(msg){
       switch(msg[0]) {
         case 'Cancel':
@@ -258,6 +303,14 @@ export default {
 
 .textCenter {
   text-align: center;
+}
+
+textarea {
+  width: 100%;
+  height: 70%;
+  border: 3px solid #cccccc;
+  padding: 5px;
+  font-family: Tahoma, sans-serif;
 }
 
 </style>

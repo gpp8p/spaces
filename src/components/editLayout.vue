@@ -15,7 +15,9 @@
                                 :cardProperties="instance.card_parameters.properties"
                                 :displayStatus="displayStatus"
                                 :cmd = "cardCmd"
+                                @configSelected="configSelected"
                                 @storeValue="processClick"
+                                @editClick="editClick"
                                 @cardClick="cardClick"
                                 @textEditor="textEditor"
                                 @configurationHasBeenSaved="cardSaved"
@@ -92,14 +94,14 @@
                 DIALOG_CONFIGURE_TEXT_CARD:2,
                 DIALOG_CONFIGURE_CARD:10,
                 DIALOG_CREATE_CARD:3,
-                DIALOG_LAYOUT_LIST:11,
+                 DIALOG_LAYOUT_LIST:11,
 
                 displayStatus:true,
                 dialogKey:0,
                 dragStartX:0,
                 dragStartY:0,
                 styleObject: {
-                    top: '-600px',
+                    top: '-800px',
                     left: '400px',
                 },
                 cardDataFunction: null,
@@ -301,6 +303,18 @@
               console.log('cardDataLoaded',msg);
               this.cardCurrentConfigurationValues = msg[1];
             },
+            editClick(msg){
+              this.cardDataFunction = msg[0][3];
+              this.selectedCardConfigurationValues ={
+                cardTypeBeingConfigured: msg[0][2],
+                instancePositionBeingConfigured: msg[0][1],
+                screenElementBeingConfigured: msg[0][4],
+                cardDataFunction: msg[0][3],
+                cardConfigurationElements:msg[0][4],
+                cardCurrentConfigurationValues:msg[0][5]
+              }
+            },
+
             cardClick(msg){
 //              debugger;
               console.log('cardClick', msg);

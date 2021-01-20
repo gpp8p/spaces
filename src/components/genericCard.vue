@@ -7,6 +7,8 @@
                           :card-position=cardPosition
                           :cardProperties = cardProperties
                           :displayStatus = displayStatus
+                          @configSelected="configSelected"
+                          @editClick = editClick
                           @cardClick="processCardClick"
                           @configurationHasBeenSaved="configurationHasBeenSaved"
                           @cardDataLoaded="cardDataLoaded"
@@ -104,6 +106,9 @@
       configurationHasBeenSaved(){
         this.$emit('configurationHasBeenSaved');
       },
+      configSelected(msg){
+        this.$emit('configSelected', msg);
+      },
       processCardClick(msg){
         console.log('blankComponent card recieved a click:'+msg);
         this.$emit('cardClick', [msg])
@@ -111,6 +116,9 @@
       textEditor(msg){
         debugger;
         this.$emit('textEditor', [msg]);
+      },
+      editClick(msg){
+        this.$emit('editClick', [msg]);
       },
       hasChildern(refs){
         for(var o in refs ){
